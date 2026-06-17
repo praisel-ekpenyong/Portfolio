@@ -20,6 +20,9 @@ secrets.txt
 # Local resume exports (canonical text: docs/resume-highlights.md)
 *.docx
 
+# Local terminal session logs
+terminals/
+
 # OS / editor
 .DS_Store
 Thumbs.db
