@@ -7,7 +7,7 @@
 | **From** | Praisel Ekpenyong (SOC Analyst L1) |
 | **To** | Tier 2 / Incident Response |
 | **Incident ID** | |
-| **Ticket** | |
+| **osTicket** | # |
 | **Escalation Time (UTC)** | |
 | **Requested SLA** | 30 min callback for P2 |
 

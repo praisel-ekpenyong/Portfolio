@@ -7,7 +7,7 @@
 | Field | Value |
 |-------|-------|
 | Incident ID | INC-YYYY-### |
-| Ticket | SEC-##### |
+| osTicket | ###### |
 | Analyst | Praisel Ekpenyong (SOC Analyst L1) |
 | Contact | Ekpenyongpraisel@gmail.com |
 | Severity | P1 / P2 / P3 / P4 / P5 |

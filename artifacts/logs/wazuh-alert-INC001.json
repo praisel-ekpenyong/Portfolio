@@ -24,7 +24,8 @@
     }
   },
   "incident_id": "INC-2026-001",
-  "ticket": "SEC-48291",
+  "ticket": "48291",
+  "ticket_system": "osTicket",
   "analyst": "Praisel Ekpenyong",
   "caldera_operation": "2026-06-17-INC001-BITS-LAB"
 }

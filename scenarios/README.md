@@ -26,7 +26,7 @@ Each scenario follows: **Caldera operation → SIEM alert → Tier 1 triage → 
 4. Run operation (`caldera/operations-runbook.md`)
 5. Triage using playbook (`docs/soc-playbooks.md`)
 6. Complete incident report (`templates/incident-report.md`)
-7. File ticket (`tickets/sample-tickets.md` as reference)
+7. File osTicket record (`tickets/sample-tickets.md` as reference)
 
 ## Non-Caldera Scenario
 

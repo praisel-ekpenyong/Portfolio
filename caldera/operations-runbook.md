@@ -47,7 +47,7 @@ Follow linked incident report playbook. Example for BITS scenario:
 
 ## Operation Log Template
 
-Copy into incident ticket:
+Copy into osTicket internal note:
 
 ```
 Caldera Operation ID: [UUID from UI]

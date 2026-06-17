@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Incident ID** | INC-2026-001 |
-| **Ticket** | SEC-48291 |
+| **osTicket** | #48291 |
 | **Severity** | P2 — High |
 | **Status** | Closed — True Positive (Lab Emulation) |
 | **Detection Source** | Wazuh Rule 180001 + Microsoft Defender for Endpoint |
@@ -26,7 +26,7 @@ MITRE: T1197
 
 **14:22:41 UTC** — Microsoft Defender alert: *Suspicious process chain: bitsadmin.exe → cmd.exe*
 
-Praisel Ekpenyong (SOC Analyst L1) acknowledged SEC-48291 within 8 minutes.
+Praisel Ekpenyong (SOC Analyst L1) acknowledged osTicket #48291 within 8 minutes.
 
 ---
 

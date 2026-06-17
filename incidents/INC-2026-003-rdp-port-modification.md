@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Incident ID** | INC-2026-003 |
-| **Ticket** | SEC-48318 |
+| **osTicket** | #48318 |
 | **Severity** | P2 — High (escalation candidate P1 if exfil confirmed) |
 | **Status** | Closed — True Positive (Lab Emulation) |
 | **Detection Source** | Wazuh 180002, 180003; Suricata ET POLICY |

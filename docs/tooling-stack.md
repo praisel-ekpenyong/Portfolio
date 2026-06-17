@@ -68,8 +68,7 @@ Tools used across **Lab 1 (on-prem)** and **Lab 2 (cloud)**. Tier 1 tasks listed
 
 | Tool | Example |
 |------|---------|
-| Jira Service Management | `tickets/sample-tickets.md` |
-| ServiceNow SecOps | Same templates, different field names |
+| **osTicket** | `tickets/sample-tickets.md` — Security Operations department, internal notes, linked incidents |
 
 ### Scripting
 

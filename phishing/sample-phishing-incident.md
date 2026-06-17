@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Incident ID** | INC-2026-005 |
-| **Ticket** | SEC-48340 |
+| **osTicket** | #48340 |
 | **Severity** | P2 |
 | **MITRE** | T1566.001, T1204.002, T1059.001, T1071.001 |
 | **Caldera Profile** | T1-Phish-to-Host |

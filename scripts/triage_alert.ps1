@@ -1,10 +1,10 @@
 <#
 .SYNOPSIS
-    Tier 1 alert triage helper — gathers host and user context for SOC tickets.
+    Tier 1 alert triage helper — gathers host and user context for osTicket internal notes.
 .PARAMETER Hostname
     Target workstation or server name.
 .PARAMETER AlertId
-    SIEM or ticket alert identifier for audit trail.
+    osTicket ticket number or SIEM alert ID for audit trail.
 .EXAMPLE
     .\triage_alert.ps1 -Hostname WKSTN-042 -AlertId ALT-88421
 #>
@@ -74,4 +74,4 @@ Get-CimInstance Win32_Process -ComputerName $Hostname | Where-Object {
 } | Select-Object Name, ProcessId, CommandLine | Format-List
 
 Write-Host ""
-Write-Host "Triage complete. Attach output to ticket $AlertId." -ForegroundColor Green
+Write-Host "Triage complete. Paste output into osTicket #$AlertId internal note." -ForegroundColor Green

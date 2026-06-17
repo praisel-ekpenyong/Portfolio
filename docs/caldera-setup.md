@@ -69,7 +69,7 @@ Enable in `conf/local.yml` or via UI **Configuration → Plugins**.
 - [ ] Note operation start time (UTC) for timeline correlation
 - [ ] Confirm SIEM ingestion lag < 2 minutes
 - [ ] Snapshot target VM (optional)
-- [ ] Open ticket template (`templates/ticket-triage.md`)
+- [ ] Open osTicket from template (`templates/ticket-triage.md`)
 - [ ] Identify expected MITRE techniques from adversary profile
 
 ## Post-Operation Cleanup

@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Incident ID** | INC-2026-002 |
-| **Ticket** | SEC-48305 |
+| **osTicket** | #48305 |
 | **Severity** | P2 — High |
 | **Status** | Closed — True Positive (Lab Emulation) |
 | **Detection Source** | Wazuh Rule 5902, 2832 |

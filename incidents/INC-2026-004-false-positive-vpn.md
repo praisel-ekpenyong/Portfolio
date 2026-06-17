@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Incident ID** | INC-2026-004 |
-| **Ticket** | SEC-48322 |
+| **osTicket** | #48322 |
 | **Severity** | Initial P3 → Downgraded to P5 |
 | **Status** | Closed — False Positive |
 | **Detection Source** | Sentinel Analytics `Multiple failed VPN logins` |
@@ -98,7 +98,7 @@ Demonstrates:
 
 ---
 
-## 6. Ticket Closure Comment (Sample)
+## 6. osTicket Closure Note (Sample)
 
 ```
 Investigated 47 failed OpenVPN auth attempts from 203.0.113.45 between 03:02-03:12 UTC.

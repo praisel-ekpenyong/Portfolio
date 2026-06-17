@@ -5,7 +5,7 @@ Operational procedures used across all Caldera-driven scenarios in this portfoli
 ## Alert Triage (First 15 Minutes)
 
 ```
-Alert fires → Acknowledge in SIEM/ticket → Check duplicate → Assign severity
+Alert fires → Acknowledge in SIEM/osTicket → Check duplicate → Assign severity
      │
      ├─► Gather: hostname, user, timestamp, rule name, MITRE ID
      ├─► Validate: Is activity expected? (patch window, admin task, scanner)

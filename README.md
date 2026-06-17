@@ -34,11 +34,11 @@ This generates artifacts (IOC enrichment, Caldera timeline) and opens **`portfol
 | Domain | Evidence in This Repo |
 |--------|----------------------|
 | SIEM / log analysis | Splunk SPL, Microsoft Sentinel KQL, Wazuh rules |
-| Alert triage & escalation | `incidents/`, `tickets/`, `templates/ticket-triage.md` |
+| Alert triage & escalation | `incidents/`, `tickets/` (osTicket), `templates/ticket-triage.md` |
 | False-positive analysis | `incidents/INC-2026-004-false-positive-vpn.md` |
 | Incident response lifecycle | Detection → validation → enrichment → containment → eradication → recovery → post-incident |
 | Documentation | Structured incident records with timeline, evidence, severity, and recommendations |
-| Ticketing | Jira-style samples in `tickets/sample-tickets.md` |
+| Ticketing | osTicket samples in `tickets/sample-tickets.md` |
 | Network analysis | TCP/IP, DNS, HTTP/S, PCAP interpretation in `network/` |
 | Windows / Linux / AD | Sysmon, Windows Event Logs, auth logs, AD sign-in correlation |
 | Microsoft XDR / EDR / KQL | Sentinel detections, Defender for Endpoint queries |
