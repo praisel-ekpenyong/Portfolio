@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>osTicket #48318</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, Helvetica, sans-serif; background: #f0f0f0; color: #333; font-size: 13px; }
+  .top { background: linear-gradient(#1a5fb4, #184e9e); color: #fff; padding: 10px 20px; display: flex; justify-content: space-between; }
+  .top .logo { font-weight: 700; }
+  .nav { background: #fff; border-bottom: 1px solid #ccc; padding: 8px 20px; font-size: 12px; color: #666; }
+  .wrap { max-width: 1100px; margin: 16px auto; padding: 0 16px; }
+  .ticket-head { background: #fff; border: 1px solid #ccc; padding: 14px 16px; margin-bottom: 12px; }
+  .ticket-head h1 { font-size: 16px; margin-bottom: 10px; }
+  .fields { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; font-size: 12px; }
+  .fields div span { display: block; color: #888; font-size: 11px; }
+  .prio-high { color: #c00; font-weight: 700; }
+  .status-closed { color: #107c10; font-weight: 600; }
+  .thread-item { background: #fff; border: 1px solid #ccc; border-bottom: none; padding: 12px 16px; }
+  .thread-item.internal { background: #fffde7; border-left: 4px solid #f9a825; }
+  .thread-item:last-child { border-bottom: 1px solid #ccc; }
+  .badge-int { background: #f9a825; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 2px; margin-left: 8px; }
+  code { font-family: Consolas, monospace; font-size: 12px; background: #f5f5f5; padding: 1px 4px; }
+</style>
+</head>
+<body>
+<header class="top"><span class="logo">osTicket — Security Operations</span><span>Agent: Praisel Ekpenyong</span></header>
+<div class="nav">Tickets › #48318</div>
+<div class="wrap">
+  <div class="ticket-head">
+    <h1>Ticket #48318: [High] Network sniffing and RDP port change on WKSTN-099</h1>
+    <div class="fields">
+      <div><span>Priority</span><span class="prio-high">High</span></div>
+      <div><span>Status</span><span class="status-closed">Closed</span></div>
+      <div><span>Linked</span>INC-2026-003</div>
+      <div><span>Segment</span>Finance VLAN</div>
+    </div>
+  </div>
+  <div class="thread-item internal">
+    <strong>Praisel Ekpenyong</strong> · 16:15 UTC<span class="badge-int">INTERNAL</span><br><br>
+    Wazuh 180002/180003 on WKSTN-099. <code>tshark.exe</code> + RDP registry change. PCAP reviewed — no cleartext creds. pfSense correlated RDP probe to DC.
+  </div>
+  <div class="thread-item internal">
+    <strong>Praisel Ekpenyong</strong> · 16:30 UTC<span class="badge-int">INTERNAL</span><br><br>
+    Host isolated. IR engaged per finance-segment policy. Handoff package attached to INC-2026-003.
+  </div>
+  <div class="thread-item">
+    <strong>Resolution</strong> · 17:30 UTC — True positive (lab). RDP port restored. IR closed after scope check.
+  </div>
+</div>
+</body>
+</html>

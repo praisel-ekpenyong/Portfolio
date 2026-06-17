@@ -16,18 +16,6 @@ Profiles used in this portfolio. Create each in Caldera UI: **Campaigns → Adve
 **Group:** blue-team-lab  
 **Planner:** atomic
 
-## T1-Linux-Persistence
-
-**Description:** Local account + cron persistence. Maps to INC-2026-002.
-
-| Order | Ability | MITRE ID | Expected Alert |
-|-------|---------|----------|----------------|
-| 1 | Create local user account | T1136.001 | Wazuh 5902 / auth.log |
-| 2 | Replace crontab with malicious entry | T1053.003 | auditd / Wazuh 2832 |
-| 3 | (Cleanup) Delete local account | T1531 | Runs on operation stop |
-
-**Target agent:** SRV-LNX-01 (Linux)
-
 ## T1-Windows-Lateral
 
 **Description:** Recon and RDP configuration change. Maps to INC-2026-003.
@@ -67,10 +55,10 @@ Profiles used in this portfolio. Create each in Caldera UI: **Campaigns → Adve
 |--------|---------------------|
 | Initial Access | T1566.001 (documented), T1190 |
 | Execution | T1059.001, T1059.003 |
-| Persistence | T1053.003, T1136.001 |
+| Persistence | — (see INC-2026-002 Entra spray — non-Caldera) |
 | Privilege Escalation | — (lab uses elevated agents) |
 | Defense Evasion | T1197 (BITS) |
-| Credential Access | — (stretch goal: T1003 lab extension) |
+| Credential Access | T1110.003 (INC-2026-002 — lab spray script, not Caldera) |
 | Discovery | T1087.002, T1040 |
 | Lateral Movement | T1021.001 |
 | Collection | T1040 |

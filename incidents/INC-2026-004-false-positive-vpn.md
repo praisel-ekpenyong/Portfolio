@@ -117,12 +117,23 @@ Detection tuning request filed: exclude first 24h post geo-block change window.
 
 ---
 
-## 8. Contrast with Caldera Scenarios
+## 8. Evidence Screenshots
 
-| Attribute | INC-2026-004 (FP) | INC-2026-001 (TP) |
-|-----------|-------------------|-------------------|
-| Endpoint telemetry | None | Sysmon + EDR |
-| User validity | Invalid usernames | Real user context |
-| Change ticket | Explains spike | None |
-| Internal IOC | None | Caldera C2 IP |
-| Action | Close + tune | Contain + eradicate |
+| Tool | Capture |
+|------|---------|
+| Microsoft Sentinel | `artifacts/screenshots/sentinel-inc004.png` |
+| osTicket | `artifacts/screenshots/osticket-48322.png` |
+
+Regenerate: `python scripts/render_screenshots.py`
+
+---
+
+## 9. Contrast with Identity Scenarios
+
+| Attribute | INC-2026-004 (FP) | INC-2026-002 (TP identity) | INC-2026-001 (TP endpoint) |
+|-----------|-------------------|---------------------------|---------------------------|
+| Alert type | VPN auth failures | Entra password spray | BITS download |
+| User validity | Invalid usernames | **Valid** user (`jsmith`) | Real user context |
+| Successful auth | Zero | **One** after 18 failures | N/A (execution) |
+| Change ticket | Explains spike | None | None |
+| Action | Close + tune | Revoke sessions + reset creds | Contain + eradicate |

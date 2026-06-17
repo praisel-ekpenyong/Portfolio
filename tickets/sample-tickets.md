@@ -32,22 +32,28 @@ osTicket records from the Tier 1 queue — **Department: Security Operations**.
 
 ---
 
-## Ticket #48305 — Linux Account Creation (INC-2026-002)
+## Ticket #48305 — Entra Password Spray (INC-2026-002)
 
 | Field | Value |
 |-------|-------|
-| **Subject** | [High] Unauthorized local account on SRV-LNX-01 |
+| **Subject** | [High] Sentinel — Password spray on jsmith@corp.lab |
 | **Department** | Security Operations |
 | **Help Topic** | Security Incident |
 | **Priority** | High |
 | **Status** | Closed |
-| **Source** | API (Wazuh webhook) |
+| **Source** | API (Sentinel connector) |
+| **Created** | 2026-06-18 11:10 UTC |
+| **Closed** | 2026-06-18 12:15 UTC |
 | **Assigned To** | Praisel Ekpenyong |
 | **Linked Incident** | INC-2026-002 |
 
-**Internal note:** Unauthorized user `caldera_svc` and malicious crontab on SRV-LNX-01. Wazuh rules 5902/2832.
+**Internal note (11:14 UTC):** Sentinel #2863 — 18 failed sign-ins + 1 success for `jsmith@corp.lab` from `203.0.113.55`. Valid user, no change ticket. Entra risk: High. Revoking sessions.
 
-**Resolution (closed):** Account deleted, cron restored, egress blocked during investigation. Escalated to Linux SME.
+**Internal note (11:22 UTC):** Account disabled. WKSTN-042 isolated via Defender. Escalated to Tier 2.
+
+**Resolution (closed):** True positive (lab spray). Password reset + MFA re-register complete. No mail rules or lateral movement.
+
+**Metrics:** Time to acknowledge — 2 min · Time to contain — 22 min
 
 ---
 
@@ -107,6 +113,44 @@ osTicket records from the Tier 1 queue — **Department: Security Operations**.
 **Internal note:** jsmith reported invoice phish. SPF/DKIM/DMARC failed. Correlated with Sentinel PowerShell alert on WKSTN-042.
 
 **Resolution (closed):** Contained WKSTN-042. Blocked domain. Mail trace clean for other users.
+
+---
+
+## Ticket #48360 — Shift Handoff (Open)
+
+| Field | Value |
+|-------|-------|
+| **Subject** | [Normal] Shift handoff — 2026-06-18 19:00 UTC |
+| **Department** | Security Operations |
+| **Help Topic** | Shift Handoff |
+| **Priority** | Normal |
+| **Status** | Open |
+| **Source** | Web (analyst-created) |
+| **Assigned To** | Unassigned (next shift) |
+| **Outgoing Analyst** | Praisel Ekpenyong |
+
+**Handoff note (19:00 UTC):**
+
+```
+OPEN ITEMS FOR NEXT SHIFT
+─────────────────────────
+1. INC-2026-002 (closed) — jsmith password reset complete; temporary CA block on
+   203.0.113.55 expires 2026-06-19 12:00 UTC. Verify auto-removal.
+2. Ticket #48355 (open) — VPN rule tuning for CHG-8821 window. No action tonight
+   unless VPN High alerts fire again.
+3. Duplicate watch — WKSTN-042: INC-001 + INC-005 both closed; if new alerts on
+   same host, link parent tickets #48291 / #48340 before re-isolating.
+
+QUERIES IN PROGRESS
+───────────────────
+None — all P2 cases closed.
+
+ESCALATIONS PENDING CALLBACK
+────────────────────────────
+None.
+```
+
+**Duplicate-search note:** Before opening a new ticket on WKSTN-042 or jsmith@corp.lab, search hostname + UPN + rule name (24 hr).
 
 ---
 

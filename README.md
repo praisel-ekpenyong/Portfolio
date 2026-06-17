@@ -5,22 +5,22 @@
 | | |
 |---|---|
 | **Email** | [Ekpenyongpraisel@gmail.com](mailto:Ekpenyongpraisel@gmail.com) |
-| **GitHub** | [github.com/praisel-ekpenyong](https://github.com/praisel-ekpenyong) |
+| **GitHub** | [github.com/praisel-ekpenyong/Portfolio](https://github.com/praisel-ekpenyong/Portfolio) |
 | **LinkedIn** | [linkedin.com/in/praiselekpenyong](https://www.linkedin.com/in/praiselekpenyong) |
 
 **Certifications:** Google Cybersecurity Certificate · CompTIA Security+ · Microsoft SC-200 (Security Operations Analyst)
 
-Entry-level security operations portfolio demonstrating alert triage, incident investigation, documentation, and detection engineering across **two operational labs** — on-premises endpoint SOC and Microsoft cloud SOC. **All attack simulations are executed with [Apache Caldera](https://caldera.apache.org/)** against controlled environments I own and operate.
+Entry-level security operations portfolio demonstrating alert triage, incident investigation, documentation, and detection engineering across **two operational labs** — on-premises endpoint SOC and Microsoft cloud SOC. Endpoint attack paths are validated with **[Apache Caldera](https://caldera.apache.org/)**; identity and noise scenarios use **lab scripts or organic telemetry** (INC-2026-002, INC-2026-004).
 
 > **Highlight incident for interviews:** [INC-2026-001 — BITS job download](incidents/INC-2026-001-bits-job-download.md) (detection → containment in 13 minutes)
 
-## Open Portfolio (local)
+## Build Artifacts
 
 ```powershell
 .\build.ps1
 ```
 
-This generates artifacts (IOC enrichment, Caldera timeline) and opens **`portfolio/index.html`** in your browser. No GitHub push required.
+This generates IOC enrichment, Caldera timeline CSV, and evidence screenshots in `artifacts/`.
 
 ---
 
@@ -28,7 +28,7 @@ This generates artifacts (IOC enrichment, Caldera timeline) and opens **`portfol
 
 | Lab | What I Operate |
 |-----|----------------|
-| **Lab 1 — On-Prem** | Wazuh, Splunk, Sysmon, AD (`corp.lab.local`), Linux, pfSense, Wireshark |
+| **Lab 1 — On-Prem** | Wazuh, Splunk, Sysmon, AD (`corp.lab.local`), pfSense, Wireshark |
 | **Lab 2 — Cloud** | Sentinel, Defender, Entra ID (`pe-soc-lab` tenant), Log Analytics, KQL |
 
 | Domain | Evidence in This Repo |
@@ -40,14 +40,15 @@ This generates artifacts (IOC enrichment, Caldera timeline) and opens **`portfol
 | Documentation | Structured incident records with timeline, evidence, severity, and recommendations |
 | Ticketing | osTicket samples in `tickets/sample-tickets.md` |
 | Network analysis | TCP/IP, DNS, HTTP/S, PCAP interpretation in `network/` |
-| Windows / Linux / AD | Sysmon, Windows Event Logs, auth logs, AD sign-in correlation |
+| Windows / AD / Entra ID | Sysmon, Windows Event Logs, Entra sign-in correlation |
 | Microsoft XDR / EDR / KQL | Sentinel detections, Defender for Endpoint queries |
 | Scripting | `scripts/ioc_enrichment.py`, `scripts/triage_alert.ps1` |
 | Cloud (Azure / Entra ID) | Sentinel analytics, Entra sign-in enrichment |
 | MITRE ATT&CK mapping | Every scenario and detection mapped to techniques |
 | Phishing / email headers | `phishing/email-header-analysis.md` |
 | IOC enrichment | IPs, domains, URLs, file hashes via `scripts/ioc_enrichment.py` |
-| Tool evidence (screenshots) | `artifacts/screenshots/` — Wazuh, Defender, Sentinel, osTicket, Sysmon |
+| Tool evidence (screenshots) | `artifacts/screenshots/` — lab UI reconstructions per incident |
+| Practice exercises | `network/sample-dns-exfil-analysis.md` — DNS triage (not a closed incident) |
 
 ---
 
@@ -64,7 +65,7 @@ Caldera C2 ──► Win10 / Linux / AD (corp.lab.local)
          Wazuh alert queue │ Splunk │ pfSense VPN/firewall logs
 ```
 
-**Covers:** endpoint triage, Linux forensics, AD logon events, PCAP/firewall analysis.
+**Covers:** endpoint triage, AD logon events, PCAP/firewall analysis.
 
 ### Lab 2 — Cloud Security Operations (`pe-soc-lab` tenant)
 
@@ -79,15 +80,15 @@ Full topology, IP plan, connectors, and agent enrollment: [`docs/lab-architectur
 
 ---
 
-## Caldera-Driven Scenarios
+## Scenarios
 
-| # | Scenario | Lab | Caldera Profile | Incident Report |
-|---|----------|-----|-----------------|-----------------|
-| 01 | Windows download & execution | Hybrid | `T1-Windows-Download-Exec` | [INC-2026-001](incidents/INC-2026-001-bits-job-download.md) |
-| 02 | Linux persistence & account abuse | Lab 1 | `T1-Linux-Persistence` | [INC-2026-002](incidents/INC-2026-002-linux-account-creation.md) |
-| 03 | Lateral movement & RDP abuse | Hybrid | `T1-Windows-Lateral` | [INC-2026-003](incidents/INC-2026-003-rdp-port-modification.md) |
-| 04 | VPN auth failure storm (no Caldera) | Lab 2 | — | [INC-2026-004](incidents/INC-2026-004-false-positive-vpn.md) |
-| 05 | Phishing → endpoint compromise chain | Lab 2 | `T1-Phish-to-Host` | [phishing/sample-phishing-incident.md](phishing/sample-phishing-incident.md) |
+| # | Scenario | Lab | Trigger | Incident Report |
+|---|----------|-----|---------|-----------------|
+| 01 | Windows download & execution | Hybrid | Caldera `T1-Windows-Download-Exec` | [INC-2026-001](incidents/INC-2026-001-bits-job-download.md) |
+| 02 | Entra password spray & risky sign-in | Lab 2 | Lab spray script | [INC-2026-002](incidents/INC-2026-002-entra-password-spray.md) |
+| 03 | Lateral movement & RDP abuse | Hybrid | Caldera `T1-Windows-Lateral` | [INC-2026-003](incidents/INC-2026-003-rdp-port-modification.md) |
+| 04 | VPN auth failure storm | Lab 2 | Organic noise | [INC-2026-004](incidents/INC-2026-004-false-positive-vpn.md) |
+| 05 | Phishing → endpoint compromise chain | Lab 2 | Caldera `T1-Phish-to-Host` | [INC-2026-005](incidents/INC-2026-005-phishing-chain.md) |
 
 Caldera setup and operation steps: [`caldera/operations-runbook.md`](caldera/operations-runbook.md)
 
@@ -114,7 +115,7 @@ Template: [`templates/incident-report.md`](templates/incident-report.md)
 
 | Platform | Location | Example Techniques Covered |
 |----------|----------|---------------------------|
-| Splunk | `detections/splunk/` | T1197 BITS, T1136 account creation, DNS tunneling |
+| Splunk | `detections/splunk/` | T1197 BITS, DNS tunneling |
 | Microsoft Sentinel | `detections/sentinel/` | KQL analytics rules, Entra ID correlation |
 | Wazuh | `detections/wazuh/` | Custom local rules for Caldera-emulated TTPs |
 
@@ -138,7 +139,7 @@ python scripts/ioc_enrichment.py --input iocs.txt --output enrichment_report.jso
 
 **Lab environments:**
 
-- **Lab 1 (on-prem):** `corp.lab.local` — Wazuh, Splunk, Sysmon, AD, Linux, pfSense
+- **Lab 1 (on-prem):** `corp.lab.local` — Wazuh, Splunk, Sysmon, AD, pfSense
 - **Lab 2 (cloud):** `pe-soc-lab` tenant — Sentinel, Defender for Endpoint, Entra ID, Log Analytics
 
 **Focus areas aligned to SC-200 / Security+:** KQL analytics, alert triage, incident documentation, MITRE ATT&CK mapping, phishing investigation, and IOC enrichment.
@@ -147,14 +148,18 @@ python scripts/ioc_enrichment.py --input iocs.txt --output enrichment_report.jso
 
 See [`docs/resume-highlights.md`](docs/resume-highlights.md) — bullets split by lab with keywords, how, where (system/queue), and plain-language why.
 
+## Evidence Note
+
+Screenshots in `artifacts/screenshots/` are **lab UI reconstructions** (HTML → PNG) aligned to JSON/log artifacts in `artifacts/`. They illustrate Tier 1 workflow — not exports from a production tenant.
+
 ## How to Use This Portfolio (Interview / Hiring Manager)
 
 1. **Start with README** — shows breadth of Tier 1 competencies.
-2. **Pick one incident** (e.g., INC-2026-001) — walk through triage → escalation in 5 minutes.
-3. **Open matching detection** — explain what the alert looks for and why.
-4. **Show Caldera operation** — prove the alert was triggered by controlled emulation, not fabricated logs.
-5. **Run IOC script** — demonstrate practical enrichment workflow.
-6. **Discuss false positive** (INC-2026-004) — shows maturity beyond "everything is malware."
+2. **Anchor case** — [INC-2026-001](incidents/INC-2026-001-bits-job-download.md) (endpoint, 13 min containment).
+3. **Identity pair** — [INC-2026-002](incidents/INC-2026-002-entra-password-spray.md) (true positive) vs [INC-2026-004](incidents/INC-2026-004-false-positive-vpn.md) (false positive).
+4. **Open matching detection** — explain what the alert looks for and why.
+5. **Caldera operations** (INC-001, 003, 005) — prove endpoint alerts came from controlled emulation.
+6. **Run IOC script** — `.\build.ps1` or `python scripts/ioc_enrichment.py`.
 
 ---
 

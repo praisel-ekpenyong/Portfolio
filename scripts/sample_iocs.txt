@@ -1,7 +1,8 @@
-# Sample IOCs from INC-2026-001 and INC-2026-002
+# Sample IOCs from INC-2026-001 and INC-2026-002 (password spray)
 10.10.30.10
 http://10.10.30.10:8888/file/download
 http://10.10.30.10:8888/beacon
 caldera.corp.lab
 203.0.113.45
+203.0.113.55
 a3f2b8c1d4e5f678901234567890abcd1234567890abcdef1234567890abcd12

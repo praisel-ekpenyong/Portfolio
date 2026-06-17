@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Microsoft Defender — Phishing</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Segoe UI", sans-serif; background: #f3f2f1; color: #323130; font-size: 13px; }
+  .header { background: #fff; border-bottom: 1px solid #edebe9; padding: 0 24px; height: 48px; display: flex; align-items: center; gap: 16px; }
+  .header .logo { font-weight: 600; color: #0078d4; }
+  .wrap { padding: 20px 24px; max-width: 1200px; }
+  .alert-banner { background: #fff; border: 1px solid #edebe9; border-left: 4px solid #d13438; padding: 16px 20px; margin-bottom: 16px; }
+  .alert-banner h1 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+  .meta { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12px; color: #605e5c; }
+  .severity { background: #fde7e9; color: #a4262c; padding: 2px 8px; border-radius: 2px; font-weight: 600; }
+  .status { background: #dff6dd; color: #107c10; padding: 2px 8px; border-radius: 2px; font-weight: 600; }
+  .panel { background: #fff; border: 1px solid #edebe9; padding: 16px; }
+  .tree { font-family: Consolas, monospace; font-size: 12px; line-height: 1.7; }
+  .bad { color: #a4262c; font-weight: 600; }
+  .kv { display: grid; grid-template-columns: 140px 1fr; gap: 6px; font-size: 12px; margin-top: 12px; }
+  .kv .k { color: #605e5c; }
+  .kv .v { font-family: Consolas, monospace; }
+</style>
+</head>
+<body>
+<header class="header">
+  <span class="logo">Microsoft Defender</span><span>›</span><span>ALRT-99503</span>
+</header>
+<div class="wrap">
+  <div class="alert-banner">
+    <h1>Suspicious PowerShell execution after Office process</h1>
+    <div class="meta">
+      <span class="severity">High</span>
+      <span class="status">Remediated — Isolated</span>
+      <span>Device: WKSTN-042</span>
+      <span>User: CORP\jsmith</span>
+      <span>Detected: 2026-06-20 14:01 UTC</span>
+      <span>MITRE: T1059.001, T1204.002</span>
+      <span>INC-2026-005 · #48340</span>
+    </div>
+  </div>
+  <div class="panel">
+    <h2 style="font-size:14px;margin-bottom:10px">Process tree</h2>
+    <div class="tree">
+      <div>outlook.exe</div>
+      <div>└ <span class="bad">powershell.exe</span> — -WindowStyle Hidden -enc JABjAGwA…</div>
+      <div>└ FileCreate: <span class="bad">%TEMP%\update.ps1</span></div>
+      <div>└ Network: http://10.10.30.10:8888/beacon</div>
+    </div>
+    <div class="kv"><span class="k">User report</span><span class="v">13:57 UTC — invoice phish (SPF/DKIM/DMARC fail)</span></div>
+    <div class="kv"><span class="k">Domain blocked</span><span class="v">login-update.tk</span></div>
+    <div class="kv"><span class="k">Analyst</span><span class="v">Praisel Ekpenyong</span></div>
+  </div>
+</div>
+</body>
+</html>

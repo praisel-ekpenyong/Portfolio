@@ -1,6 +1,6 @@
 # Tier 1 SOC Playbooks
 
-Operational procedures used across all Caldera-driven scenarios in this portfolio.
+Operational procedures used across all scenarios in this portfolio (Caldera, lab-script, and organic alerts).
 
 ## Alert Triage (First 15 Minutes)
 
@@ -49,12 +49,13 @@ Use template: `templates/escalation-template.md`
 
 ## Containment Actions (Tier 1 Authorized)
 
-| Action | Windows | Linux | Ticket Note |
-|--------|---------|-------|-------------|
-| Network isolate | MDE / Sentinel isolate | Firewall drop + VLAN quarantine | "Host isolated per IR-####" |
-| Disable user | ADUC / Entra block sign-in | `usermod -L` | Link to account alerts |
-| Block IOC | Firewall / proxy deny | Same | Include TTL and review date |
-| Kill process | taskkill / EDR | `kill -9` | Capture PID and hash first |
+| Action | Windows / Cloud | Ticket Note |
+|--------|----------------|-------------|
+| Network isolate | MDE / Sentinel isolate | "Host isolated per IR-####" |
+| Disable user | Entra block sign-in / ADUC | Link to account alerts |
+| Revoke sessions | Entra revoke refresh tokens | Required after identity compromise |
+| Block IOC | Firewall / proxy / CA policy | Include TTL and review date |
+| Kill process | taskkill / EDR | Capture PID and hash first |
 
 ## Evidence Preservation
 

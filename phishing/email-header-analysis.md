@@ -97,7 +97,7 @@ After user execution, run Caldera **T1-Phish-to-Host** on WKSTN-042:
 | 13:59 | PowerShell download cradle (Sysmon) |
 | 14:00 | Caldera ability complete |
 
-Full incident: `sample-phishing-incident.md`
+Full incident: [`INC-2026-005`](../incidents/INC-2026-005-phishing-chain.md)
 
 ## Tier 1 Ticket Notes
 

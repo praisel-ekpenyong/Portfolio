@@ -11,7 +11,7 @@ The portfolio runs on **two connected labs** — the same way many MSSPs and ent
 
 | Lab | Name | Purpose | Primary tools |
 |-----|------|---------|---------------|
-| **Lab 1** | On-Premises SOC | Endpoint, server, AD, and network alert triage | Wazuh, Splunk, Sysmon, pfSense, AD DS |
+| **Lab 1** | On-Premises SOC | Endpoint, AD, and network alert triage | Wazuh, Splunk, Sysmon, pfSense, AD DS |
 | **Lab 2** | Cloud Security Operations | Microsoft XDR/SIEM triage and identity correlation | Sentinel, Defender for Endpoint, Entra ID, Log Analytics |
 
 **Hybrid link:** Lab 1 hosts forward logs and alerts into Lab 2 via AMA, Defender, and Entra connectors. The same Caldera-driven attacks are visible in both layers.
@@ -88,7 +88,6 @@ Internet (simulated) ──► pfSense Firewall ──► 10.10.0.0/24 (DMZ)
 | Incident | Primary Lab 1 sources |
 |----------|----------------------|
 | INC-2026-001 | Wazuh rule 180001, Sysmon on WKSTN-042 |
-| INC-2026-002 | Wazuh 5902/2832, Linux auth.log, auditd on SRV-LNX-01 |
 | INC-2026-003 | Sysmon, pfSense flows, Wireshark PCAP on WKSTN-099 |
 | INC-2026-004 | pfSense VPN logs (forwarded to Sentinel) |
 
@@ -125,6 +124,7 @@ pfSense VPN logs  ──► Syslog forwarder    ──► Sentinel (Custom table
 Analytics rules and KQL live in `detections/sentinel/`. Examples:
 
 - Suspicious BITS transfer (INC-2026-001 correlation)
+- Password spray against valid user (INC-2026-002)
 - Multiple failed VPN logins (INC-2026-004)
 - PowerShell download cradle (phishing chain)
 - Entra risky sign-in correlation
@@ -134,6 +134,7 @@ Analytics rules and KQL live in `detections/sentinel/`. Examples:
 | Incident | Primary Lab 2 sources |
 |----------|----------------------|
 | INC-2026-001 | Defender alert story, Sentinel KQL, host isolation |
+| INC-2026-002 | Sentinel `password_spray_entra`, Entra risky sign-in, session revoke |
 | INC-2026-003 | Defender process chain on WKSTN-099 |
 | INC-2026-004 | Sentinel analytics `Multiple failed VPN logins` |
 | INC-2026-005 | Sentinel + Defender + Entra user context (phishing chain) |
@@ -149,6 +150,12 @@ Some cases are intentionally run across both environments to mirror real MSSP wo
 | INC-2026-001 | Wazuh 180001 fires first | Defender + Sentinel confirm | Prove cross-SIEM correlation on one attack |
 | INC-2026-003 | PCAP + firewall in Splunk | Defender lateral movement alert | Network + endpoint view |
 | INC-2026-005 | User report + email headers | Sentinel PowerShell rule | Email layer + cloud EDR |
+
+### Practice Modules (No INC Record)
+
+| Module | Location | Purpose |
+|--------|----------|---------|
+| DNS exfil drill | `network/sample-dns-exfil-analysis.md` | Splunk/Wireshark tuning exercise |
 
 ---
 

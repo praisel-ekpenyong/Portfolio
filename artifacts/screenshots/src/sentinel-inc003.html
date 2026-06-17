@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Microsoft Sentinel — INC-003</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Segoe UI", sans-serif; background: #1b1b1f; color: #e8e8e8; font-size: 13px; }
+  .azure-bar { background: #0078d4; height: 40px; display: flex; align-items: center; padding: 0 16px; color: #fff; gap: 12px; }
+  .layout { display: flex; height: calc(100vh - 40px); }
+  .side { width: 200px; background: #2d2d30; padding: 12px 0; font-size: 12px; }
+  .side a { display: block; padding: 8px 16px; color: #ccc; text-decoration: none; }
+  .side a.on { background: #094771; color: #fff; }
+  .work { flex: 1; background: #1e1e1e; padding: 16px; }
+  .title { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+  .sub { color: #9cdcfe; font-size: 12px; margin-bottom: 16px; }
+  .chips { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .chip { background: #3c3c3c; padding: 4px 10px; border-radius: 2px; font-size: 11px; }
+  .chip.red { background: #4a1e1e; color: #f48771; }
+  .panel { background: #252526; border: 1px solid #444; padding: 14px; }
+  .kv { display: grid; grid-template-columns: 160px 1fr; gap: 6px; font-size: 12px; margin-bottom: 4px; }
+  .kv .k { color: #888; }
+  .kv .v { font-family: Consolas, monospace; }
+  pre { background: #1e1e1e; border: 1px solid #444; padding: 10px; font-size: 11px; color: #d4d4d4; margin-top: 10px; overflow: auto; }
+</style>
+</head>
+<body>
+<div class="azure-bar"><span>Microsoft Azure</span><span>|</span><span>pe-soc-lab</span><span>|</span><span>Sentinel</span></div>
+<div class="layout">
+  <nav class="side"><a href="#">Overview</a><a href="#" class="on">Incidents</a></nav>
+  <main class="work">
+    <div class="title">Incident #2871 — Lateral movement on WKSTN-099</div>
+    <div class="sub">Defender XDR correlation · 2026-06-19 16:09 UTC · Analyst: Praisel Ekpenyong</div>
+    <div class="chips">
+      <span class="chip red">High — True Positive</span>
+      <span class="chip">INC-2026-003</span>
+      <span class="chip">osTicket #48318</span>
+      <span class="chip">T1040 · T1021.001</span>
+      <span class="chip">IR escalated 16:30</span>
+    </div>
+    <div class="panel">
+      <div class="kv"><span class="k">Wazuh (Lab 1)</span><span class="v">Rules 180002 + 180003 on WKSTN-099</span></div>
+      <div class="kv"><span class="k">Defender</span><span class="v">tshark.exe + reg.exe RDP port change</span></div>
+      <div class="kv"><span class="k">pfSense</span><span class="v">WKSTN-099 → 10.10.20.10:3389 ALLOW</span></div>
+      <div class="kv"><span class="k">PCAP triage</span><span class="v">No cleartext creds; single RDP SYN to DC</span></div>
+      <pre>DeviceProcessEvents
+| where DeviceName == "WKSTN-099"
+| where FileName in ("tshark.exe", "reg.exe")
+| project Timestamp, AccountName, FileName, ProcessCommandLine</pre>
+    </div>
+  </main>
+</div>
+</body>
+</html>

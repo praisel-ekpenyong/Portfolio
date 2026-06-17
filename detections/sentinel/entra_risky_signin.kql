@@ -1,5 +1,5 @@
 // Entra ID — Risky sign-in correlation for Tier 1 triage
-// Use alongside endpoint alerts (INC-2026-001 user context)
+// Incidents: INC-2026-002 (password spray), INC-2026-005 (phishing chain)
 
 SigninLogs
 | where TimeGenerated > ago(24h)

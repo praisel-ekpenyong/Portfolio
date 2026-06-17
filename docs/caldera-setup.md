@@ -75,7 +75,7 @@ Enable in `conf/local.yml` or via UI **Configuration → Plugins**.
 ## Post-Operation Cleanup
 
 1. Stop operation in Caldera UI.
-2. Allow cleanup abilities to run (e.g., T1531 account removal after T1136.001).
+2. Allow cleanup abilities to run on operation stop (e.g., remove dropped files).
 3. Verify no sandcat process remains:
    - Windows: `Get-Process sandcat*`
    - Linux: `pgrep -a sandcat`

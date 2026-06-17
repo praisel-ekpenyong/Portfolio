@@ -148,7 +148,21 @@ index=sysmon host=WKSTN-099 (EventCode=1 OR EventCode=13)
 
 ---
 
-## 10. Tier 1 Learning Outcomes
+## 10. Evidence Screenshots
+
+| Tool | Capture |
+|------|---------|
+| Microsoft Defender | `artifacts/screenshots/defender-inc003.png` |
+| Microsoft Sentinel | `artifacts/screenshots/sentinel-inc003.png` |
+| osTicket | `artifacts/screenshots/osticket-48318.png` |
+
+Regenerate: `python scripts/render_screenshots.py`
+
+> UI captures are lab reconstructions aligned to log artifacts — not production tenant exports.
+
+---
+
+## 11. Tier 1 Learning Outcomes
 
 - Correlated host-based alerts with firewall and PCAP evidence
 - Applied network protocol basics (TCP/3389, DNS, TLS)

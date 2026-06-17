@@ -85,7 +85,7 @@ Tools used across **Lab 1 (on-prem)** and **Lab 2 (cloud)**. Tier 1 tasks listed
 | Incident | Lab 1 tools | Lab 2 tools |
 |----------|-------------|-------------|
 | INC-2026-001 | Wazuh, Sysmon | Defender, Sentinel KQL |
-| INC-2026-002 | Wazuh, Linux logs | — |
+| INC-2026-002 | — | Sentinel, Entra ID, Defender |
 | INC-2026-003 | Splunk, Wireshark, pfSense | Defender |
 | INC-2026-004 | pfSense (log source) | Sentinel |
 | INC-2026-005 | Email headers | Sentinel, Defender, Entra |

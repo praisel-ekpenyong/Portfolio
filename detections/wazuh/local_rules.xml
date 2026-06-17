@@ -1,7 +1,7 @@
 <!--
   Wazuh custom rules for Caldera-emulated TTPs
   Path on server: /var/ossec/etc/rules/local_rules.xml
-  Incidents: INC-2026-001, INC-2026-002, INC-2026-003
+  Incidents: INC-2026-001, INC-2026-003
 -->
 <group name="caldera_lab,windows,linux">
 
@@ -36,16 +36,6 @@
       <id>T1021.001</id>
     </mitre>
     <group>attack_stage_lateral_movement,</group>
-  </rule>
-
-  <!-- INC-2026-002: T1053.003 Cron abuse (Linux) -->
-  <rule id="180010" level="8">
-    <if_sid>2832</if_sid>
-    <match type="pcre2">(?i)(curl|wget).*:8888|caldera</match>
-    <description>Suspicious cron entry referencing external C2 pattern on $(hostname)</description>
-    <mitre>
-      <id>T1053.003</id>
-    </mitre>
   </rule>
 
   <!-- Sandcat agent indicator (lab only) -->

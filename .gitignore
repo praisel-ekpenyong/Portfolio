@@ -17,6 +17,9 @@ secrets.txt
 *apikey*
 *api_key*
 
+# Local resume exports (canonical text: docs/resume-highlights.md)
+*.docx
+
 # OS / editor
 .DS_Store
 Thumbs.db

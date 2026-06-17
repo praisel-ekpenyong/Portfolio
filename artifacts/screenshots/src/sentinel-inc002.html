@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Microsoft Sentinel — Password Spray</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Segoe UI", sans-serif; background: #1b1b1f; color: #e8e8e8; font-size: 13px; }
+  .azure-bar { background: #0078d4; height: 40px; display: flex; align-items: center; padding: 0 16px; color: #fff; font-size: 13px; gap: 12px; }
+  .layout { display: flex; height: calc(100vh - 40px); }
+  .blade { width: 48px; background: #252526; }
+  .side { width: 200px; background: #2d2d30; padding: 12px 0; font-size: 12px; }
+  .side a { display: block; padding: 8px 16px; color: #ccc; text-decoration: none; }
+  .side a.on { background: #094771; color: #fff; }
+  .work { flex: 1; background: #1e1e1e; padding: 16px; }
+  .title { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+  .sub { color: #9cdcfe; font-size: 12px; margin-bottom: 16px; }
+  .chips { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .chip { background: #3c3c3c; padding: 4px 10px; border-radius: 2px; font-size: 11px; }
+  .chip.red { background: #4a1e1e; color: #f48771; }
+  .chip.amber { background: #4a3f1a; color: #dcdcaa; }
+  .panel { background: #252526; border: 1px solid #444; padding: 14px; margin-bottom: 12px; }
+  .panel h3 { font-size: 13px; margin-bottom: 10px; color: #ccc; }
+  .kv { display: grid; grid-template-columns: 160px 1fr; gap: 6px; font-size: 12px; margin-bottom: 4px; }
+  .kv .k { color: #888; }
+  .kv .v { font-family: Consolas, monospace; }
+  table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 8px; }
+  th { text-align: left; background: #333; padding: 6px 8px; color: #ccc; }
+  td { padding: 6px 8px; border-bottom: 1px solid #333; font-family: Consolas, monospace; }
+  .fail { color: #f48771; }
+  .ok { color: #4ec9b0; }
+</style>
+</head>
+<body>
+<div class="azure-bar">
+  <span>Microsoft Azure</span><span>|</span><span>pe-soc-lab</span><span>|</span><span>Microsoft Sentinel</span>
+</div>
+<div class="layout">
+  <div class="blade"></div>
+  <nav class="side"><a href="#">Overview</a><a href="#" class="on">Incidents</a><a href="#">Analytics</a></nav>
+  <main class="work">
+    <div class="title">Incident #2863 — Password spray against valid user</div>
+    <div class="sub">Analytics rule: password_spray_entra · 2026-06-18 11:10 UTC · Analyst: Praisel Ekpenyong</div>
+    <div class="chips">
+      <span class="chip red">High — True Positive</span>
+      <span class="chip">INC-2026-002</span>
+      <span class="chip">osTicket #48305</span>
+      <span class="chip amber">T1110.003 · T1078</span>
+      <span class="chip">Entra risky sign-in</span>
+    </div>
+    <div class="panel">
+      <h3>Alert details</h3>
+      <div class="kv"><span class="k">User</span><span class="v">jsmith@corp.lab (CORP\jsmith)</span></div>
+      <div class="kv"><span class="k">Source IP</span><span class="v">203.0.113.55 — Bucharest, RO</span></div>
+      <div class="kv"><span class="k">Failed attempts</span><span class="v">18 in 8 minutes</span></div>
+      <div class="kv"><span class="k">Successful sign-in</span><span class="v">1 at 11:09:42 UTC — Exchange Online</span></div>
+      <div class="kv"><span class="k">Entra risk</span><span class="v">High — unfamiliarFeatures, anonymous IP</span></div>
+      <div class="kv"><span class="k">AbuseIPDB</span><span class="v">78 — malicious range</span></div>
+      <div class="kv"><span class="k">Endpoint</span><span class="v">WKSTN-042 — interactive logon 11:10:18 UTC</span></div>
+    </div>
+    <div class="panel">
+      <h3>SigninLogs (excerpt)</h3>
+      <table>
+        <thead><tr><th>Time (UTC)</th><th>Result</th><th>IP</th><th>App</th></tr></thead>
+        <tbody>
+          <tr><td>11:08:12</td><td class="fail">50126 Failed</td><td>203.0.113.55</td><td>Exchange Online</td></tr>
+          <tr><td>11:09:01</td><td class="fail">50126 Failed</td><td>203.0.113.55</td><td>Exchange Online</td></tr>
+          <tr><td>11:09:42</td><td class="ok">0 Success</td><td>203.0.113.55</td><td>Exchange Online</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>
+</body>
+</html>

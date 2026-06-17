@@ -6,7 +6,7 @@ Copy sections below into resume, LinkedIn About, or application cover letters.
 
 ## Profile Summary (2–3 sentences)
 
-SOC Analyst L1 with Google Cybersecurity Certificate, CompTIA Security+, and Microsoft SC-200. Operates two practice environments — an on-premises endpoint SOC (Wazuh, Splunk, AD, Linux) and a Microsoft cloud SOC (Sentinel, Defender, Entra ID). Validates detections with Apache Caldera adversary emulation and full Tier 1 documentation.
+SOC Analyst L1 with Google Cybersecurity Certificate, CompTIA Security+, and Microsoft SC-200. Operates two practice environments — an on-premises endpoint SOC (Wazuh, Splunk, AD) and a Microsoft cloud SOC (Sentinel, Defender, Entra ID). Validates endpoint detections with Apache Caldera emulation and documents full Tier 1 workflows including identity alerts and false-positive triage.
 
 ---
 
@@ -34,7 +34,7 @@ Each bullet includes **what** (2–3 skills/tools), **how**, **where** (queue, c
 
 - Investigated alerts with **Sentinel** and **KQL** in the **cloud incident queue**, sorting real threats from noise so client environments stayed protected.
 - Isolated a risky host through **Defender** in the **endpoint protection console**, then **escalated** to Tier 2 with full notes so damage was stopped and seniors got a clean handoff.
-- Pulled **Entra ID** sign-in logs into **Sentinel** during identity alerts in the **Azure AD tenant**, catching risky logins before an attacker could move deeper.
+- Triaged **Entra ID** password spray alerts in the **Sentinel incident queue**, revoking sessions and resetting credentials when a **valid user** authenticated from a malicious IP so account takeover was stopped early.
 - Handled **phishing** reports by checking email headers and tying activity to **Defender** alerts on the **mailbox and endpoint layer**, blocking scams before more users clicked.
 - Closed out a **false positive** VPN alert in **Sentinel** by matching it to a **change ticket** on the **firewall log source**, saving the night shift from a needless escalation.
 
@@ -53,7 +53,8 @@ Each bullet includes **what** (2–3 skills/tools), **how**, **where** (queue, c
 | Item | Link / Description |
 |------|-------------------|
 | GitHub Profile | `https://github.com/praisel-ekpenyong` |
-| Featured Incident | INC-2026-001 — BITS download (Wazuh + Defender, 13 min containment) |
+| Featured Incident | INC-2026-001 — BITS download (13 min containment) |
+| Identity pair | INC-2026-002 (TP spray) vs INC-2026-004 (FP VPN) |
 | Lab split | Lab 1 on-prem · Lab 2 Sentinel/Defender/Entra |
 | Certifications | Security+, SC-200, Google Cybersecurity Certificate |
 
@@ -61,7 +62,7 @@ Each bullet includes **what** (2–3 skills/tools), **how**, **where** (queue, c
 
 ## Skills List (ATS-friendly)
 
-`SIEM` · `Splunk` · `Microsoft Sentinel` · `KQL` · `Wazuh` · `Incident Response` · `Alert Triage` · `MITRE ATT&CK` · `IOC Enrichment` · `Sysmon` · `Windows Event Logs` · `Linux Forensics` · `Active Directory` · `Wireshark` · `PCAP Analysis` · `DNS Analysis` · `Phishing Analysis` · `Microsoft Defender for Endpoint` · `Entra ID` · `Azure` · `PowerShell` · `Python` · `Apache Caldera` · `Documentation` · `osTicket`
+`SIEM` · `Splunk` · `Microsoft Sentinel` · `KQL` · `Wazuh` · `Incident Response` · `Alert Triage` · `MITRE ATT&CK` · `IOC Enrichment` · `Sysmon` · `Windows Event Logs` · `Active Directory` · `Entra ID` · `Identity Protection` · `Wireshark` · `PCAP Analysis` · `DNS Analysis` · `Phishing Analysis` · `Microsoft Defender for Endpoint` · `Azure` · `PowerShell` · `Python` · `Apache Caldera` · `Documentation` · `osTicket`
 
 ---
 

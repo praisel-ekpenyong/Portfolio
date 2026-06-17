@@ -33,7 +33,7 @@ Tier 1 completes SPF/DKIM/DMARC analysis and extracts URLs.
 - [ ] Document email headers in ticket
 - [ ] Mail trace for other recipients
 - [ ] Correlate click time with Caldera ability finish time
-- [ ] Complete `phishing/sample-phishing-incident.md`
+- [ ] Complete [`incidents/INC-2026-005-phishing-chain.md`](../../incidents/INC-2026-005-phishing-chain.md)
 - [ ] Block domain at proxy
 
 ## MITRE Mapping

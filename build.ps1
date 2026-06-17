@@ -1,9 +1,9 @@
-# Build SOC Analyst L1 portfolio artifacts and open local site
+# Build SOC Analyst L1 portfolio artifacts
 # Praisel Ekpenyong
 
 $Root = $PSScriptRoot
 
-Write-Host "=== Building SOC Portfolio ===" -ForegroundColor Cyan
+Write-Host "=== Building SOC Portfolio Artifacts ===" -ForegroundColor Cyan
 Write-Host "Analyst: Praisel Ekpenyong`n"
 
 # Install Python deps if needed
@@ -23,7 +23,7 @@ if (Test-Path $iocScript) {
 }
 
 # Parse Caldera operation into timeline CSV
-Write-Host "[3/5] Parsing Caldera operation timeline..."
+Write-Host "[3/4] Parsing Caldera operation timeline..."
 $parser = Join-Path $Root "scripts\caldera_log_parser.py"
 $calderaReport = Join-Path $Root "artifacts\caldera-operation-INC001.json"
 $timelineOut = Join-Path $Root "artifacts\caldera_timeline_INC001.csv"
@@ -32,7 +32,7 @@ if ((Test-Path $parser) -and (Test-Path $calderaReport)) {
 }
 
 # Render tool UI screenshots from HTML mockups
-Write-Host "[4/5] Rendering evidence screenshots..."
+Write-Host "[4/4] Rendering evidence screenshots..."
 $render = Join-Path $Root "scripts\render_screenshots.py"
 if (Test-Path $render) {
     try {
@@ -42,18 +42,7 @@ if (Test-Path $render) {
     }
 }
 
-# Open portfolio in default browser
-Write-Host "[5/5] Opening portfolio site..."
-$index = Join-Path $Root "portfolio\index.html"
-if (Test-Path $index) {
-    Start-Process $index
-    Write-Host "`nPortfolio opened: $index" -ForegroundColor Green
-} else {
-    Write-Host "Portfolio index not found at $index" -ForegroundColor Red
-    exit 1
-}
-
 Write-Host ""
-Write-Host "Build complete. Local portfolio only - not pushed to GitHub." -ForegroundColor Green
+Write-Host "Build complete." -ForegroundColor Green
 Write-Host "Artifacts: artifacts/"
 Write-Host "Full docs: README.md"

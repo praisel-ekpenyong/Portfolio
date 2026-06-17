@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>osTicket #48340</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, Helvetica, sans-serif; background: #f0f0f0; color: #333; font-size: 13px; }
+  .top { background: linear-gradient(#1a5fb4, #184e9e); color: #fff; padding: 10px 20px; display: flex; justify-content: space-between; }
+  .nav { background: #fff; border-bottom: 1px solid #ccc; padding: 8px 20px; font-size: 12px; color: #666; }
+  .wrap { max-width: 1100px; margin: 16px auto; padding: 0 16px; }
+  .ticket-head { background: #fff; border: 1px solid #ccc; padding: 14px 16px; margin-bottom: 12px; }
+  .ticket-head h1 { font-size: 16px; }
+  .thread-item { background: #fff; border: 1px solid #ccc; padding: 12px 16px; margin-bottom: 8px; }
+  .thread-item.internal { background: #fffde7; border-left: 4px solid #f9a825; }
+  .badge-int { background: #f9a825; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 2px; }
+  code { font-family: Consolas, monospace; background: #f5f5f5; padding: 1px 4px; }
+</style>
+</head>
+<body>
+<header class="top"><span style="font-weight:700">osTicket — Security Operations</span><span>Agent: Praisel Ekpenyong</span></header>
+<div class="nav">Tickets › #48340</div>
+<div class="wrap">
+  <div class="ticket-head"><h1>Ticket #48340: [High] User-reported phishing — invoice link</h1></div>
+  <div class="thread-item">User jsmith reported invoice phish 13:57 UTC. SPF/DKIM/DMARC failed on <code>login-update.tk</code>.</div>
+  <div class="thread-item internal"><span class="badge-int">INTERNAL</span> 14:02 — Correlated Sentinel PowerShell alert on WKSTN-042. Parent <code>outlook.exe</code>.</div>
+  <div class="thread-item internal"><span class="badge-int">INTERNAL</span> 14:06 — Host isolated. Domain blocked. Mail trace: 3 other recipients, no clicks.</div>
+  <div class="thread-item">Closed 16:30 — True positive. Linked INC-2026-005. MTTA 4 min.</div>
+</div>
+</body>
+</html>
