@@ -1,0 +1,19 @@
+// Entra ID — Risky sign-in correlation for Tier 1 triage
+// Use alongside endpoint alerts (INC-2026-001 user context)
+
+SigninLogs
+| where TimeGenerated > ago(24h)
+| where RiskLevelDuringSignIn in ("medium", "high")
+    or RiskState == "atRisk"
+| extend MITRE_Technique = case(
+    ResultType == "50126", "T1110.001",
+    RiskDetail has "unlikelyTravel", "T1078",
+    "T1078")
+| project TimeGenerated, UserPrincipalName, IPAddress, Location,
+    AppDisplayName, ResultType, RiskLevelDuringSignIn, RiskDetail, MITRE_Technique
+| join kind=leftouter (
+    DeviceInfo
+    | summarize arg_max(Timestamp, *) by DeviceName
+) on $left.UserPrincipalName == $right.RegisteredOwners
+| project TimeGenerated, UserPrincipalName, IPAddress, Location, RiskLevelDuringSignIn,
+    DeviceName, OSPlatform, MITRE_Technique

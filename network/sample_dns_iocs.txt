@@ -1,0 +1,3 @@
+update-check.azureedge-live.com
+xK9mP2nQ8rT4vW7yZ1aB3cD5eF6gH8jL.update-check.azureedge-live.com
+10.10.10.42

@@ -1,0 +1,62 @@
+<!--
+  Wazuh custom rules for Caldera-emulated TTPs
+  Path on server: /var/ossec/etc/rules/local_rules.xml
+  Incidents: INC-2026-001, INC-2026-002, INC-2026-003
+-->
+<group name="caldera_lab,windows,linux">
+
+  <!-- INC-2026-001: T1197 BITS Jobs -->
+  <rule id="180001" level="8" frequency="2" timeframe="120">
+    <if_group>windows</if_group>
+    <match>bitsadmin.exe</match>
+    <match type="pcre2">(?i)/transfer.*/download</match>
+    <description>Caldera-validated: Suspicious BITS download on $(win.system.computer)</description>
+    <mitre>
+      <id>T1197</id>
+    </mitre>
+    <group>attack_stage_execution,</group>
+  </rule>
+
+  <!-- INC-2026-003: T1040 Network Sniffing -->
+  <rule id="180002" level="8">
+    <if_group>windows</if_group>
+    <match type="pcre2">(?i)(tshark|wireshark|windump)</match>
+    <description>Network sniffing tool execution on $(win.system.computer)</description>
+    <mitre>
+      <id>T1040</id>
+    </mitre>
+  </rule>
+
+  <!-- INC-2026-003: T1021.001 RDP Port Change -->
+  <rule id="180003" level="10">
+    <if_group>windows</if_group>
+    <field name="win.eventdata.commandline" type="pcre2">(?i)reg\s+add.*Terminal Server.*RDP-Tcp.*PortNumber</field>
+    <description>RDP port modification detected on $(win.system.computer)</description>
+    <mitre>
+      <id>T1021.001</id>
+    </mitre>
+    <group>attack_stage_lateral_movement,</group>
+  </rule>
+
+  <!-- INC-2026-002: T1053.003 Cron abuse (Linux) -->
+  <rule id="180010" level="8">
+    <if_sid>2832</if_sid>
+    <match type="pcre2">(?i)(curl|wget).*:8888|caldera</match>
+    <description>Suspicious cron entry referencing external C2 pattern on $(hostname)</description>
+    <mitre>
+      <id>T1053.003</id>
+    </mitre>
+  </rule>
+
+  <!-- Sandcat agent indicator (lab only) -->
+  <rule id="180020" level="12">
+    <if_group>windows,linux</if_group>
+    <match type="pcre2">(?i)sandcat|caldera.*-server</match>
+    <description>Caldera sandcat agent activity detected on $(hostname)</description>
+    <mitre>
+      <id>T1071.001</id>
+    </mitre>
+    <group>attack_stage_command_and_control,</group>
+  </rule>
+
+</group>

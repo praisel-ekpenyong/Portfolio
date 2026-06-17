@@ -1,0 +1,11 @@
+# T1197 — Suspicious BITS Admin Transfer (Caldera: T1-Windows-Download-Exec)
+# MITRE: https://attack.mitre.org/techniques/T1197/
+# Incident: INC-2026-001
+
+index=sysmon EventCode=1
+| search Image="*\\bitsadmin.exe" CommandLine="*transfer*" CommandLine="*download*"
+| eval mitre_technique="T1197"
+| eval severity="high"
+| table _time host User Image CommandLine ParentImage ParentCommandLine mitre_technique severity
+| where NOT match(ParentImage, "(?i)\\\\(ccmexec|msiexec|svchost)\\.exe")
+# Tune: add approved parent processes to exclusion lookup table

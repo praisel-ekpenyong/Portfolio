@@ -1,0 +1,10 @@
+# T1136.001 — Local Linux Account Creation (Caldera: T1-Linux-Persistence)
+# Incident: INC-2026-002
+
+index=linux (sourcetype=linux_secure OR sourcetype=auditd)
+| search "useradd" OR "new user" OR exe="/usr/sbin/useradd"
+| rex field=_raw "new user: name=(?<created_user>\S+)"
+| lookup asset_inventory hostname AS host OUTPUT criticality owner
+| eval mitre_technique="T1136.001"
+| where NOT match(created_user, "^(svc_|ansible_|salt_)")
+| table _time host created_user criticality owner mitre_technique _raw

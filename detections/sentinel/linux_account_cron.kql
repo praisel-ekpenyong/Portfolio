@@ -1,0 +1,17 @@
+// Linux account + cron persistence (Caldera T1-Linux-Persistence)
+// Requires Syslog or AMA custom table forwarding from SRV-LNX-01
+
+let timeframe = 1h;
+let suspicious_users = dynamic(["caldera_svc", "temp_admin", "backup2"]);
+Syslog
+| where TimeGenerated > ago(timeframe)
+| where Computer has "SRV-LNX"
+| where SyslogMessage has_any ("useradd", "crontab", "CRON")
+| extend MITRE_Technique = case(
+    SyslogMessage has "useradd", "T1136.001",
+    SyslogMessage has "crontab", "T1053.003",
+    "T1053.003")
+| extend ExtractedUser = extract(@"name=(\S+)", 1, SyslogMessage)
+| where ExtractedUser in (suspicious_users) or SyslogMessage has "8888"
+| project TimeGenerated, Computer, SyslogMessage, ExtractedUser, MITRE_Technique
+| order by TimeGenerated asc

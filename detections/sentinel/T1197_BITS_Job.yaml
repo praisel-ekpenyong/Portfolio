@@ -1,0 +1,43 @@
+# Microsoft Sentinel Analytics Rule
+# Caldera profile: T1-Windows-Download-Exec
+
+id: 7f3a2b1c-9e8d-4a6b-c5d4-3e2f1a0b9c8d
+name: Suspicious BITS Transfer - Caldera Validated
+description: Detects bitsadmin.exe used to download files — matches INC-2026-001
+severity: High
+status: Enabled
+requiredDataConnectors:
+  - connectorId: MicrosoftThreatProtection
+    dataTypes:
+      - DeviceProcessEvents
+query: |
+  DeviceProcessEvents
+  | where Timestamp > ago(1h)
+  | where FileName =~ "bitsadmin.exe"
+  | where ProcessCommandLine has_all ("transfer", "download")
+  | extend MITRE_Technique = "T1197"
+  | extend HostCustomLabel = DeviceName
+  | project Timestamp, DeviceName, AccountName, FileName,
+            ProcessCommandLine, InitiatingProcessFileName, MITRE_Technique
+  | where InitiatingProcessFileName !in ("svchost.exe", "ccmexec.exe")
+entityMappings:
+  - entityType: Host
+    fieldMappings:
+      - identifier: HostName
+        columnName: DeviceName
+  - entityType: Account
+    fieldMappings:
+      - identifier: Name
+        columnName: AccountName
+tactics:
+  - DefenseEvasion
+  - CommandAndControl
+techniques:
+  - T1197
+incidentConfiguration:
+  createIncident: true
+  groupingConfiguration:
+    enabled: true
+    matchingMethod: Selected
+    groupByEntities:
+      - Host

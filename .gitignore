@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+
+# Generated reports (re-run scripts locally)
+scripts/enrichment_report.json
+*.csv
+caldera_timeline.csv
+
+# Secrets — never commit API keys
+.env.local
+secrets.txt
+*apikey*
+*api_key*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Caldera exports (may contain lab-sensitive data)
+operation_report.json
+**/operation_*.json
+
+# PCAP binaries
+*.pcap
+*.pcapng
