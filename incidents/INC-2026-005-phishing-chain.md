@@ -139,10 +139,6 @@ DeviceProcessEvents
 | Microsoft Defender | `artifacts/screenshots/defender-inc005.png` |
 | osTicket | `artifacts/screenshots/osticket-48340.png` |
 
-Regenerate: `python scripts/render_screenshots.py`
-
-> UI captures are lab reconstructions aligned to JSON/log artifacts — not production tenant exports.
-
 ---
 
 ## 11. Analyst Notes

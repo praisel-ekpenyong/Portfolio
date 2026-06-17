@@ -184,10 +184,6 @@ DeviceProcessEvents
 | Sysmon (Event Viewer) | `artifacts/screenshots/sysmon-inc001.png` |
 | IOC enrichment | `artifacts/screenshots/ioc-enrichment.png` |
 
-Regenerate: `python scripts/render_screenshots.py`
-
-> UI captures are lab reconstructions aligned to JSON/log artifacts — not production tenant exports.
-
 ---
 
 ## 12. Analyst Notes

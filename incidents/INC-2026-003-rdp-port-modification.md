@@ -156,10 +156,6 @@ index=sysmon host=WKSTN-099 (EventCode=1 OR EventCode=13)
 | Microsoft Sentinel | `artifacts/screenshots/sentinel-inc003.png` |
 | osTicket | `artifacts/screenshots/osticket-48318.png` |
 
-Regenerate: `python scripts/render_screenshots.py`
-
-> UI captures are lab reconstructions aligned to log artifacts — not production tenant exports.
-
 ---
 
 ## 11. Tier 1 Learning Outcomes

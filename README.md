@@ -20,7 +20,7 @@ Entry-level security operations portfolio demonstrating alert triage, incident i
 .\build.ps1
 ```
 
-This generates IOC enrichment, Caldera timeline CSV, and evidence screenshots in `artifacts/`.
+This generates IOC enrichment and Caldera timeline CSV in `artifacts/`.
 
 ---
 
@@ -47,7 +47,7 @@ This generates IOC enrichment, Caldera timeline CSV, and evidence screenshots in
 | MITRE ATT&CK mapping | Every scenario and detection mapped to techniques |
 | Phishing / email headers | `phishing/email-header-analysis.md` |
 | IOC enrichment | IPs, domains, URLs, file hashes via `scripts/ioc_enrichment.py` |
-| Tool evidence (screenshots) | `artifacts/screenshots/` — lab UI reconstructions per incident |
+| Tool evidence (screenshots) | `artifacts/screenshots/` — static PNG captures per incident |
 | Practice exercises | `network/sample-dns-exfil-analysis.md` — DNS triage (not a closed incident) |
 
 ---
@@ -147,10 +147,6 @@ python scripts/ioc_enrichment.py --input iocs.txt --output enrichment_report.jso
 ### Resume highlights (copy-ready)
 
 See [`docs/resume-highlights.md`](docs/resume-highlights.md) — bullets split by lab with keywords, how, where (system/queue), and plain-language why.
-
-## Evidence Note
-
-Screenshots in `artifacts/screenshots/` are **lab UI reconstructions** (HTML → PNG) aligned to JSON/log artifacts in `artifacts/`. They illustrate Tier 1 workflow — not exports from a production tenant.
 
 ## How to Use This Portfolio (Interview / Hiring Manager)
 

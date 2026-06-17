@@ -201,10 +201,6 @@ index=wineventlog EventCode=4625 OR EventCode=4624
 | Microsoft Sentinel | `artifacts/screenshots/sentinel-inc002.png` |
 | osTicket | `artifacts/screenshots/osticket-48305.png` |
 
-Regenerate: `python scripts/render_screenshots.py`
-
-> UI captures are lab reconstructions aligned to log artifacts — not production tenant exports.
-
 ---
 
 ## 12. Analyst Notes

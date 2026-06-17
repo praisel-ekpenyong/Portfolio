@@ -124,8 +124,6 @@ Detection tuning request filed: exclude first 24h post geo-block change window.
 | Microsoft Sentinel | `artifacts/screenshots/sentinel-inc004.png` |
 | osTicket | `artifacts/screenshots/osticket-48322.png` |
 
-Regenerate: `python scripts/render_screenshots.py`
-
 ---
 
 ## 9. Contrast with Identity Scenarios
