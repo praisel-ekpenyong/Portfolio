@@ -10,6 +10,7 @@
 | **Caldera Operation** | `2026-06-17-INC001-BITS-LAB` |
 | **MITRE ATT&CK** | T1197 (BITS Jobs), T1105 (Ingress Tool Transfer), T1059.003 (Windows Command Shell) |
 | **Analyst** | Praisel Ekpenyong |
+| **Lab Environment** | Hybrid — Lab 1 (Wazuh/Sysmon) + Lab 2 (Defender/Sentinel) |
 
 ---
 

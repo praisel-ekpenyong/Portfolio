@@ -10,6 +10,7 @@
 | **Caldera Operation** | `2026-06-19-LATERAL-LAB` |
 | **MITRE ATT&CK** | T1040, T1021.001 |
 | **Analyst** | Praisel Ekpenyong |
+| **Lab Environment** | Hybrid — Lab 1 (Splunk/Wireshark/pfSense) + Lab 2 (Defender) |
 
 ---
 

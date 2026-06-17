@@ -230,6 +230,9 @@ section h2 {
 .tag-p5 { background: rgba(52, 211, 153, 0.15); color: var(--ok); }
 .tag-mitre { background: rgba(59, 130, 246, 0.15); color: var(--accent2); }
 .tag-caldera { background: rgba(34, 211, 238, 0.12); color: var(--accent); }
+.tag-lab1 { background: rgba(167, 139, 250, 0.15); color: #a78bfa; }
+.tag-lab2 { background: rgba(96, 165, 250, 0.15); color: #60a5fa; }
+.tag-hybrid { background: rgba(251, 191, 36, 0.12); color: var(--warn); }
 
 .card-link {
   font-size: 0.85rem;

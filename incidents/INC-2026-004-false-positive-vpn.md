@@ -10,6 +10,7 @@
 | **Caldera** | N/A — organic noise (not emulation) |
 | **MITRE (ruled out)** | T1110.001 Brute Force |
 | **Analyst** | Praisel Ekpenyong |
+| **Lab Environment** | Lab 2 — Cloud SOC (`pe-soc-lab` / Sentinel) |
 
 ---
 

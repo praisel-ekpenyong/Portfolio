@@ -6,30 +6,43 @@ Copy sections below into resume, LinkedIn About, or application cover letters.
 
 ## Profile Summary (2–3 sentences)
 
-SOC Analyst L1 with Google Cybersecurity Certificate, CompTIA Security+, and Microsoft SC-200. Hands-on home lab experience in alert triage, incident documentation, and detection engineering across Wazuh, Splunk, and Microsoft Sentinel. Validates detections using Apache Caldera adversary emulation and MITRE ATT&CK mapping.
+SOC Analyst L1 with Google Cybersecurity Certificate, CompTIA Security+, and Microsoft SC-200. Operates two practice environments — an on-premises endpoint SOC (Wazuh, Splunk, AD, Linux) and a Microsoft cloud SOC (Sentinel, Defender, Entra ID). Validates detections with Apache Caldera adversary emulation and full Tier 1 documentation.
 
 ---
 
 ## Resume Bullets
 
-**SOC Analyst L1 Portfolio | Home Lab**  
+Use format: **keywords → how → where (system/product/queue) → plain why**
+
+### Lab 1 — On-Premises SOC (`corp.lab.local`)
+
+**SOC Analyst L1 · On-Premises Security Operations**  
 *2025 – Present*
 
-- Investigated and documented **5 security incidents** with production-style records including UTC timelines, IOC tables, evidence excerpts, and escalation rationale (4 true positives, 1 false positive)
-- Authored **10+ detection rules** in Wazuh XML, Splunk SPL, and Sentinel KQL covering T1197, T1136, T1040, T1021, and T1566 techniques
-- Executed **Apache Caldera** adversary profiles against Windows and Linux endpoints; correlated emulation timestamps with SIEM alerts to prove detection efficacy
-- Built **Python IOC enrichment** and **PowerShell triage** scripts for IP, domain, URL, and hash analysis during Tier 1 investigations
-- Conducted **phishing triage** via email authentication analysis (SPF, DKIM, DMARC) and cross-correlated user reports with EDR telemetry
-- Performed **PCAP and DNS analysis** in Wireshark for network sniffing and exfiltration-pattern identification
-- Applied **Microsoft Defender for Endpoint** containment (host isolation) and **Entra ID** risky sign-in correlation per SC-200 workflows
+- Used **Wazuh** and **Sysmon** to triage process alerts on the **Windows endpoint fleet** — so bad downloads could be caught early and the right host could be flagged fast.
+- Followed **playbooks** and **SOPs** in the **Tier 1 ticket queue**, logging each step in Jira-style tickets — so the next analyst on shift could pick up the case without starting over.
+- Ran **MITRE ATT&CK** tests with **Apache Caldera** against **Linux and Windows servers** and wrote up five full incident reports — so the team could trust alerts before a real attacker showed up.
+- Used **Splunk** and **Wireshark** to trace **RDP and network traffic** on the **finance workstation segment** — so sneaky lateral moves could be spotted and sent to the IR team with clear proof.
+- Built **Python** and **PowerShell** scripts in the **IOC enrichment workflow** to check bad IPs, domains, and file hashes — so triage decisions could be made faster on busy shifts.
+
+### Lab 2 — Cloud Security Operations (`pe-soc-lab` tenant)
+
+**SOC Analyst L1 · Microsoft Cloud Security Operations**  
+*2025 – Present*
+
+- Used **Microsoft Sentinel** and **KQL** to investigate alerts in the **Sentinel incident queue** — so real threats could be separated from noise before they spread to other clients.
+- Used **Microsoft Defender** to **isolate** risky hosts in the **endpoint protection console** and wrote clear **escalation** notes for Tier 2 — so damage could be stopped fast and senior analysts had what they needed.
+- Checked **Entra ID sign-in logs** with **Sentinel** during identity alerts in the **Azure AD tenant** — so stolen or risky logins could be caught before more systems were hit.
+- Reviewed **phishing** emails and matched them to **Defender** alerts on the **user mailbox and endpoint layer** — so fake messages could be blocked before more users clicked.
+- Closed a **false positive** VPN alert in **Sentinel** by matching it to a **change ticket** on the **firewall log source** — so the team did not waste night-shift time on a policy change that looked like an attack.
 
 ---
 
 ## LinkedIn Headline Options
 
-1. `SOC Analyst L1 | Security+ · SC-200 · Google Cybersecurity | SIEM · Incident Response · Caldera Lab`
-2. `Aspiring Security Operations Analyst | Sentinel · Splunk · Wazuh | MITRE ATT&CK`
-3. `Tier 1 SOC Analyst | Detection Engineering · Alert Triage · Apache Caldera Emulation`
+1. `SOC Analyst L1 | Security+ · SC-200 | On-Prem SIEM · Sentinel · Defender · Caldera Lab`
+2. `Tier 1 SOC Analyst | Wazuh · Splunk · Microsoft Sentinel · Incident Response`
+3. `Security Operations Analyst | Endpoint & Cloud SOC | MITRE ATT&CK`
 
 ---
 
@@ -38,14 +51,15 @@ SOC Analyst L1 with Google Cybersecurity Certificate, CompTIA Security+, and Mic
 | Item | Link / Description |
 |------|-------------------|
 | GitHub Profile | `https://github.com/praisel-ekpenyong` |
-| Featured Incident | INC-2026-001 — BITS download triage & containment (local portfolio) |
+| Featured Incident | INC-2026-001 — BITS download (Wazuh + Defender, 13 min containment) |
+| Lab split | Lab 1 on-prem · Lab 2 Sentinel/Defender/Entra |
 | Certifications | Security+, SC-200, Google Cybersecurity Certificate |
 
 ---
 
 ## Skills List (ATS-friendly)
 
-`SIEM` · `Splunk` · `Microsoft Sentinel` · `KQL` · `Wazuh` · `Incident Response` · `Alert Triage` · `MITRE ATT&CK` · `IOC Enrichment` · `Sysmon` · `Windows Event Logs` · `Linux Forensics` · `Wireshark` · `PCAP Analysis` · `DNS Analysis` · `Phishing Analysis` · `Microsoft Defender for Endpoint` · `Entra ID` · `Azure` · `PowerShell` · `Python` · `Apache Caldera` · `Documentation` · `Ticketing`
+`SIEM` · `Splunk` · `Microsoft Sentinel` · `KQL` · `Wazuh` · `Incident Response` · `Alert Triage` · `MITRE ATT&CK` · `IOC Enrichment` · `Sysmon` · `Windows Event Logs` · `Linux Forensics` · `Active Directory` · `Wireshark` · `PCAP Analysis` · `DNS Analysis` · `Phishing Analysis` · `Microsoft Defender for Endpoint` · `Entra ID` · `Azure` · `PowerShell` · `Python` · `Apache Caldera` · `Documentation` · `Ticketing`
 
 ---
 

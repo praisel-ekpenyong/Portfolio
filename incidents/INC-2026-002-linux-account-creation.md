@@ -10,6 +10,7 @@
 | **Caldera Operation** | `2026-06-18-LNX-PERSIST-LAB` |
 | **MITRE ATT&CK** | T1136.001, T1053.003, T1531 (cleanup) |
 | **Analyst** | Praisel Ekpenyong |
+| **Lab Environment** | Lab 1 — On-Premises SOC (`corp.lab.local`) |
 
 ---
 

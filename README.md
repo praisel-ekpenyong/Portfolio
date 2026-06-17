@@ -10,7 +10,7 @@
 
 **Certifications:** Google Cybersecurity Certificate · CompTIA Security+ · Microsoft SC-200 (Security Operations Analyst)
 
-Entry-level security operations portfolio demonstrating alert triage, incident investigation, documentation, and detection engineering. **All attack simulations are executed with [Apache Caldera](https://caldera.apache.org/)** against a controlled home lab environment.
+Entry-level security operations portfolio demonstrating alert triage, incident investigation, documentation, and detection engineering across **two operational labs** — on-premises endpoint SOC and Microsoft cloud SOC. **All attack simulations are executed with [Apache Caldera](https://caldera.apache.org/)** against controlled environments I own and operate.
 
 > **Highlight incident for interviews:** [INC-2026-001 — BITS job download](incidents/INC-2026-001-bits-job-download.md) (detection → containment in 13 minutes)
 
@@ -25,6 +25,11 @@ This generates artifacts (IOC enrichment, Caldera timeline) and opens **`portfol
 ---
 
 ## Skills Demonstrated
+
+| Lab | What I Operate |
+|-----|----------------|
+| **Lab 1 — On-Prem** | Wazuh, Splunk, Sysmon, AD (`corp.lab.local`), Linux, pfSense, Wireshark |
+| **Lab 2 — Cloud** | Sentinel, Defender, Entra ID (`pe-soc-lab` tenant), Log Analytics, KQL |
 
 | Domain | Evidence in This Repo |
 |--------|----------------------|
@@ -47,39 +52,41 @@ This generates artifacts (IOC enrichment, Caldera timeline) and opens **`portfol
 
 ## Lab Architecture
 
+Two environments, one workflow — the same setup many Alberta MSSPs run.
+
+### Lab 1 — On-Premises SOC (`corp.lab.local`)
+
 ```
-                    ┌─────────────────────────────────────┐
-                    │         Apache Caldera C2           │
-                    │    (Adversary Emulation Server)    │
-                    └──────────────┬──────────────────────┘
-                                   │ sandcat agents
-          ┌────────────────────────┼────────────────────────┐
-          ▼                        ▼                        ▼
-   ┌──────────────┐        ┌──────────────┐        ┌──────────────┐
-   │ Win10 Endpoint│        │ Ubuntu Server │        │  DC / Entra  │
-   │ Sysmon + MDE  │        │ auth/syslog   │        │  AD + Azure  │
-   └──────┬───────┘        └──────┬───────┘        └──────┬───────┘
-          │                       │                       │
-          └───────────────────────┼───────────────────────┘
-                                  ▼
-                    ┌─────────────────────────────────────┐
-                    │   SIEM Layer (pick one or more)     │
-                    │  Wazuh │ Splunk │ Microsoft Sentinel│
-                    └─────────────────────────────────────┘
+Caldera C2 ──► Win10 / Linux / AD (corp.lab.local)
+                    │
+                    ▼
+         Wazuh alert queue │ Splunk │ pfSense VPN/firewall logs
 ```
 
-Full topology, IP plan, and agent enrollment: [`docs/lab-architecture.md`](docs/lab-architecture.md)
+**Covers:** endpoint triage, Linux forensics, AD logon events, PCAP/firewall analysis.
+
+### Lab 2 — Cloud Security Operations (`pe-soc-lab` tenant)
+
+```
+Lab 1 hosts ──► AMA + Defender ──► Log Analytics (law-pe-soc-prod)
+Entra ID      ──► Sign-in connector ──► Microsoft Sentinel incident queue
+```
+
+**Covers:** KQL investigation, Defender isolation, Entra risky sign-in correlation, cloud-side false-positive handling.
+
+Full topology, IP plan, connectors, and agent enrollment: [`docs/lab-architecture.md`](docs/lab-architecture.md)
 
 ---
 
 ## Caldera-Driven Scenarios
 
-| # | Scenario | Caldera Profile | Primary MITRE Techniques | Incident Report |
-|---|----------|-----------------|--------------------------|-----------------|
-| 01 | Windows download & execution | `T1-Windows-Download-Exec` | T1197, T1105 | [INC-2026-001](incidents/INC-2026-001-bits-job-download.md) |
-| 02 | Linux persistence & account abuse | `T1-Linux-Persistence` | T1136.001, T1053.003, T1531 | [INC-2026-002](incidents/INC-2026-002-linux-account-creation.md) |
-| 03 | Lateral movement & RDP abuse | `T1-Windows-Lateral` | T1021.001, T1040 | [INC-2026-003](incidents/INC-2026-003-rdp-port-modification.md) |
-| 04 | Phishing → endpoint compromise chain | `T1-Phish-to-Host` | T1566.001, T1204.002, T1059 | [phishing/sample-phishing-incident.md](phishing/sample-phishing-incident.md) |
+| # | Scenario | Lab | Caldera Profile | Incident Report |
+|---|----------|-----|-----------------|-----------------|
+| 01 | Windows download & execution | Hybrid | `T1-Windows-Download-Exec` | [INC-2026-001](incidents/INC-2026-001-bits-job-download.md) |
+| 02 | Linux persistence & account abuse | Lab 1 | `T1-Linux-Persistence` | [INC-2026-002](incidents/INC-2026-002-linux-account-creation.md) |
+| 03 | Lateral movement & RDP abuse | Hybrid | `T1-Windows-Lateral` | [INC-2026-003](incidents/INC-2026-003-rdp-port-modification.md) |
+| 04 | VPN auth failure storm (no Caldera) | Lab 2 | — | [INC-2026-004](incidents/INC-2026-004-false-positive-vpn.md) |
+| 05 | Phishing → endpoint compromise chain | Lab 2 | `T1-Phish-to-Host` | [phishing/sample-phishing-incident.md](phishing/sample-phishing-incident.md) |
 
 Caldera setup and operation steps: [`caldera/operations-runbook.md`](caldera/operations-runbook.md)
 
@@ -128,19 +135,16 @@ python scripts/ioc_enrichment.py --input iocs.txt --output enrichment_report.jso
 
 **Praisel Ekpenyong** is an entry-level SOC Analyst building practical, job-ready skills through certification-backed training and hands-on home lab work. This repository documents end-to-end Tier 1 workflows — not just tools listed on a resume.
 
-**Lab environment:** Isolated virtual lab running Apache Caldera (adversary emulation), Wazuh, Splunk, and Microsoft Sentinel with Entra ID integration. Scenarios cover Windows and Linux endpoints, Active Directory, firewall/IDS logs, and Microsoft Defender for Endpoint.
+**Lab environments:**
+
+- **Lab 1 (on-prem):** `corp.lab.local` — Wazuh, Splunk, Sysmon, AD, Linux, pfSense
+- **Lab 2 (cloud):** `pe-soc-lab` tenant — Sentinel, Defender for Endpoint, Entra ID, Log Analytics
 
 **Focus areas aligned to SC-200 / Security+:** KQL analytics, alert triage, incident documentation, MITRE ATT&CK mapping, phishing investigation, and IOC enrichment.
 
 ### Resume highlights (copy-ready)
 
-- Documented **5 security incidents** (4 true positives, 1 false positive) with full IR lifecycle: detection, validation, enrichment, containment, eradication, recovery, and escalation
-- Built **cross-platform detections** (Wazuh, Splunk SPL, Sentinel KQL) mapped to MITRE ATT&CK, validated via **Apache Caldera** adversary emulation
-- Developed **Python and PowerShell automation** for IOC enrichment and endpoint triage, reducing initial investigation setup time
-- Performed **network and email forensics** including Wireshark PCAP review, DNS anomaly analysis, and SPF/DKIM/DMARC header investigation
-- Demonstrated **operational maturity** through structured ticketing, escalation handoffs, and false-positive analysis tied to change management
-
-Full bullets with metrics: [`docs/resume-highlights.md`](docs/resume-highlights.md)
+See [`docs/resume-highlights.md`](docs/resume-highlights.md) — bullets split by lab with keywords, how, where (system/queue), and plain-language why.
 
 ## How to Use This Portfolio (Interview / Hiring Manager)
 

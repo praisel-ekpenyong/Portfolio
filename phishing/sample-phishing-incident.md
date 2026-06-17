@@ -9,6 +9,7 @@
 | **Caldera Profile** | T1-Phish-to-Host |
 | **Related** | Email analysis: `email-header-analysis.md` |
 | **Analyst** | Praisel Ekpenyong |
+| **Lab Environment** | Lab 2 — Cloud SOC (Sentinel, Defender, Entra ID) |
 
 ---
 
