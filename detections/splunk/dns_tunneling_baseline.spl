@@ -1,5 +1,5 @@
 # DNS anomaly — long subdomain labels (potential tunneling / C2)
-# Supports INC-2026-003 network analysis module
+# Supports supplemental RDP/PCAP module (network/supplemental-rdp-lateral-case.md)
 
 index=dns OR index=sysmon EventCode=22
 | eval query=coalesce(query, QueryName)

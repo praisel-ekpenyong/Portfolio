@@ -1,0 +1,9 @@
+// Scheduled task persistence — INC-2026-003
+// MITRE: T1053.005
+
+DeviceProcessEvents
+| where Timestamp > ago(1h)
+| where ProcessCommandLine has_any ("schtasks", "Register-ScheduledTask")
+| where ProcessCommandLine has "ChromeUpdate"
+| extend MITRE_Technique = "T1053.005"
+| project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessFileName, MITRE_Technique

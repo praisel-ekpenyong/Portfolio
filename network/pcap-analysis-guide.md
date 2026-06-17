@@ -1,6 +1,8 @@
 # PCAP Analysis Guide (Tier 1)
 
-Walkthrough aligned with **INC-2026-003** (Caldera T1-Windows-Lateral — tshark capture).
+Walkthrough for **supplemental RDP / lateral movement** practice — [`supplemental-rdp-lateral-case.md`](supplemental-rdp-lateral-case.md) (Caldera `T1-Windows-Lateral`, tshark capture on WKSTN-099).
+
+> **Core portfolio INC-2026-003** is scheduled-task persistence on WKSTN-042 — endpoint/Sysmon evidence, not PCAP. Use this guide for the stretch network module only.
 
 ## When Tier 1 Reviews PCAPs
 
@@ -13,8 +15,8 @@ Walkthrough aligned with **INC-2026-003** (Caldera T1-Windows-Lateral — tshark
 
 ### 1. Capture Metadata
 
-| Field | INC-2026-003 Example |
-|-------|----------------------|
+| Field | Supplemental RDP Case Example |
+|-------|-------------------------------|
 | File | `capture.pcapng` |
 | Size | 12 MB |
 | Duration | 120 seconds |
@@ -69,7 +71,7 @@ Use for:
 | Subdomain length | `dns.qry.name` filter > 50 chars |
 | Resolver | Should be internal DC DNS |
 
-**INC-2026-003 result:** Normal AD DNS — no exfil.
+**Supplemental RDP case result:** Normal AD DNS — no exfil.
 
 ### 6. HTTP/HTTPS
 

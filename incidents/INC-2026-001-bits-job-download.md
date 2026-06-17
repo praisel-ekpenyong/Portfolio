@@ -1,8 +1,9 @@
-# INC-2026-001 — Suspicious BITS Job Download (Caldera T1-Windows-Download-Exec)
+# INC-2026-001 — LOLBin Execution: BITS Download (Case #3)
 
 | Field | Value |
 |-------|-------|
 | **Incident ID** | INC-2026-001 |
+| **Portfolio order** | **3 — Endpoint / LOLBin** |
 | **osTicket** | #48291 |
 | **Severity** | P2 — High |
 | **Status** | Closed — True Positive (Lab Emulation) |
@@ -41,6 +42,19 @@ Praisel Ekpenyong (SOC Analyst L1) acknowledged osTicket #48291 within 8 minutes
 | Caldera correlation | Operation `2026-06-17-INC001-BITS-LAB` ability `Download file using BITSAdmin` finished 14:22:06 UTC |
 
 **Determination:** True positive — unauthorized download and execution chain.
+
+### Malicious vs benign comparison
+
+| Attribute | **Suspicious (this case)** | **Benign baseline (WKSTN-099)** |
+|-----------|---------------------------|--------------------------------|
+| Binary | `bitsadmin.exe` LOLBin | `bitsadmin.exe` (same binary) |
+| Parent | `cmd.exe` from user session | `CcmExec.exe` (SCCM) |
+| Command line | `/transfer` to `10.10.30.10:8888` | `/transfer` to `cdn.microsoft.com` |
+| Change ticket | None | CHG-8810 patch window |
+| User | Standard user `jsmith` | SYSTEM deployment context |
+| **Verdict** | **Malicious** | **Expected admin activity — close** |
+
+Tier 1 does not treat every `bitsadmin` or PowerShell alert as malware. This case is suspicious because of **parent, destination, user context, and missing change record**.
 
 ---
 

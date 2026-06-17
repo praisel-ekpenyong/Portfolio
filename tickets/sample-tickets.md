@@ -1,6 +1,7 @@
 # Sample SOC Tickets (osTicket)
 
 osTicket records from the Tier 1 queue — **Department: Security Operations**.  
+Tickets below are in **chronological order**; portfolio **interview order** is INC-005 → 002 → 001 → 003 → 004 (see [`README.md`](../README.md)).  
 **Analyst:** Praisel Ekpenyong · SOC Analyst L1  
 **Contact:** Ekpenyongpraisel@gmail.com · [GitHub](https://github.com/praisel-ekpenyong) · [LinkedIn](https://www.linkedin.com/in/praiselekpenyong)  
 **Certs:** Google Cybersecurity Certificate · Security+ · SC-200
@@ -57,22 +58,28 @@ osTicket records from the Tier 1 queue — **Department: Security Operations**.
 
 ---
 
-## Ticket #48318 — RDP Port Change (INC-2026-003)
+## Ticket #48318 — Scheduled Task Persistence (INC-2026-003)
 
 | Field | Value |
 |-------|-------|
-| **Subject** | [High] Network sniffing and RDP port change on WKSTN-099 |
+| **Subject** | [High] Wazuh 180002 — Suspicious scheduled task ChromeUpdate on WKSTN-042 |
 | **Department** | Security Operations |
 | **Help Topic** | Security Incident |
 | **Priority** | High |
 | **Status** | Closed |
 | **Source** | API (Wazuh webhook) |
+| **Created** | 2026-06-19 16:04 UTC |
+| **Closed** | 2026-06-19 17:15 UTC |
 | **Assigned To** | Praisel Ekpenyong |
 | **Linked Incident** | INC-2026-003 |
 
-**Internal note:** tshark execution and RDP registry modification on WKSTN-099 (finance segment). PCAP and pfSense logs reviewed.
+**Internal note (16:08 UTC):** Wazuh 180002 — task `\ChromeUpdate` runs `update.ps1` from `%LocalAppData%\Temp`. Creator `powershell.exe`, not SCCM. Compared to benign SCCM task on WKSTN-099 (CHG-8810). No matching change ticket.
 
-**Resolution (closed):** No credential exfil in PCAP. RDP port restored. IR engaged per policy; closed after scope check.
+**Internal note (16:15 UTC):** Task disabled. WKSTN-042 isolated via Defender. Escalated to Tier 2.
+
+**Resolution (closed):** True positive (lab emulation). Task deleted, script quarantined. Caldera op stopped. Host de-isolated after clean scan.
+
+**Metrics:** Time to acknowledge — 6 min · Time to contain — 11 min
 
 ---
 

@@ -16,17 +16,19 @@ Profiles used in this portfolio. Create each in Caldera UI: **Campaigns → Adve
 **Group:** blue-team-lab  
 **Planner:** atomic
 
-## T1-Windows-Lateral
+## T1-Scheduled-Task
 
-**Description:** Recon and RDP configuration change. Maps to INC-2026-003.
+**Description:** Masquerading scheduled task persistence. Maps to INC-2026-003.
 
 | Order | Ability | MITRE ID | Expected Alert |
 |-------|---------|----------|----------------|
-| 1 | Network sniffing with tshark | T1040 | Wazuh 180002 |
-| 2 | Modify RDP port via registry | T1021.001 | Wazuh 180003 |
-| 3 | Enumerate domain users (optional) | T1087.002 | Windows 4798/4799 |
+| 1 | Create scheduled task (ChromeUpdate name) | T1053.005 | Wazuh 180002 |
+| 2 | Execute action script from user Temp | T1059.001 | Sysmon EID 1, Defender |
+| 3 | (Cleanup) Delete scheduled task | T1070 | On operation stop |
 
-**Target agent:** WKSTN-099 (Windows)
+**Target agent:** WKSTN-042 (Windows)
+
+> **Supplemental:** Former `T1-Windows-Lateral` (RDP/PCAP) documented in `network/supplemental-rdp-lateral-case.md`.
 
 ## T1-Phish-to-Host
 
@@ -59,8 +61,8 @@ Profiles used in this portfolio. Create each in Caldera UI: **Campaigns → Adve
 | Privilege Escalation | — (lab uses elevated agents) |
 | Defense Evasion | T1197 (BITS) |
 | Credential Access | T1110.003 (INC-2026-002 — lab spray script, not Caldera) |
-| Discovery | T1087.002, T1040 |
-| Lateral Movement | T1021.001 |
-| Collection | T1040 |
+| Persistence | T1053.005 |
+| Discovery | T1087.002 |
+| Lateral Movement | — (supplemental RDP module) |
 | C2 | T1071.001 |
 | Impact | T1531 (cleanup) |

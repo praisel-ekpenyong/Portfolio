@@ -1,5 +1,7 @@
 # Scenario 04 — Phishing to Host (Caldera)
 
+**Portfolio case #1 (anchor)** — [`INC-2026-005`](../../incidents/INC-2026-005-phishing-chain.md)
+
 ## Objective
 
 End-to-end chain: email header analysis → user report → endpoint execution via Caldera.

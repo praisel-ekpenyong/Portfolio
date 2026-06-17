@@ -1,0 +1,29 @@
+# Wazuh logtest — INC-2026-004 tuning validation
+# Command: /var/ossec/bin/wazuh-logtest
+
+## Test 1 — Malicious (should MATCH) — INC-2026-002 spray pattern
+Input: Entra sign-in failure x18 + success for jsmith@corp.lab from 203.0.113.55
+Rule: password_spray_entra (Sentinel analytics — documented separately)
+Result: MATCH — true positive path
+
+## Test 2 — False positive (should NOT match tuned VPN rule) — INC-2026-004
+Input:
+  openvpn: 203.0.113.45 AUTH FAILED username=admin
+  openvpn: 203.0.113.45 AUTH FAILED username=root
+  (47 failures, no valid AD user, post CHG-8821 geo-block)
+
+Original rule vpn_failed_logins.kql: MATCH (47 failures from single IP)
+Tuned rule vpn_failed_logins_tuned.kql: NO MATCH (no valid username)
+
+## Test 3 — Benign SCCM PowerShell (should NOT match rule 180002)
+Input:
+  Jan 19 10:00:01 WKSTN-099 CcmExec.exe: Scheduled task created GoogleUpdateTaskMachineUA
+  CommandLine: C:\Windows\CCM\RemoteUpdate.exe /run
+
+Rule 180002 (scheduled task): NO MATCH (path not AppData\Temp, creator not suspicious)
+
+## Test 4 — Malicious scheduled task (should MATCH) — INC-2026-003
+Input:
+  schtasks /Create /TN ChromeUpdate /TR "powershell.exe -File C:\Users\jsmith\AppData\Local\Temp\update.ps1"
+
+Rule 180002: MATCH level 10 — T1053.005

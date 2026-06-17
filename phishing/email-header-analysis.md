@@ -1,6 +1,8 @@
 # Phishing & Email Header Investigation (Tier 1)
 
-Supports **T1-Phish-to-Host** Caldera chain — user reports email; Caldera executes post-click TTPs on endpoint.
+**Portfolio case #1** — supports [`INC-2026-005`](../incidents/INC-2026-005-phishing-chain.md) and **T1-Phish-to-Host** Caldera chain. User reports email; Caldera executes post-click TTPs on endpoint.
+
+**Sample artifact:** [`artifacts/phishing-invoice.eml`](../artifacts/phishing-invoice.eml)
 
 ## Tier 1 Workflow
 
@@ -19,9 +21,10 @@ User report / mail gateway alert
 | Field | Value |
 |-------|-------|
 | Reported by | jsmith@corp.lab |
-| Subject | URGENT: Invoice Overdue #88421 |
+| Subject | URGENT: Invoice #88421 — password inside email body |
 | Display From | Accounts Payable <payable@vendor-secure.com> |
-| Received | 2026-06-17 13:55 UTC |
+| Attachment | `Invoice_June2026.zip` (password in body) → `Invoice.lnk` |
+| Received | 2026-06-20 13:55 UTC |
 
 ## Header Analysis (Key Lines)
 
@@ -55,18 +58,16 @@ Message-ID: <not-random@DESKTOP-EVIL>
 | Return-Path mismatch | Bounce domain ≠ From domain |
 | Message-ID | Local PC hostname pattern — mass-mail tool |
 
-## URL Extraction
+## Attachment & URL Extraction
 
-Body link (defanged):
+| IOC | Detail |
+|-----|--------|
+| `Invoice_June2026.zip` | Password-protected archive — password in email body (evasion) |
+| `Invoice.lnk` | Shortcut launches obfuscated `powershell.exe -enc ...` |
+| Body link (defanged) | `hxxps://vendor-secure[.]com[.]login-update[.]tk/invoice?id=88421` |
+| Domain `login-update.tk` | Suspicious TLD; credential-harvest pattern |
 
-```
-hxxps://vendor-secure[.]com[.]login-update[.]tk/invoice?id=88421
-```
-
-| IOC | Enrichment |
-|-----|------------|
-| Domain `login-update.tk` | Suspicious TLD |
-| Path `/invoice` | Credential harvest pattern |
+**Tier 1 note:** Gateway may miss ZIP+LNK combo when password is in body. Correlate attachment hash with EDR either way.
 
 ## Mail Gateway vs Client
 
@@ -87,14 +88,24 @@ DeviceNetworkEvents
 | project Timestamp, RemoteUrl, ActionType
 ```
 
+## Staged Conclusions (do not collapse)
+
+| Stage | INC-2026-005 result |
+|-------|---------------------|
+| Email delivered | Yes |
+| Email opened | Yes — user read ZIP password |
+| Attachment executed | Yes — LNK → PowerShell |
+| Credentials submitted | **No** |
+| Compromise | **Contained** — isolated before mailbox rules |
+
 ## Link to Caldera (Post-Click)
 
 After user execution, run Caldera **T1-Phish-to-Host** on WKSTN-042:
 
 | Time | Event |
 |------|-------|
-| 13:58 | User click (proxy log) |
-| 13:59 | PowerShell download cradle (Sysmon) |
+| 13:58 | User opens LNK (Sysmon EID 1) |
+| 13:59 | PowerShell download cradle (Defender) |
 | 14:00 | Caldera ability complete |
 
 Full incident: [`INC-2026-005`](../incidents/INC-2026-005-phishing-chain.md)

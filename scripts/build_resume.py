@@ -156,8 +156,8 @@ def build():
     )
     add_bullet(
         doc,
-        "Reviewed network traffic with Splunk and Wireshark on the finance workstation segment during "
-        "a suspected lateral movement case, so the IR team had clear evidence to act on.",
+        "Compared benign SCCM scheduled tasks to a masquerading ChromeUpdate persistence alert in "
+        "Wazuh and Sysmon on WKSTN-042, so Tier 2 had a clear baseline before escalation.",
     )
     add_bullet(
         doc,

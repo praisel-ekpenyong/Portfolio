@@ -1,8 +1,9 @@
-# INC-2026-002 — Entra ID Password Spray & Risky Sign-in (T1110.003 / T1078)
+# INC-2026-002 — Password Spray & Successful Cloud Sign-in (Case #2)
 
 | Field | Value |
 |-------|-------|
 | **Incident ID** | INC-2026-002 |
+| **Portfolio order** | **2 — Identity** |
 | **osTicket** | #48305 |
 | **Severity** | P2 — High |
 | **Status** | Closed — True Positive (Lab-Controlled Spray) |
@@ -97,6 +98,27 @@ DeviceLogonEvents
 ```
 
 **Result:** Single interactive logon to WKSTN-042 after cloud sign-in — no lateral movement to other hosts.
+
+### Post-authentication investigation (11:10–11:20 UTC)
+
+| Check | Query / source | Result |
+|-------|----------------|--------|
+| MFA method registration | Entra audit: `Add authentication method` | **None** — no attacker MFA enrollment |
+| Mailbox forwarding rules | `Get-InboxRule` / EXO audit | **None added** |
+| OAuth app consent | Entra audit `Consent to application` | **None** |
+| SharePoint mass download | `OfficeActivity` blob download spike | **None** — normal activity only |
+| Unmanaged device sign-in | Conditional Access | **Non-compliant device** — flagged in risky sign-in |
+| Pre vs post-auth window | Timeline | 18 failures (11:02–11:09) → 1 success (11:09:42) → Tier 1 action (11:15) |
+
+```kql
+AuditLogs
+| where TimeGenerated between (datetime(2026-06-18 11:09:00) .. datetime(2026-06-18 11:30:00))
+| where InitiatedBy has "jsmith"
+| where OperationName in ("Add mailbox forwarding rule", "Add member to group", "Consent to application", "Add authentication method")
+| project TimeGenerated, OperationName, Result, InitiatedBy
+```
+
+**Post-auth verdict:** Successful login occurred; **no** mailbox persistence or OAuth abuse before containment.
 
 ### Related Alerts (Last 24 hr)
 

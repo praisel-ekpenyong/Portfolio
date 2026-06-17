@@ -1,5 +1,7 @@
 # Scenario 02 — Entra Password Spray & Risky Sign-in
 
+**Portfolio case #2** — [`INC-2026-002`](../../incidents/INC-2026-002-entra-password-spray.md)
+
 **Praisel Ekpenyong** · Lab 2 only · No Caldera
 
 | Field | Value |

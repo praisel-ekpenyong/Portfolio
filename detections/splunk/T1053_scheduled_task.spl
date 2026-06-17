@@ -1,0 +1,8 @@
+# T1053.005 — Suspicious scheduled task creation
+# Incident: INC-2026-003
+
+index=sysmon (EventCode=1 OR EventCode=11)
+| search CommandLine="*schtasks*" OR CommandLine="*Register-ScheduledTask*" OR TargetFilename="*\\Tasks\\*"
+| search CommandLine="*ChromeUpdate*" OR TargetFilename="*ChromeUpdate*"
+| eval mitre_technique="T1053.005"
+| table _time host User Image CommandLine TargetFilename ParentImage mitre_technique

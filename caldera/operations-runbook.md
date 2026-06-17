@@ -61,15 +61,17 @@ SIEM alerts generated: [IDs]
 Analyst: Praisel Ekpenyong
 ```
 
-## Scenario Execution Order (Recommended Portfolio Demo)
+## Scenario Execution Order (Portfolio Interview Order)
 
 | Day | Operation | Incident Doc | Skill Highlight |
 |-----|-----------|--------------|-----------------|
-| 1 | T1-Windows-Download-Exec | INC-2026-001 | Windows triage, BITS, containment |
-| 2 | Entra password spray (lab script) | INC-2026-002 | Identity triage, session revoke |
-| 3 | T1-Windows-Lateral | INC-2026-003 | Network/PCAP, escalation |
-| 4 | Phishing + T1-Phish-to-Host | phishing sample | Email headers, user report |
-| 5 | VPN FP exercise | INC-2026-004 | False positive discipline |
+| 1 | T1-Phish-to-Host + email triage | INC-2026-005 | Staged conclusions, headers, endpoint link |
+| 2 | Entra password spray (lab script) | INC-2026-002 | Identity triage, post-auth checks |
+| 3 | T1-Windows-Download-Exec | INC-2026-001 | LOLBin, benign vs malicious comparator |
+| 4 | T1-Scheduled-Task | INC-2026-003 | Persistence baseline, task XML |
+| 5 | VPN FP exercise | INC-2026-004 | False positive discipline, rule tuning |
+
+**Supplemental (stretch):** `T1-Windows-Lateral` — see [`network/supplemental-rdp-lateral-case.md`](../network/supplemental-rdp-lateral-case.md).
 
 ## Troubleshooting
 

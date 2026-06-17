@@ -1,36 +1,23 @@
-# Caldera Scenario Index
+# Scenario Index
 
-**Praisel Ekpenyong** · [GitHub](https://github.com/praisel-ekpenyong) · [LinkedIn](https://www.linkedin.com/in/praiselekpenyong)
+Cases are ordered for **portfolio presentation** (interview order), not lab execution order.
 
-Each scenario follows: **Caldera operation → SIEM alert → Tier 1 triage → Incident record**.
+| # | Case | Scenario folder | Incident |
+|---|------|-----------------|----------|
+| 1 | Phishing + endpoint | [04 — Phish to Host](04-caldera-phishing-chain/README.md) | INC-2026-005 |
+| 2 | Entra password spray | [02 — Entra spray](02-entra-password-spray/README.md) | INC-2026-002 |
+| 3 | LOLBin / BITS | [01 — Windows download](01-caldera-windows-download/README.md) | INC-2026-001 |
+| 4 | Scheduled task | [03 — Scheduled task](03-caldera-scheduled-task/README.md) | INC-2026-003 |
+| 5 | False positive | (organic — no Caldera) | INC-2026-004 |
 
-| Scenario | Lab | Caldera Profile | Primary Docs |
-|----------|-----|-----------------|--------------|
-| [01 — Windows BITS Download](01-caldera-windows-download/README.md) | Hybrid | T1-Windows-Download-Exec | INC-2026-001 |
-| [02 — Entra Password Spray](02-entra-password-spray/README.md) | Lab 2 | Lab spray script | INC-2026-002 |
-| [03 — Lateral / RDP](03-caldera-lateral-rdp/README.md) | Hybrid | T1-Windows-Lateral | INC-2026-003 |
-| [04 — Phish to Host](04-caldera-phishing-chain/README.md) | Lab 2 | T1-Phish-to-Host | INC-2026-005 |
+## Non-Caldera
 
-## Lab Assignment
+| Incident | Trigger |
+|----------|---------|
+| INC-2026-002 | Lab spray script — `02-entra-password-spray/spray-simulation.md` |
+| INC-2026-004 | pfSense VPN logs + change ticket CHG-8821 |
 
-| Lab | Environment | Triage consoles |
-|-----|-------------|-----------------|
-| **Lab 1** | `corp.lab.local` on-prem | Wazuh manager, Splunk, pfSense, Wireshark |
-| **Lab 2** | `pe-soc-lab` Azure tenant | Sentinel incident queue, Defender portal, Entra sign-in logs |
+## Supplemental
 
-## Execution Order
-
-1. Confirm both labs are up (`docs/lab-architecture.md`)
-2. Deploy agents (`docs/caldera-setup.md`)
-3. Import Wazuh rules (`detections/wazuh/local_rules.xml`)
-4. Run operation (`caldera/operations-runbook.md`)
-5. Triage using playbook (`docs/soc-playbooks.md`)
-6. Complete incident report (`templates/incident-report.md`)
-7. File osTicket record (`tickets/sample-tickets.md` as reference)
-
-## Non-Caldera Scenarios
-
-| Incident | Lab | Trigger | Tier 1 focus |
-|----------|-----|---------|--------------|
-| INC-2026-002 | Lab 2 | Password spray script | Entra risky sign-in, session revocation |
-| INC-2026-004 | Lab 2 | pfSense VPN logs | False positive, change-ticket correlation |
+- [RDP / PCAP lateral](../network/supplemental-rdp-lateral-case.md) — former INC-003, stretch module
+- [DNS exfil drill](../network/sample-dns-exfil-analysis.md) — practice only

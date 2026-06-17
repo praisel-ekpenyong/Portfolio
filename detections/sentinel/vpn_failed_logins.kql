@@ -1,0 +1,9 @@
+// VPN brute-force — original rule (INC-2026-004 false positive source)
+// MITRE: T1110.001
+
+VPNLogs
+| where TimeGenerated > ago(15m)
+| where Action == "AUTH_FAILED"
+| summarize FailedAttempts = count(), Usernames = make_set(Username) by SourceIP, bin(TimeGenerated, 10m)
+| where FailedAttempts > 30
+| extend MITRE_Technique = "T1110.001"

@@ -17,25 +17,16 @@
     <group>attack_stage_execution,</group>
   </rule>
 
-  <!-- INC-2026-003: T1040 Network Sniffing -->
-  <rule id="180002" level="8">
+  <!-- INC-2026-003: T1053.005 Scheduled Task persistence -->
+  <rule id="180002" level="10">
     <if_group>windows</if_group>
-    <match type="pcre2">(?i)(tshark|wireshark|windump)</match>
-    <description>Network sniffing tool execution on $(win.system.computer)</description>
+    <match type="pcre2">(?i)(schtasks\s.*/Create|Register-ScheduledTask)</match>
+    <match type="pcre2">(?i)ChromeUpdate|AppData\\Local\\Temp</match>
+    <description>Suspicious scheduled task with user-writable action on $(win.system.computer)</description>
     <mitre>
-      <id>T1040</id>
+      <id>T1053.005</id>
     </mitre>
-  </rule>
-
-  <!-- INC-2026-003: T1021.001 RDP Port Change -->
-  <rule id="180003" level="10">
-    <if_group>windows</if_group>
-    <field name="win.eventdata.commandline" type="pcre2">(?i)reg\s+add.*Terminal Server.*RDP-Tcp.*PortNumber</field>
-    <description>RDP port modification detected on $(win.system.computer)</description>
-    <mitre>
-      <id>T1021.001</id>
-    </mitre>
-    <group>attack_stage_lateral_movement,</group>
+    <group>attack_stage_persistence,</group>
   </rule>
 
   <!-- Sandcat agent indicator (lab only) -->

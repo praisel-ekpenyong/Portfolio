@@ -23,8 +23,8 @@ Each bullet includes **what** (2–3 skills/tools), **how**, **where** (queue, c
 
 - Triaged process alerts with **Wazuh** and **Sysmon** on the **Windows endpoint fleet**, catching suspicious downloads early so the team could act on the right host before damage spread.
 - Worked cases through **playbooks** and **SOPs**, logging each step in **osTicket** on the **Tier 1 Security Operations queue** so the next analyst on shift could pick up where I left off.
-- Ran **MITRE ATT&CK** scenarios with **Caldera** and documented **five incident reports** across both labs, helping confirm detections worked before a real attack hit.
-- Traced **RDP** and network traffic in **Splunk** and **Wireshark** on the **finance workstation segment**, giving the IR team clear proof when lateral movement was suspected.
+- Ran **MITRE ATT&CK** scenarios with **Caldera** and documented **five incident reports** in interview order (phishing → identity → LOLBin → persistence → FP tuning), helping confirm detections worked before a real attack hit.
+- Compared **benign SCCM scheduled tasks** to a masquerading **ChromeUpdate** persistence alert in **Wazuh** and **Sysmon** on **WKSTN-042**, giving Tier 2 a clear baseline before escalation.
 - Built **Python** and **PowerShell** scripts for **IOC enrichment** in the Tier 1 investigation workflow, cutting manual lookup time during busy alert queues.
 
 ### Lab 2 — Cloud Security Operations (`pe-soc-lab` tenant)
@@ -35,7 +35,7 @@ Each bullet includes **what** (2–3 skills/tools), **how**, **where** (queue, c
 - Investigated alerts with **Sentinel** and **KQL** in the **cloud incident queue**, sorting real threats from noise so client environments stayed protected.
 - Isolated a risky host through **Defender** in the **endpoint protection console**, then **escalated** to Tier 2 with full notes so damage was stopped and seniors got a clean handoff.
 - Triaged **Entra ID** password spray alerts in the **Sentinel incident queue**, revoking sessions and resetting credentials when a **valid user** authenticated from a malicious IP so account takeover was stopped early.
-- Handled **phishing** reports by checking email headers and tying activity to **Defender** alerts on the **mailbox and endpoint layer**, blocking scams before more users clicked.
+- Handled **phishing** reports (anchor case) by checking headers, password-protected **ZIP/LNK** attachments, and staged conclusions, tying execution to **Defender** on **WKSTN-042** before credential theft or mailbox rules.
 - Closed out a **false positive** VPN alert in **Sentinel** by matching it to a **change ticket** on the **firewall log source**, saving the night shift from a needless escalation.
 
 ---
@@ -53,8 +53,9 @@ Each bullet includes **what** (2–3 skills/tools), **how**, **where** (queue, c
 | Item | Link / Description |
 |------|-------------------|
 | Portfolio repo | `https://github.com/praisel-ekpenyong/Portfolio` |
-| Featured Incident | INC-2026-001 — BITS download (13 min containment) |
-| Identity pair | INC-2026-002 (TP spray) vs INC-2026-004 (FP VPN) |
+| Anchor case | INC-2026-005 — Phishing + staged conclusions |
+| Identity pair | INC-2026-002 (TP spray) vs INC-2026-004 (FP VPN + tuning) |
+| Endpoint pair | INC-2026-001 (LOLBin) vs INC-2026-003 (scheduled task baseline) |
 | Lab split | Lab 1 on-prem · Lab 2 Sentinel/Defender/Entra |
 | Certifications | Security+, SC-200, Google Cybersecurity Certificate |
 

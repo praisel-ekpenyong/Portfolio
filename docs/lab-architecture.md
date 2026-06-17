@@ -88,7 +88,7 @@ Internet (simulated) ──► pfSense Firewall ──► 10.10.0.0/24 (DMZ)
 | Incident | Primary Lab 1 sources |
 |----------|----------------------|
 | INC-2026-001 | Wazuh rule 180001, Sysmon on WKSTN-042 |
-| INC-2026-003 | Sysmon, pfSense flows, Wireshark PCAP on WKSTN-099 |
+| INC-2026-003 | Wazuh rule 180002, Sysmon EID 1/11 on WKSTN-042 |
 | INC-2026-004 | pfSense VPN logs (forwarded to Sentinel) |
 
 ---
@@ -135,7 +135,7 @@ Analytics rules and KQL live in `detections/sentinel/`. Examples:
 |----------|----------------------|
 | INC-2026-001 | Defender alert story, Sentinel KQL, host isolation |
 | INC-2026-002 | Sentinel `password_spray_entra`, Entra risky sign-in, session revoke |
-| INC-2026-003 | Defender process chain on WKSTN-099 |
+| INC-2026-003 | Defender persistence alert on WKSTN-042 |
 | INC-2026-004 | Sentinel analytics `Multiple failed VPN logins` |
 | INC-2026-005 | Sentinel + Defender + Entra user context (phishing chain) |
 
@@ -148,13 +148,14 @@ Some cases are intentionally run across both environments to mirror real MSSP wo
 | Incident | Lab 1 signal | Lab 2 signal | Why both |
 |----------|--------------|--------------|----------|
 | INC-2026-001 | Wazuh 180001 fires first | Defender + Sentinel confirm | Prove cross-SIEM correlation on one attack |
-| INC-2026-003 | PCAP + firewall in Splunk | Defender lateral movement alert | Network + endpoint view |
+| INC-2026-003 | Wazuh 180002 + Sysmon task creation | Defender persistence alert | Endpoint + SIEM correlation |
 | INC-2026-005 | User report + email headers | Sentinel PowerShell rule | Email layer + cloud EDR |
 
 ### Practice Modules (No INC Record)
 
 | Module | Location | Purpose |
 |--------|----------|---------|
+| RDP / PCAP lateral (stretch) | `network/supplemental-rdp-lateral-case.md` | Network + endpoint correlation drill |
 | DNS exfil drill | `network/sample-dns-exfil-analysis.md` | Splunk/Wireshark tuning exercise |
 
 ---

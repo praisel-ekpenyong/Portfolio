@@ -1,8 +1,9 @@
-# INC-2026-004 — False Positive: VPN Concentrator Auth Failure Storm
+# INC-2026-004 — False Positive & Detection Tuning (Case #5)
 
 | Field | Value |
 |-------|-------|
 | **Incident ID** | INC-2026-004 |
+| **Portfolio order** | **5 — FP discipline** |
 | **osTicket** | #48322 |
 | **Severity** | Initial P3 → Downgraded to P5 |
 | **Status** | Closed — False Positive |
@@ -126,7 +127,36 @@ Detection tuning request filed: exclude first 24h post geo-block change window.
 
 ---
 
-## 9. Contrast with Identity Scenarios
+## 9. Detection Tuning Artifacts
+
+### Original rule
+
+`detections/sentinel/vpn_failed_logins.kql` — fires on `>30` failures from single IP in 10 minutes (no username validity check).
+
+### Tuned rule
+
+`detections/sentinel/vpn_failed_logins_tuned.kql` — requires **valid AD username** and `>10` failures; change-window suppression linked to ticket tag `vpn-policy`.
+
+### Validation (`artifacts/tuning/wazuh-logtest-results.txt`)
+
+| Test | Input | Original | Tuned |
+|------|-------|----------|-------|
+| INC-004 VPN noise | 47 fails, invalid users, post CHG-8821 | **MATCH** | **NO MATCH** |
+| INC-002 spray TP | Valid user + success after failures | N/A (Entra rule) | N/A |
+| INC-003 schtask | `ChromeUpdate` from Temp | N/A | Rule 180002 **MATCH** |
+| SCCM benign task | `CcmExec` + `CCM\RemoteUpdate.exe` | N/A | Rule 180002 **NO MATCH** |
+
+### Residual risk
+
+Tuning reduces geo-block cutover noise. Risk accepted: spray against valid users still caught by `password_spray_entra.kql` (INC-002).
+
+### Linked tuning ticket
+
+osTicket **#48355** — acceptance: no High/Normal VPN tickets during tagged change windows.
+
+---
+
+## 10. Contrast with Identity Scenarios
 
 | Attribute | INC-2026-004 (FP) | INC-2026-002 (TP identity) | INC-2026-001 (TP endpoint) |
 |-----------|-------------------|---------------------------|---------------------------|
