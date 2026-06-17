@@ -14,6 +14,14 @@ Entry-level security operations portfolio demonstrating alert triage, incident i
 
 > **Highlight incident for interviews:** [INC-2026-001 — BITS job download](incidents/INC-2026-001-bits-job-download.md) (detection → containment in 13 minutes)
 
+## Open Portfolio (local)
+
+```powershell
+.\build.ps1
+```
+
+This generates artifacts (IOC enrichment, Caldera timeline) and opens **`portfolio/index.html`** in your browser. No GitHub push required.
+
 ---
 
 ## Skills Demonstrated
@@ -142,22 +150,6 @@ Full bullets with metrics: [`docs/resume-highlights.md`](docs/resume-highlights.
 4. **Show Caldera operation** — prove the alert was triggered by controlled emulation, not fabricated logs.
 5. **Run IOC script** — demonstrate practical enrichment workflow.
 6. **Discuss false positive** (INC-2026-004) — shows maturity beyond "everything is malware."
-
----
-
-## Publish to GitHub
-
-```powershell
-cd C:\Users\USER\Desktop\poert
-git init
-git add .
-git commit -m "SOC Analyst L1 portfolio — Praisel Ekpenyong"
-git branch -M main
-git remote add origin https://github.com/praisel-ekpenyong/soc-analyst-portfolio.git
-git push -u origin main
-```
-
-Create the empty repo `soc-analyst-portfolio` on GitHub first, or rename to match your preference.
 
 ---
 

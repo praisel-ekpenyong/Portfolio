@@ -37,8 +37,8 @@ SOC Analyst L1 with Google Cybersecurity Certificate, CompTIA Security+, and Mic
 
 | Item | Link / Description |
 |------|-------------------|
-| SOC Portfolio Repo | `https://github.com/praisel-ekpenyong/soc-analyst-portfolio` |
-| Featured Incident | INC-2026-001 — BITS download triage & containment |
+| GitHub Profile | `https://github.com/praisel-ekpenyong` |
+| Featured Incident | INC-2026-001 — BITS download triage & containment (local portfolio) |
 | Certifications | Security+, SC-200, Google Cybersecurity Certificate |
 
 ---

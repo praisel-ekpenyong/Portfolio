@@ -1,0 +1,23 @@
+Return-Path: <bounce+xyz@mail.vendor-secure.com>
+Received: from mail-sender-unknown (203.0.113.88 [203.0.113.88])
+	by mx.corp.lab with ESMTPS id abc123
+	for <jsmith@corp.lab>; Mon, 17 Jun 2026 13:55:02 +0000 (UTC)
+Authentication-Results: mx.corp.lab;
+	spf=fail (sender IP 203.0.113.88) smtp.mailfrom=vendor-secure.com;
+	dkim=none;
+	dmarc=fail action=none header.from=vendor-secure.com
+From: Accounts Payable <payable@vendor-secure.com>
+To: jsmith@corp.lab
+Reply-To: attacker-drop@protonmail.com
+Subject: URGENT: Invoice Overdue #88421
+Date: Mon, 17 Jun 2026 13:54:58 +0000
+Message-ID: <not-random@DESKTOP-EVIL>
+MIME-Version: 1.0
+Content-Type: text/html; charset=UTF-8
+
+<html><body>
+<p>Dear Customer,</p>
+<p>Your invoice #88421 is overdue. Please review immediately:</p>
+<p><a href="https://vendor-secure.com.login-update.tk/invoice?id=88421">View Invoice</a></p>
+<p>Accounts Payable</p>
+</body></html>

@@ -5,9 +5,10 @@ __pycache__/
 venv/
 .env
 
-# Generated reports (re-run scripts locally)
+# Generated reports (re-run build.ps1 to regenerate)
 scripts/enrichment_report.json
-*.csv
+artifacts/enrichment_report.json
+artifacts/caldera_timeline_*.csv
 caldera_timeline.csv
 
 # Secrets — never commit API keys

