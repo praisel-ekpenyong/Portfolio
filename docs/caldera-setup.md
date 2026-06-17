@@ -1,6 +1,6 @@
 # Apache Caldera Lab Setup
 
-All portfolio attack simulations run through Caldera. This guide matches the documented incident timelines.
+Caldera drives endpoint scenarios (INC-2026-001, 003, 005). Identity and noise cases (INC-2026-002, 004) use lab scripts or organic telemetry — this guide covers Caldera install and agent deployment.
 
 ## Requirements
 

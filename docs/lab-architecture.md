@@ -195,7 +195,6 @@ Some cases are intentionally run across both environments to mirror real MSSP wo
 | Alert type | First console | Escalation data |
 |------------|---------------|-----------------|
 | Windows malware / process abuse | Wazuh (Lab 1) or Defender (Lab 2) | Sysmon lineage, MDE alert story |
-| Linux account / cron abuse | Wazuh manager (Lab 1) | auth.log, auditd |
 | VPN / perimeter noise | Sentinel (Lab 2) | pfSense logs, change ticket |
 | Identity / sign-in risk | Sentinel + Entra (Lab 2) | Sign-in logs, user risk |
 | Phishing + endpoint follow-on | Email triage → Sentinel (Lab 2) | Defender on affected host |

@@ -59,7 +59,7 @@ Two environments, one workflow — the same setup many Alberta MSSPs run.
 ### Lab 1 — On-Premises SOC (`corp.lab.local`)
 
 ```
-Caldera C2 ──► Win10 / Linux / AD (corp.lab.local)
+Caldera C2 ──► Win10 workstations / AD (corp.lab.local)
                     │
                     ▼
          Wazuh alert queue │ Splunk │ pfSense VPN/firewall logs
@@ -125,7 +125,7 @@ Template: [`templates/incident-report.md`](templates/incident-report.md)
 
 ```powershell
 # Quick IOC enrichment (IPs, domains, URLs, hashes)
-python scripts/ioc_enrichment.py --input iocs.txt --output enrichment_report.json
+python scripts/ioc_enrichment.py --input scripts/sample_iocs.txt --output artifacts/enrichment_report.json
 
 # Tier 1 alert triage helper (pulls host context, recent alerts)
 .\scripts\triage_alert.ps1 -Hostname WKSTN-042 -AlertId ALT-88421

@@ -119,8 +119,13 @@ def build():
     )
     add_bullet(
         doc,
-        "Isolated a risky host with Microsoft Defender for Endpoint in the endpoint protection console "
-        "within 13 minutes, so bad software could not spread to other computers.",
+        "Isolated a compromised workstation through Microsoft Defender for Endpoint within 13 minutes "
+        "during a confirmed execution case, so malware could not spread to other hosts.",
+    )
+    add_bullet(
+        doc,
+        "Triaged Entra ID password spray alerts in Microsoft Sentinel and revoked sessions when a valid "
+        "user authenticated from a malicious IP, so account takeover was stopped before lateral movement.",
     )
     add_bullet(
         doc,
@@ -141,8 +146,8 @@ def build():
     )
     add_bullet(
         doc,
-        "Triaged SIEM alerts with Wazuh on the on-prem alert queue for Windows and Linux endpoints, "
-        "so suspicious downloads and account changes were caught early.",
+        "Triaged SIEM alerts with Wazuh on the on-prem alert queue for Windows endpoints, "
+        "so suspicious downloads and process chains were caught early.",
     )
     add_bullet(
         doc,

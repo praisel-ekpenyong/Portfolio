@@ -35,7 +35,7 @@ Write-Host "Successful auth simulated at $(Get-Date -Format u)"
 
 1. Sentinel incident #2863 (or equivalent) fires within 5 minutes
 2. Entra ID Protection shows risky sign-in for `jsmith@corp.lab`
-3. Complete triage per [`INC-2026-002`](../incidents/INC-2026-002-entra-password-spray.md)
+3. Complete triage per [`INC-2026-002`](../../incidents/INC-2026-002-entra-password-spray.md)
 
 ## Pair With
 

@@ -23,7 +23,7 @@ Each bullet includes **what** (2–3 skills/tools), **how**, **where** (queue, c
 
 - Triaged process alerts with **Wazuh** and **Sysmon** on the **Windows endpoint fleet**, catching suspicious downloads early so the team could act on the right host before damage spread.
 - Worked cases through **playbooks** and **SOPs**, logging each step in **osTicket** on the **Tier 1 Security Operations queue** so the next analyst on shift could pick up where I left off.
-- Ran **MITRE ATT&CK** scenarios with **Caldera** and wrote five **incident reports** for the on-prem SOC team, helping confirm our detections worked before a real attack hit.
+- Ran **MITRE ATT&CK** scenarios with **Caldera** and documented **five incident reports** across both labs, helping confirm detections worked before a real attack hit.
 - Traced **RDP** and network traffic in **Splunk** and **Wireshark** on the **finance workstation segment**, giving the IR team clear proof when lateral movement was suspected.
 - Built **Python** and **PowerShell** scripts for **IOC enrichment** in the Tier 1 investigation workflow, cutting manual lookup time during busy alert queues.
 
@@ -52,7 +52,7 @@ Each bullet includes **what** (2–3 skills/tools), **how**, **where** (queue, c
 
 | Item | Link / Description |
 |------|-------------------|
-| GitHub Profile | `https://github.com/praisel-ekpenyong` |
+| Portfolio repo | `https://github.com/praisel-ekpenyong/Portfolio` |
 | Featured Incident | INC-2026-001 — BITS download (13 min containment) |
 | Identity pair | INC-2026-002 (TP spray) vs INC-2026-004 (FP VPN) |
 | Lab split | Lab 1 on-prem · Lab 2 Sentinel/Defender/Entra |
@@ -79,5 +79,5 @@ Each bullet includes **what** (2–3 skills/tools), **how**, **where** (queue, c
 ## Contact
 
 - **Email:** Ekpenyongpraisel@gmail.com
-- **GitHub:** https://github.com/praisel-ekpenyong
+- **GitHub:** https://github.com/praisel-ekpenyong/Portfolio
 - **LinkedIn:** https://www.linkedin.com/in/praiselekpenyong
