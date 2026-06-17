@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Wazuh — Linux Alert</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Segoe UI", sans-serif; background: #f5f6f8; font-size: 13px; }
+  .app { display: flex; height: 100vh; }
+  .sidebar { width: 220px; background: #002c42; color: #fff; padding-top: 18px; }
+  .sidebar .brand { padding: 0 16px 18px; font-weight: 700; font-size: 18px; }
+  .nav a { display: block; padding: 10px 20px; color: #a8c0d0; text-decoration: none; }
+  .nav a.active { background: #003a56; color: #fff; border-left: 3px solid #00a9e0; }
+  .main { flex: 1; padding: 20px; }
+  .card { background: #fff; border: 1px solid #dde1e6; border-radius: 4px; padding: 16px; }
+  .level { background: #ff6b35; color: #fff; padding: 4px 8px; border-radius: 3px; font-size: 12px; font-weight: 700; display: inline-block; margin-bottom: 10px; }
+  h1 { font-size: 15px; margin-bottom: 12px; }
+  .kv { display: grid; grid-template-columns: 140px 1fr; gap: 6px; font-size: 12px; margin-bottom: 4px; }
+  .kv .k { color: #666; }
+  .kv .v { font-family: Consolas, monospace; }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">Wazuh</div>
+    <nav class="nav"><a href="#">Dashboard</a><a href="#" class="active">Security events</a><a href="#">Agents</a></nav>
+  </aside>
+  <main class="main">
+    <div class="card">
+      <span class="level">Level 10</span>
+      <h1>Rule 5902 — Unauthorized user added to system group</h1>
+      <div class="kv"><span class="k">Time</span><span class="v">2026-06-18 09:14:22 UTC</span></div>
+      <div class="kv"><span class="k">Agent</span><span class="v">wazuh-agent-srv-lnx-01 (10.10.20.15)</span></div>
+      <div class="kv"><span class="k">Host</span><span class="v">SRV-LNX-01</span></div>
+      <div class="kv"><span class="k">MITRE</span><span class="v">T1136.001 — Create Account: Local Account</span></div>
+      <div class="kv"><span class="k">User added</span><span class="v">caldera_svc</span></div>
+      <div class="kv"><span class="k">Related rule</span><span class="v">2832 — Suspicious crontab entry</span></div>
+      <div class="kv"><span class="k">osTicket</span><span class="v">#48305 · INC-2026-002</span></div>
+      <div class="kv"><span class="k">Log</span><span class="v">/var/log/auth.log — useradd caldera_svc uid=1002</span></div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

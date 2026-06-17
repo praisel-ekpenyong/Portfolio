@@ -47,6 +47,7 @@ This generates artifacts (IOC enrichment, Caldera timeline) and opens **`portfol
 | MITRE ATT&CK mapping | Every scenario and detection mapped to techniques |
 | Phishing / email headers | `phishing/email-header-analysis.md` |
 | IOC enrichment | IPs, domains, URLs, file hashes via `scripts/ioc_enrichment.py` |
+| Tool evidence (screenshots) | `artifacts/screenshots/` — Wazuh, Defender, Sentinel, osTicket, Sysmon |
 
 ---
 

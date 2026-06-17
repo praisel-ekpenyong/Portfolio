@@ -173,6 +173,21 @@ DeviceProcessEvents
 
 ---
 
-## 11. Analyst Notes
+## 11. Evidence Screenshots
+
+| Tool | Capture |
+|------|---------|
+| Wazuh | `artifacts/screenshots/wazuh-inc001.png` |
+| Microsoft Defender | `artifacts/screenshots/defender-inc001.png` |
+| Microsoft Sentinel | `artifacts/screenshots/sentinel-inc001.png` |
+| osTicket | `artifacts/screenshots/osticket-48291.png` |
+| Sysmon (Event Viewer) | `artifacts/screenshots/sysmon-inc001.png` |
+| IOC enrichment | `artifacts/screenshots/ioc-enrichment.png` |
+
+Regenerate: `python scripts/render_screenshots.py`
+
+---
+
+## 12. Analyst Notes
 
 This incident was triggered by controlled Caldera emulation to validate Wazuh rule 180001 and Defender correlation. Production analysts would follow identical triage steps minus the Caldera operation ID field.

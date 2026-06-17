@@ -91,5 +91,28 @@ modal?.addEventListener("click", (e) => {
 });
 
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") modal?.classList.remove("open");
+  if (e.key === "Escape") {
+    modal?.classList.remove("open");
+    shotModal?.classList.remove("open");
+  }
+});
+
+const shotModal = document.getElementById("shot-modal");
+const shotFull = document.getElementById("shot-full");
+
+document.querySelectorAll(".shot-thumb").forEach((img) => {
+  img.addEventListener("click", () => {
+    if (!shotModal || !shotFull) return;
+    shotFull.src = img.dataset.shot || img.src;
+    shotFull.alt = img.alt;
+    shotModal.classList.add("open");
+  });
+});
+
+document.querySelectorAll(".shot-close").forEach((btn) => {
+  btn.addEventListener("click", () => shotModal?.classList.remove("open"));
+});
+
+shotModal?.addEventListener("click", (e) => {
+  if (e.target === shotModal) shotModal.classList.remove("open");
 });

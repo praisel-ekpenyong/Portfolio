@@ -23,7 +23,7 @@ if (Test-Path $iocScript) {
 }
 
 # Parse Caldera operation into timeline CSV
-Write-Host "[3/4] Parsing Caldera operation timeline..."
+Write-Host "[3/5] Parsing Caldera operation timeline..."
 $parser = Join-Path $Root "scripts\caldera_log_parser.py"
 $calderaReport = Join-Path $Root "artifacts\caldera-operation-INC001.json"
 $timelineOut = Join-Path $Root "artifacts\caldera_timeline_INC001.csv"
@@ -31,8 +31,19 @@ if ((Test-Path $parser) -and (Test-Path $calderaReport)) {
     python $parser --report $calderaReport --output $timelineOut
 }
 
+# Render tool UI screenshots from HTML mockups
+Write-Host "[4/5] Rendering evidence screenshots..."
+$render = Join-Path $Root "scripts\render_screenshots.py"
+if (Test-Path $render) {
+    try {
+        python $render
+    } catch {
+        Write-Host "  (screenshot render skipped - install playwright: pip install playwright && python -m playwright install chromium)" -ForegroundColor Yellow
+    }
+}
+
 # Open portfolio in default browser
-Write-Host "[4/4] Opening portfolio site..."
+Write-Host "[5/5] Opening portfolio site..."
 $index = Join-Path $Root "portfolio\index.html"
 if (Test-Path $index) {
     Start-Process $index

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>IOC Enrichment</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0c0c0c; font-family: Consolas, "Cascadia Mono", monospace; font-size: 13px; color: #cccccc; padding: 12px; }
+  .title { color: #fff; margin-bottom: 8px; font-size: 12px; }
+  .prompt { color: #4ec9b0; }
+  .cmd { color: #dcdcaa; }
+  .out { line-height: 1.55; white-space: pre-wrap; }
+  .ok { color: #4ec9b0; }
+  .warn { color: #dcdcaa; }
+  .bad { color: #f48771; }
+  .dim { color: #808080; }
+  .bar { background: #1e1e1e; border: 1px solid #333; padding: 14px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<div class="title">Windows PowerShell — Praisel Ekpenyong</div>
+<div class="bar">
+<div class="out"><span class="prompt">PS C:\soc\scripts&gt;</span> <span class="cmd">python ioc_enrichment.py --input sample_iocs.txt --output enrichment_report.json</span>
+
+<span class="dim">[2026-06-17 14:28:01] Loading 6 IOCs from sample_iocs.txt</span>
+<span class="dim">[2026-06-17 14:28:01] Analyst: Praisel Ekpenyong · INC-2026-001 · osTicket #48291</span>
+
+<span class="ok">IP</span>     10.10.30.10          <span class="warn">private range</span>        (ip-api)
+<span class="bad">URL</span>    10.10.30.10:8888/... <span class="bad">SUSPICIOUS</span>           lab C2 pattern
+<span class="bad">URL</span>    .../beacon             <span class="bad">SUSPICIOUS</span>           lab C2 pattern
+<span class="dim">DOMAIN</span> caldera.corp.lab     <span class="dim">NXDOMAIN</span>
+<span class="ok">IP</span>     203.0.113.45         <span class="ok">informational</span>        US · TEST-NET-3
+<span class="dim">HASH</span>   a3f2b8c1d4e5...       <span class="dim">unknown</span>              VT_API_KEY not set
+
+<span class="ok">Done.</span> 6 IOCs processed → enrichment_report.json
+<span class="prompt">PS C:\soc\scripts&gt;</span> <span class="cmd">_</span></div>
+</div>
+</body>
+</html>

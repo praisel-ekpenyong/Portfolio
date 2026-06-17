@@ -234,6 +234,63 @@ section h2 {
 .tag-lab2 { background: rgba(96, 165, 250, 0.15); color: #60a5fa; }
 .tag-hybrid { background: rgba(251, 191, 36, 0.12); color: var(--warn); }
 
+.artifact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.artifact-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.artifact-card:hover {
+  border-color: rgba(34, 211, 238, 0.35);
+  transform: translateY(-2px);
+}
+
+.artifact-card img {
+  width: 100%;
+  display: block;
+  border-bottom: 1px solid var(--border);
+  background: #111;
+  cursor: zoom-in;
+}
+
+.artifact-card .artifact-body {
+  padding: 1rem 1.15rem 1.15rem;
+}
+
+.artifact-card h3 {
+  font-size: 0.95rem;
+  margin-bottom: 0.35rem;
+}
+
+.artifact-card p {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-bottom: 0.6rem;
+}
+
+.artifact-card .links {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.artifact-card .links a {
+  color: var(--accent2);
+}
+
+.artifact-modal img {
+  max-width: 100%;
+  max-height: 85vh;
+  border-radius: 8px;
+}
+
 .card-link {
   font-size: 0.85rem;
   font-weight: 600;
