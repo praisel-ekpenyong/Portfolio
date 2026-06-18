@@ -85,4 +85,4 @@
 ## Contact
 
 Analyst on shift: Praisel Ekpenyong  
-Email: Ekpenyongpraisel@gmail.com
+Email: ekpenyongpraisel@gmail.com

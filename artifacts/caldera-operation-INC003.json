@@ -1,0 +1,44 @@
+{
+  "operation": "2026-06-15-SCHTASK-LAB",
+  "adversary": "T1-Scheduled-Task",
+  "group": "blue-team-lab",
+  "start": "2026-06-15T16:02:00.000Z",
+  "end": "2026-06-15T16:30:00.000Z",
+  "analyst": "Praisel Ekpenyong",
+  "chain": [
+    {
+      "ability_name": "Create scheduled task (ChromeUpdate)",
+      "ability_id": "schtask-create-001",
+      "technique_id": "T1053.005",
+      "host": "WKSTN-042",
+      "paw": "wkstn042-paw",
+      "finish": "2026-06-15T16:04:16.000Z",
+      "status": "success",
+      "output": "SUCCESS: The scheduled task \"ChromeUpdate\" has successfully been created."
+    },
+    {
+      "ability_name": "Execute action script from user Temp",
+      "ability_id": "schtask-exec-002",
+      "technique_id": "T1059.001",
+      "host": "WKSTN-042",
+      "paw": "wkstn042-paw",
+      "finish": "2026-06-15T16:04:22.000Z",
+      "status": "success",
+      "output": "PowerShell script executed from AppData\\Local\\Temp\\update.ps1"
+    },
+    {
+      "ability_name": "Cleanup — delete scheduled task",
+      "ability_id": "schtask-cleanup-003",
+      "technique_id": "",
+      "host": "WKSTN-042",
+      "paw": "wkstn042-paw",
+      "finish": "2026-06-15T16:30:05.000Z",
+      "status": "success",
+      "output": "SUCCESS: The scheduled task \"ChromeUpdate\" was successfully deleted."
+    }
+  ],
+  "siem_alerts": [
+    { "source": "Wazuh", "rule_id": 180002, "time": "2026-06-15T16:04:18.000Z" },
+    { "source": "Microsoft Defender", "alert": "Persistence mechanism: scheduled task with suspicious action", "time": "2026-06-15T16:04:52.000Z" }
+  ]
+}

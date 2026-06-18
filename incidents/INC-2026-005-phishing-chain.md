@@ -8,11 +8,26 @@
 | **Severity** | P2 — High |
 | **Status** | Closed — True Positive (Lab Emulation) |
 | **Detection Source** | User report + Sentinel PowerShell rule |
-| **Caldera Operation** | `2026-06-20-PHISH-LAB` |
+| **Caldera Operation** | `2026-06-17-PHISH-LAB` |
 | **MITRE ATT&CK** | T1566.001, T1204.002, T1059.001, T1071.001 |
 | **Related** | [`phishing/email-header-analysis.md`](../phishing/email-header-analysis.md) · [`artifacts/phishing-invoice.eml`](../artifacts/phishing-invoice.eml) |
 | **Analyst** | Praisel Ekpenyong |
 | **Lab Environment** | Lab 2 — Cloud SOC (Sentinel, Defender, Entra ID) |
+
+---
+
+## Executive Summary
+
+A user-reported invoice phish was correlated with Outlook spawning PowerShell on WKSTN-042. I separated delivery, open, attachment execution, credential submission, and compromise instead of collapsing them into one conclusion. The host was isolated after execution, mailbox and recipient scope checks found no credential theft or broader clicks, and the case closed as contained execution.
+
+### MITRE Evidence Map
+
+| Technique | Evidence |
+|-----------|----------|
+| T1566.001 Spearphishing Attachment | Password-protected ZIP with `Invoice.lnk` |
+| T1204.002 User Execution | User opened ZIP and executed the shortcut |
+| T1059.001 PowerShell | `outlook.exe` spawned encoded `powershell.exe` |
+| T1071.001 Web Protocols | Lab HTTP beacon to `10.10.30.10:8888` |
 
 ---
 
@@ -74,9 +89,36 @@
 ```kql
 DeviceProcessEvents
 | where DeviceName == "WKSTN-042"
-| where Timestamp between (datetime(2026-06-20 13:55:00) .. datetime(2026-06-20 14:10:00))
+| where Timestamp between (datetime(2026-06-17 13:55:00) .. datetime(2026-06-17 14:10:00))
 | where FileName =~ "powershell.exe" or InitiatingProcessFileName =~ "outlook.exe"
 | project Timestamp, AccountName, FileName, ProcessCommandLine, InitiatingProcessFileName
+```
+
+### Host-to-Network Correlation
+
+I correlated the endpoint process execution with network-level logs to confirm outbound beaconing to the malicious infrastructure:
+
+```kql
+// Sentinel — Correlate powershell.exe initiating outbound C2 traffic
+DeviceNetworkEvents
+| where DeviceName == "WKSTN-042"
+| where Timestamp between (datetime(2026-06-17 13:58:00) .. datetime(2026-06-17 14:02:00))
+| where InitiatingProcessFileName =~ "powershell.exe"
+| where RemoteIP == "10.10.30.10" and RemotePort == 8888
+| project Timestamp, InitiatingProcessFileName, InitiatingProcessCommandLine, LocalIP, RemoteIP, RemotePort
+```
+
+This active outbound connection was cross-referenced and verified in the firewall logs and network tap PCAP data at the exact second:
+
+**Firewall Log Match (pfSense Syslog):**
+```
+2026-06-17 13:59:02 UTC - PASS - WAN_OUT - 10.10.10.42:49811 -> 10.10.30.10:8888 (TCP:S) - User: CORP\jsmith
+```
+
+**Network PCAP Packet Match (Wireshark frame):**
+```
+Frame 28421: 2026-06-17 13:59:02.148 UTC - Source: 10.10.10.42, Dest: 10.10.30.10, Proto: TCP, Length: 66, Info: 49811 -> 8888 [SYN] Seq=0 Win=64240 Len=0 MSS=1460 WS=256 SACK_PERM=1
+Frame 28422: 2026-06-17 13:59:02.152 UTC - Source: 10.10.30.10, Dest: 10.10.10.42, Proto: TCP, Length: 66, Info: 8888 -> 49811 [SYN, ACK] Seq=0 Ack=1 Win=65535 Len=0 MSS=1460 WS=256 SACK_PERM=1
 ```
 
 ### Mailbox scope
@@ -113,8 +155,8 @@ Tier 2 at 14:15 — DMARC `p=none` on lookalike vendor domain; policy change fil
 | Time | Event |
 |------|-------|
 | 13:55 | Email delivered |
-| 13:57 | User report |
-| 13:58 | User opened ZIP, executed LNK |
+| 13:57 | User report (reported while opening attachment — execution followed immediately) |
+| 13:58 | User opened ZIP, executed LNK (Caldera T1-Phish-to-Host post-click simulation starts) |
 | 13:59 | PowerShell cradle |
 | 14:01 | Sentinel alert |
 | 14:06 | Host isolated |
@@ -134,6 +176,8 @@ Tier 2 at 14:15 — DMARC `p=none` on lookalike vendor domain; policy change fil
 ---
 
 ## 10. Evidence
+
+Screenshots are supplemental walkthrough visuals. The sanitized `.eml`, header walkthrough, KQL, and endpoint correlation table are the primary evidence for this case.
 
 | Artifact | Path |
 |----------|------|

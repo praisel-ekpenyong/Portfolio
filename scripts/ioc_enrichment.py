@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import ipaddress
 import json
 import re
 import sys
@@ -52,7 +53,30 @@ def classify_ioc(value: str) -> str:
 
 
 def enrich_ip(ip: str, session: requests.Session) -> EnrichmentResult:
-    """AbuseIPDB-free fallback: ip-api.com for geo; optional local threat lists."""
+    """Classify lab/sanitized IPs locally; use ip-api.com only for real public IPs."""
+    parsed_ip = ipaddress.ip_address(ip)
+    test_nets = (
+        ipaddress.ip_network("192.0.2.0/24"),
+        ipaddress.ip_network("198.51.100.0/24"),
+        ipaddress.ip_network("203.0.113.0/24"),
+    )
+    if any(parsed_ip in network for network in test_nets):
+        return EnrichmentResult(
+            ip,
+            "ip",
+            "sanitized_documentation_ip",
+            "local_classification",
+            {"note": "RFC5737 documentation address used to sanitize lab evidence; no live reputation lookup performed"},
+        )
+    if parsed_ip.is_private:
+        return EnrichmentResult(
+            ip,
+            "ip",
+            "internal_lab_ip",
+            "local_classification",
+            {"note": "RFC1918/private lab address; no public reputation lookup performed"},
+        )
+
     details: dict = {}
     verdict = "unknown"
     try:
@@ -78,6 +102,14 @@ def enrich_domain(domain: str, session: requests.Session, vt_key: Optional[str])
     details: dict = {}
     verdict = "unknown"
     headers = {"x-apikey": vt_key} if vt_key else {}
+    if domain.endswith(".corp.lab"):
+        return EnrichmentResult(
+            domain,
+            "domain",
+            "internal_lab_domain",
+            "local_classification",
+            {"note": "Internal lab namespace; no public DNS lookup performed"},
+        )
     try:
         if vt_key:
             r = session.get(f"https://www.virustotal.com/api/v3/domains/{domain}", headers=headers, timeout=15)

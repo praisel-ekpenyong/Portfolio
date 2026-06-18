@@ -3,7 +3,7 @@
 osTicket records from the Tier 1 queue — **Department: Security Operations**.  
 Tickets below are in **chronological order**; portfolio **interview order** is INC-005 → 002 → 001 → 003 → 004 (see [`README.md`](../README.md)).  
 **Analyst:** Praisel Ekpenyong · SOC Analyst L1  
-**Contact:** Ekpenyongpraisel@gmail.com · [GitHub](https://github.com/praisel-ekpenyong) · [LinkedIn](https://www.linkedin.com/in/praiselekpenyong)  
+**Contact:** ekpenyongpraisel@gmail.com · [GitHub](https://github.com/praisel-ekpenyong) · [LinkedIn](https://www.linkedin.com/in/praiselekpenyong)  
 **Certs:** Google Cybersecurity Certificate · Security+ · SC-200
 
 ---
@@ -18,8 +18,8 @@ Tickets below are in **chronological order**; portfolio **interview order** is I
 | **Priority** | High |
 | **Status** | Closed |
 | **Source** | API (Wazuh webhook) |
-| **Created** | 2026-06-17 14:22 UTC |
-| **Closed** | 2026-06-17 16:00 UTC |
+| **Created** | 2026-06-13 14:22 UTC |
+| **Closed** | 2026-06-13 16:00 UTC |
 | **Assigned To** | Praisel Ekpenyong |
 | **Linked Incident** | INC-2026-001 |
 
@@ -43,8 +43,8 @@ Tickets below are in **chronological order**; portfolio **interview order** is I
 | **Priority** | High |
 | **Status** | Closed |
 | **Source** | API (Sentinel connector) |
-| **Created** | 2026-06-18 11:10 UTC |
-| **Closed** | 2026-06-18 12:15 UTC |
+| **Created** | 2026-06-14 11:10 UTC |
+| **Closed** | 2026-06-14 12:15 UTC |
 | **Assigned To** | Praisel Ekpenyong |
 | **Linked Incident** | INC-2026-002 |
 
@@ -68,8 +68,8 @@ Tickets below are in **chronological order**; portfolio **interview order** is I
 | **Priority** | High |
 | **Status** | Closed |
 | **Source** | API (Wazuh webhook) |
-| **Created** | 2026-06-19 16:04 UTC |
-| **Closed** | 2026-06-19 17:15 UTC |
+| **Created** | 2026-06-15 16:04 UTC |
+| **Closed** | 2026-06-15 17:15 UTC |
 | **Assigned To** | Praisel Ekpenyong |
 | **Linked Incident** | INC-2026-003 |
 
@@ -93,6 +93,8 @@ Tickets below are in **chronological order**; portfolio **interview order** is I
 | **Priority** | Normal → Low (downgraded) |
 | **Status** | Closed |
 | **Source** | API (Sentinel connector) |
+| **Created** | 2026-06-16 03:12 UTC |
+| **Closed** | 2026-06-16 03:45 UTC |
 | **Assigned To** | Praisel Ekpenyong |
 | **Linked Incident** | INC-2026-004 |
 
@@ -114,6 +116,8 @@ Tickets below are in **chronological order**; portfolio **interview order** is I
 | **Priority** | High |
 | **Status** | Closed |
 | **Source** | Email (user report) |
+| **Created** | 2026-06-17 13:57 UTC |
+| **Closed** | 2026-06-17 16:30 UTC |
 | **Assigned To** | Praisel Ekpenyong |
 | **Linked Incident** | INC-2026-005 |
 
@@ -121,13 +125,15 @@ Tickets below are in **chronological order**; portfolio **interview order** is I
 
 **Resolution (closed):** Contained WKSTN-042. Blocked domain. Mail trace clean for other users.
 
+**Metrics:** Time to acknowledge — 4 min · Time to contain — 9 min
+
 ---
 
 ## Ticket #48360 — Shift Handoff (Open)
 
 | Field | Value |
 |-------|-------|
-| **Subject** | [Normal] Shift handoff — 2026-06-18 19:00 UTC |
+| **Subject** | [Normal] Shift handoff — 2026-06-17 19:00 UTC |
 | **Department** | Security Operations |
 | **Help Topic** | Shift Handoff |
 | **Priority** | Normal |
@@ -142,11 +148,11 @@ Tickets below are in **chronological order**; portfolio **interview order** is I
 OPEN ITEMS FOR NEXT SHIFT
 ─────────────────────────
 1. INC-2026-002 (closed) — jsmith password reset complete; temporary CA block on
-   203.0.113.55 expires 2026-06-19 12:00 UTC. Verify auto-removal.
+   203.0.113.55 expired 2026-06-15 12:00 UTC. Confirmed auto-removal.
 2. Ticket #48355 (open) — VPN rule tuning for CHG-8821 window. No action tonight
    unless VPN High alerts fire again.
-3. Duplicate watch — WKSTN-042: INC-001 + INC-005 both closed; if new alerts on
-   same host, link parent tickets #48291 / #48340 before re-isolating.
+3. Duplicate watch — WKSTN-042: INC-001 + INC-003 + INC-005 all closed; if new alerts on
+   same host, link parent tickets #48291 / #48318 / #48340 before re-isolating.
 
 QUERIES IN PROGRESS
 ───────────────────

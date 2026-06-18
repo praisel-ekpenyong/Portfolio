@@ -4,7 +4,7 @@
 
 | | |
 |---|---|
-| **Email** | [Ekpenyongpraisel@gmail.com](mailto:Ekpenyongpraisel@gmail.com) |
+| **Email** | [ekpenyongpraisel@gmail.com](mailto:ekpenyongpraisel@gmail.com) |
 | **GitHub** | [github.com/praisel-ekpenyong/Portfolio](https://github.com/praisel-ekpenyong/Portfolio) |
 | **LinkedIn** | [linkedin.com/in/praiselekpenyong](https://www.linkedin.com/in/praiselekpenyong) |
 
@@ -14,13 +14,20 @@ Entry-level security operations portfolio structured around **five Tier 1 case t
 
 > **Start interviews here:** [INC-2026-005 — Phishing](incidents/INC-2026-005-phishing-chain.md) (staged conclusions: delivered → executed → contained)
 
+## Reviewer Guide
+
+1. Start with [INC-2026-005 - Phishing](incidents/INC-2026-005-phishing-chain.md) to see the full Tier 1 workflow: user report, header review, endpoint correlation, containment, and closure.
+2. Validate evidence from raw artifacts first: `artifacts/logs/`, `artifacts/caldera-operation-*.json`, `detections/`, and `tickets/sample-tickets.md`.
+3. Indicators such as `203.0.113.0/24` are sanitized documentation IPs. Reputation conclusions in the case notes describe the lab scenario, not live lookup results for those reserved addresses.
+4. Run `.\build.ps1` to regenerate `artifacts/enrichment_report.json` and Caldera timeline CSVs from the checked-in inputs.
+
 ## Build Artifacts
 
 ```powershell
 .\build.ps1
 ```
 
-Generates IOC enrichment and Caldera timeline CSV in `artifacts/`.
+Generates IOC enrichment and Caldera timeline CSV files in `artifacts/`. The build performs local classification for private lab IPs, internal lab domains, and sanitized documentation IPs so the sample artifacts are reproducible without public API access.
 
 ---
 
@@ -52,12 +59,13 @@ Generates IOC enrichment and Caldera timeline CSV in `artifacts/`.
 
 | Domain | Evidence |
 |--------|----------|
-| Phishing / email | INC-005, `phishing/`, `artifacts/phishing-invoice.eml` |
-| Identity / Entra | INC-002, `detections/sentinel/password_spray_entra.kql` |
-| Endpoint / LOLBin | INC-001, Sysmon, Defender |
-| Persistence | INC-003, Task Scheduler + Wazuh 180002 |
-| False positive / tuning | INC-004, `artifacts/tuning/`, tuned KQL |
-| IOC enrichment | `scripts/ioc_enrichment.py` |
+| Phishing / email | INC-2026-005, `phishing/`, `artifacts/phishing-invoice.eml` |
+| Identity / Entra | INC-2026-002, `detections/sentinel/password_spray_entra.kql` |
+| Endpoint / LOLBin | INC-2026-001, Sysmon, Defender |
+| Persistence | INC-2026-003, Task Scheduler + Wazuh 180002, domain-scope check |
+| False positive / tuning | INC-2026-004, `artifacts/tuning/`, tuned KQL |
+| IOC enrichment | `scripts/ioc_enrichment.py`, `artifacts/enrichment_report.json` |
+| Caldera emulation | `caldera/adversary-profiles.md`, `caldera/operations-runbook.md` |
 | Ticketing | `tickets/sample-tickets.md` |
 
 ---
@@ -69,6 +77,8 @@ Two environments — on-prem endpoint SOC + Microsoft cloud SOC. Full topology: 
 ---
 
 ## Detections
+
+Detection content is written for lab validation and interview discussion. Production deployment would require environment-specific baselining, allowlists, and change-management integration.
 
 | Platform | Location |
 |----------|----------|
@@ -101,4 +111,4 @@ Resume bullets: [`docs/resume-highlights.md`](docs/resume-highlights.md)
 
 ## Disclaimer
 
-All offensive activity was performed in isolated lab environments with authorization.
+All offensive activity was performed in isolated lab environments with authorization. Note that the reuse of a single workstation (`WKSTN-042`) and user account (`jsmith`) across the emulations is an intentional lab design choice to facilitate consistent baseline comparisons and correlation tracking across different attack vectors.

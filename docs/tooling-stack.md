@@ -60,7 +60,7 @@ Tools used across **Lab 1 (on-prem)** and **Lab 2 (cloud)**. Tier 1 tasks listed
 | Tool | Use in Portfolio | Tier 1 Tasks |
 |------|------------------|--------------|
 | **VirusTotal** | `scripts/ioc_enrichment.py` | Hash and domain reputation |
-| **AbuseIPDB / IPinfo** | IOC script | IP geolocation and abuse score |
+| **IP reputation sources** | IOC script | Optional public IP enrichment when real, non-sanitized IOCs are supplied |
 | **URLhaus / PhishTank** | Phishing scenario | URL reputation |
 | **MXToolbox** | Email header guide | SPF/DKIM/DMARC lookup |
 

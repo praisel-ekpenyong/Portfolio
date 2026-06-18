@@ -33,8 +33,8 @@ Each bullet includes **what** (2–3 skills/tools), **how**, **where** (queue, c
 *2025 – Present*
 
 - Investigated alerts with **Sentinel** and **KQL** in the **cloud incident queue**, sorting real threats from noise so client environments stayed protected.
-- Isolated a risky host through **Defender** in the **endpoint protection console**, then **escalated** to Tier 2 with full notes so damage was stopped and seniors got a clean handoff.
-- Triaged **Entra ID** password spray alerts in the **Sentinel incident queue**, revoking sessions and resetting credentials when a **valid user** authenticated from a malicious IP so account takeover was stopped early.
+- Followed a lab **Defender** containment playbook in the **endpoint protection console**, documenting host-isolation criteria and Tier 2 escalation notes so seniors got a clean handoff.
+- Triaged **Entra ID** password spray alerts in the **Sentinel incident queue**, documenting lab session-revocation and credential-reset steps when a **valid user** authenticated from a malicious IP.
 - Handled **phishing** reports (anchor case) by checking headers, password-protected **ZIP/LNK** attachments, and staged conclusions, tying execution to **Defender** on **WKSTN-042** before credential theft or mailbox rules.
 - Closed out a **false positive** VPN alert in **Sentinel** by matching it to a **change ticket** on the **firewall log source**, saving the night shift from a needless escalation.
 
@@ -79,6 +79,6 @@ Each bullet includes **what** (2–3 skills/tools), **how**, **where** (queue, c
 
 ## Contact
 
-- **Email:** Ekpenyongpraisel@gmail.com
+- **Email:** ekpenyongpraisel@gmail.com
 - **GitHub:** https://github.com/praisel-ekpenyong/Portfolio
 - **LinkedIn:** https://www.linkedin.com/in/praiselekpenyong

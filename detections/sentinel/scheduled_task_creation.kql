@@ -1,5 +1,8 @@
 // Scheduled task persistence — INC-2026-003
 // MITRE: T1053.005
+// Note: "ChromeUpdate" is hardcoded here to detect the specific lab emulation.
+// In a production environment, this should be generalized (e.g., using has_any to match common masqueraded task names)
+// or focus on tasks executing from user-writable directories (like \Temp or \AppData) regardless of name.
 
 DeviceProcessEvents
 | where Timestamp > ago(1h)

@@ -5,19 +5,31 @@
 | **Incident ID** | INC-2026-004 |
 | **Portfolio order** | **5 — FP discipline** |
 | **osTicket** | #48322 |
-| **Severity** | Initial P3 → Downgraded to P5 |
+| **Severity** | Initial P3 (Normal) → Downgraded to P5 (Low) |
 | **Status** | Closed — False Positive |
 | **Detection Source** | Sentinel Analytics `Multiple failed VPN logins` |
-| **Caldera** | N/A — organic noise (not emulation) |
+| **Caldera Operation** | N/A — organic noise (not emulation) |
 | **MITRE (ruled out)** | T1110.001 Brute Force |
 | **Analyst** | Praisel Ekpenyong |
 | **Lab Environment** | Lab 2 — Cloud SOC (`pe-soc-lab` / Sentinel) |
 
 ---
 
+## Executive Summary
+
+Sentinel created a VPN brute-force alert after 47 failed OpenVPN attempts from a sanitized scanner source. I validated there were no valid users, no successful authentication, no related EDR/DC alerts, and a matching VPN geo-block change ticket. The case was downgraded, closed as a false positive, and used to tune the VPN rule.
+
+### MITRE Evidence Map
+
+| Technique | Evidence |
+|-----------|----------|
+| T1110.001 Brute Force (ruled out) | Invalid usernames, zero successes, and matching CHG-8821 change window |
+
+---
+
 ## 1. Detection
 
-**2026-06-20 03:12:00 UTC** — Sentinel incident:
+**2026-06-16 03:12:00 UTC** — Sentinel incident:
 
 ```
 Alert: Multiple failed VPN logins from single source
@@ -33,7 +45,7 @@ Usernames: admin, root, test, vpnuser, ...
 
 | Check | Result |
 |-------|--------|
-| Source IP reputation | AbuseIPDB score 12 — known commercial VPN exit node |
+| Source IP context | Sanitized documentation IP representing commercial VPN/scanner noise |
 | Internal user involved? | No — usernames do not exist in AD |
 | Successful login after failures? | Zero successes |
 | Correlated internal compromise? | No EDR/DC alerts |
@@ -43,21 +55,20 @@ Usernames: admin, root, test, vpnuser, ...
 
 Change ticket **CHG-8821**: "Enable geo-blocking on VPN interface — APAC region test."
 
-Scanner IP 203.0.113.45 geolocated to region now blocked; failures are **expected noise** at rule cutover.
+Scanner IP 203.0.113.45 represents a sanitized source in the region now blocked; failures are **expected noise** at rule cutover.
 
 ---
 
 ## 3. Enrichment
 
 ```kql
-// Sentinel — confirm no success
+// Sentinel — confirm zero successful sign-ins from source IP
 SigninLogs
 | where TimeGenerated > ago(24h)
-| where ResultType != "0"
 | where IPAddress == "203.0.113.45"
-| summarize Failed=count() by UserPrincipalName, ResultType
+| summarize Failed = countif(ResultType != "0"), Succeeded = countif(ResultType == "0") by UserPrincipalName
 
-// Result: no matching Entra sign-ins (VPN is separate IdP)
+// Result: no matching sign-ins (VPN is separate IdP; no Entra activity from IP)
 ```
 
 Firewall log sample:
@@ -71,7 +82,7 @@ openvpn: 203.0.113.45:52144 Connection reset
 
 | IOC | Verdict |
 |-----|---------|
-| 203.0.113.45 | Generic scanner / VPN exit — not targeted APT |
+| 203.0.113.45 | Sanitized scanner / VPN-exit source — not targeted APT |
 
 ---
 
@@ -120,6 +131,8 @@ Detection tuning request filed: exclude first 24h post geo-block change window.
 
 ## 8. Evidence Screenshots
 
+Screenshots are supplemental walkthrough visuals. The VPN log sample, tuned KQL, and ticket closure note are the primary evidence for this case.
+
 | Tool | Capture |
 |------|---------|
 | Microsoft Sentinel | `artifacts/screenshots/sentinel-inc004.png` |
@@ -136,6 +149,8 @@ Detection tuning request filed: exclude first 24h post geo-block change window.
 ### Tuned rule
 
 `detections/sentinel/vpn_failed_logins_tuned.kql` — requires **valid AD username** and `>10` failures; change-window suppression linked to ticket tag `vpn-policy`.
+
+The lab rule uses an inline `vpnPolicyChangeWindows` datatable for CHG-8821; in production this would be replaced by a join to the change-management source of record.
 
 ### Validation (`artifacts/tuning/wazuh-logtest-results.txt`)
 

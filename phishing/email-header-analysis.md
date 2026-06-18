@@ -24,7 +24,7 @@ User report / mail gateway alert
 | Subject | URGENT: Invoice #88421 — password inside email body |
 | Display From | Accounts Payable <payable@vendor-secure.com> |
 | Attachment | `Invoice_June2026.zip` (password in body) → `Invoice.lnk` |
-| Received | 2026-06-20 13:55 UTC |
+| Received | 2026-06-17 13:55 UTC |
 
 ## Header Analysis (Key Lines)
 

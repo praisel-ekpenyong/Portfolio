@@ -8,16 +8,29 @@
 | **Severity** | P2 — High |
 | **Status** | Closed — True Positive (Lab-Controlled Spray) |
 | **Detection Source** | Sentinel Analytics `Password spray against valid user` + Entra ID Protection risky sign-in |
-| **Caldera** | N/A — lab red-team spray script against test account |
+| **Caldera Operation** | N/A — lab red-team spray script against test account |
 | **MITRE ATT&CK** | T1110.003 (Password Spray), T1078 (Valid Accounts) |
 | **Analyst** | Praisel Ekpenyong |
 | **Lab Environment** | Lab 2 — Cloud SOC (`pe-soc-lab` tenant) |
 
 ---
 
+## Executive Summary
+
+Sentinel detected repeated failed sign-ins followed by one successful authentication for a valid finance user. I validated the account context, checked for post-authentication abuse, documented lab containment actions, and escalated because a successful login changed the case from noise to account-takeover risk. No mailbox rules, OAuth consent, MFA changes, or lateral movement were found before recovery.
+
+### MITRE Evidence Map
+
+| Technique | Evidence |
+|-----------|----------|
+| T1110.003 Password Spray | 18 failed sign-ins from the same source before success |
+| T1078 Valid Accounts | Successful Exchange Online sign-in as `jsmith@corp.lab` |
+
+---
+
 ## 1. Detection
 
-**2026-06-18 11:10:14 UTC** — Microsoft Sentinel incident:
+**2026-06-14 11:10:14 UTC** — Microsoft Sentinel incident:
 
 ```
 Alert: Password spray against valid user
@@ -48,7 +61,7 @@ Praisel Ekpenyong (SOC Analyst L1) acknowledged osTicket #48305 within 2 minutes
 | Valid AD / Entra user? | **Yes** — `jsmith` is active finance analyst |
 | Change ticket / expected lockout test? | None |
 | Spray pattern (low-and-slow, one user)? | Yes — 18 failures then 1 success |
-| IP reputation | AbuseIPDB score 78 — known malicious range |
+| Source IP context | Sanitized lab IP representing attacker infrastructure |
 | User self-reported? | No — user did not open ServiceDesk ticket |
 | MFA satisfied on success? | Yes — attacker had valid password (lab spray succeeded) |
 | Correlated endpoint activity? | Defender: interactive session on WKSTN-042 within 3 min of sign-in |
@@ -69,14 +82,14 @@ Praisel Ekpenyong (SOC Analyst L1) acknowledged osTicket #48305 within 2 minutes
 | SAM | CORP\jsmith |
 | Department | Finance |
 | MFA registered | Yes (Authenticator app) |
-| Last normal sign-in | 2026-06-17 08:14 UTC — Calgary, CA (office IP) |
+| Last normal sign-in | 2026-06-13 08:14 UTC — Calgary, CA (office IP) |
 | Risky sign-in location | Bucharest, RO (203.0.113.55) |
 
 ### IOC Enrichment
 
 | IOC | Type | Enrichment Result |
 |-----|------|-------------------|
-| `203.0.113.55` | IP | AbuseIPDB 78 — malicious; not corp VPN |
+| `203.0.113.55` | IP | Sanitized documentation IP used to represent malicious infrastructure; not corp VPN |
 | `jsmith@corp.lab` | Account | Valid user; no travel ticket |
 | User-Agent on success | `Mozilla/5.0 ...` | Linux x86_64 — user normally Windows |
 
@@ -84,7 +97,7 @@ Praisel Ekpenyong (SOC Analyst L1) acknowledged osTicket #48305 within 2 minutes
 // Sentinel — failure → success sequence
 SigninLogs
 | where UserPrincipalName == "jsmith@corp.lab"
-| where TimeGenerated between (datetime(2026-06-18 11:00:00) .. datetime(2026-06-18 11:15:00))
+| where TimeGenerated between (datetime(2026-06-14 11:00:00) .. datetime(2026-06-14 11:15:00))
 | project TimeGenerated, ResultType, ResultDescription, IPAddress, Location, AppDisplayName, RiskLevelDuringSignIn
 | order by TimeGenerated asc
 ```
@@ -93,7 +106,7 @@ SigninLogs
 // Endpoint correlation — same user, post-compromise window
 DeviceLogonEvents
 | where AccountName == "jsmith"
-| where Timestamp > datetime(2026-06-18 11:09:00)
+| where Timestamp > datetime(2026-06-14 11:09:00)
 | project Timestamp, DeviceName, LogonType, ActionType, RemoteIP
 ```
 
@@ -112,7 +125,7 @@ DeviceLogonEvents
 
 ```kql
 AuditLogs
-| where TimeGenerated between (datetime(2026-06-18 11:09:00) .. datetime(2026-06-18 11:30:00))
+| where TimeGenerated between (datetime(2026-06-14 11:09:00) .. datetime(2026-06-14 11:30:00))
 | where InitiatedBy has "jsmith"
 | where OperationName in ("Add mailbox forwarding rule", "Add member to group", "Consent to application", "Add authentication method")
 | project TimeGenerated, OperationName, Result, InitiatedBy
@@ -122,7 +135,7 @@ AuditLogs
 
 ### Related Alerts (Last 24 hr)
 
-- INC-2026-001 (2026-06-17) — same user/host; unrelated BITS case, already closed
+- INC-2026-001 (2026-06-13) — same user/host; unrelated BITS case, already closed
 
 ---
 
@@ -188,8 +201,8 @@ Tier 2 confirmed no mail forwarding rules, no inbox delegation, and no additiona
 ### SigninLogs Excerpt
 
 ```
-2026-06-18T11:08:12Z  jsmith@corp.lab  50126  Invalid username or password  203.0.113.55  Bucharest, RO
-2026-06-18T11:09:42Z  jsmith@corp.lab  0      Success                       203.0.113.55  Bucharest, RO  Risk: high
+2026-06-14T11:08:12Z  jsmith@corp.lab  50126  Invalid username or password  203.0.113.55  Bucharest, RO
+2026-06-14T11:09:42Z  jsmith@corp.lab  0      Success                       203.0.113.55  Bucharest, RO  Risk: high
 ```
 
 ### Sentinel Analytics Rule
@@ -217,6 +230,8 @@ index=wineventlog EventCode=4625 OR EventCode=4624
 ---
 
 ## 11. Evidence Screenshots
+
+Screenshots are supplemental walkthrough visuals. The SigninLogs excerpt, Sentinel rule, and post-authentication checks are the primary evidence for this case.
 
 | Tool | Capture |
 |------|---------|

@@ -1,0 +1,7 @@
+# T1566.001 — outlook.exe spawning powershell.exe (Phishing cradle)
+# Incident: INC-2026-005
+
+index=sysmon EventCode=1 ParentImage="*\\outlook.exe" Image="*\\powershell.exe"
+| eval mitre_technique="T1566.001"
+| eval severity="high"
+| table _time host User Image CommandLine ParentImage ParentCommandLine mitre_technique severity

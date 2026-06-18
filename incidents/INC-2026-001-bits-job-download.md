@@ -8,16 +8,30 @@
 | **Severity** | P2 — High |
 | **Status** | Closed — True Positive (Lab Emulation) |
 | **Detection Source** | Wazuh Rule 180001 + Microsoft Defender for Endpoint |
-| **Caldera Operation** | `2026-06-17-INC001-BITS-LAB` |
+| **Caldera Operation** | `2026-06-13-INC001-BITS-LAB` |
 | **MITRE ATT&CK** | T1197 (BITS Jobs), T1105 (Ingress Tool Transfer), T1059.003 (Windows Command Shell) |
 | **Analyst** | Praisel Ekpenyong |
 | **Lab Environment** | Hybrid — Lab 1 (Wazuh/Sysmon) + Lab 2 (Defender/Sentinel) |
 
 ---
 
+## Executive Summary
+
+Wazuh and Defender flagged `bitsadmin.exe` downloading a payload to WKSTN-042 under a standard user context. I validated the alert by comparing parent process, destination, user context, and change records against a benign SCCM baseline. The case was contained to one host, escalated to Tier 2, cleaned, and closed as a Caldera-validated true positive.
+
+### MITRE Evidence Map
+
+| Technique | Evidence |
+|-----------|----------|
+| T1197 BITS Jobs | `bitsadmin /transfer` command in Sysmon EID 1 |
+| T1105 Ingress Tool Transfer | Payload written to `C:\Users\Public\payload.exe` |
+| T1059.003 Windows Command Shell | `cmd.exe` parent process launched the BITS transfer |
+
+---
+
 ## 1. Detection
 
-**2026-06-17 14:22:08 UTC** — Wazuh alert on `WKSTN-042`:
+**2026-06-13 14:22:08 UTC** — Wazuh alert on `WKSTN-042`:
 
 ```
 Rule: 180001 (level 8) — Suspicious download and execution with BITS job
@@ -39,7 +53,7 @@ Praisel Ekpenyong (SOC Analyst L1) acknowledged osTicket #48291 within 8 minutes
 | Parent process | `cmd.exe` spawned by unusual parent (non-SCCM) |
 | Command line contains `/transfer` and remote URL | Yes — matches BITS download pattern |
 | User context | `CORP\jsmith` (standard user, not IT admin) |
-| Caldera correlation | Operation `2026-06-17-INC001-BITS-LAB` ability `Download file using BITSAdmin` finished 14:22:06 UTC |
+| Caldera correlation | Operation `2026-06-13-INC001-BITS-LAB` ability `Download file using BITSAdmin` finished 14:22:06 UTC |
 
 **Determination:** True positive — unauthorized download and execution chain.
 
@@ -170,7 +184,7 @@ index=sysmon EventCode=1 host=WKSTN-042
 ```kql
 DeviceProcessEvents
 | where DeviceName == "WKSTN-042"
-| where Timestamp between (datetime(2026-06-17 14:15:00) .. datetime(2026-06-17 14:30:00))
+| where Timestamp between (datetime(2026-06-13 14:15:00) .. datetime(2026-06-13 14:30:00))
 | where ProcessCommandLine has "bitsadmin"
 | project Timestamp, AccountName, FileName, ProcessCommandLine, InitiatingProcessFileName
 ```
@@ -189,6 +203,8 @@ DeviceProcessEvents
 
 ## 11. Evidence Screenshots
 
+Screenshots are supplemental walkthrough visuals. The Sysmon excerpt, SPL/KQL, Wazuh rule, and Defender/Sentinel event data are the primary evidence for this case.
+
 | Tool | Capture |
 |------|---------|
 | Wazuh | `artifacts/screenshots/wazuh-inc001.png` |
@@ -202,4 +218,4 @@ DeviceProcessEvents
 
 ## 12. Analyst Notes
 
-This incident was triggered by controlled Caldera emulation to validate Wazuh rule 180001 and Defender correlation. Production analysts would follow identical triage steps minus the Caldera operation ID field.
+This incident was triggered by controlled Caldera emulation to validate Wazuh rule 180001 and Defender correlation. Production analysts would follow identical triage steps; the Caldera operation ID row in the header serves as a lab provenance marker and would not appear in a production write-up.

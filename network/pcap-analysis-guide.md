@@ -83,7 +83,7 @@ Use for:
 Map PCAP timestamp to pfSense:
 
 ```
-Jun 19 16:08:30 openvpn[...]: 10.10.10.99 -> 10.10.20.10:3389 SYN
+Jun 15 16:08:30 openvpn[...]: 10.10.10.99 -> 10.10.20.10:3389 SYN
 ```
 
 ### 8. Documentation in Ticket

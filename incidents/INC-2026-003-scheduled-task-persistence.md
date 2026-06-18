@@ -8,16 +8,29 @@
 | **Severity** | P2 — High |
 | **Status** | Closed — True Positive (Lab Emulation) |
 | **Detection Source** | Wazuh 180002 + Sysmon EID 1/11 + Defender |
-| **Caldera Operation** | `2026-06-19-SCHTASK-LAB` |
+| **Caldera Operation** | `2026-06-15-SCHTASK-LAB` |
 | **MITRE ATT&CK** | T1053.005 (Scheduled Task), T1059.001 (PowerShell) |
 | **Analyst** | Praisel Ekpenyong |
 | **Lab Environment** | Hybrid — Lab 1 (Wazuh/Sysmon/Splunk) + Lab 2 (Defender) |
 
 ---
 
+## Executive Summary
+
+Wazuh and Defender detected a scheduled task named `ChromeUpdate` executing PowerShell from a user-writable Temp path. I validated it against a legitimate SCCM baseline, confirmed it was local to WKSTN-042, checked for other persistence mechanisms, and escalated to Tier 2 for confirmed persistence on a finance workstation. Cleanup removed the task and script with no recurrence.
+
+### MITRE Evidence Map
+
+| Technique | Evidence |
+|-----------|----------|
+| T1053.005 Scheduled Task | `schtasks /Create /TN ChromeUpdate` in Sysmon EID 1 |
+| T1059.001 PowerShell | Task action launches `powershell.exe` against `update.ps1` |
+
+---
+
 ## 1. Detection
 
-**2026-06-19 16:04:18 UTC** — Wazuh Rule 180002:
+**2026-06-15 16:04:18 UTC** — Wazuh Rule 180002:
 
 ```
 Suspicious scheduled task created — ChromeUpdate name with user-writable action path
@@ -26,8 +39,6 @@ User: CORP\jsmith
 ```
 
 **16:04:52 UTC** — Defender: *Persistence mechanism: scheduled task with suspicious action*
-
-Task created **4 minutes after** PowerShell execution from INC-2026-005 drill window (same lab user — unrelated closed case).
 
 ---
 
@@ -63,8 +74,9 @@ Task created **4 minutes after** PowerShell execution from INC-2026-005 drill wi
 ```
 Event ID 4698 (Security) / Sysmon EID 1
 Task: \ChromeUpdate
-Action: powershell.exe -WindowStyle Hidden -File C:\Users\jsmith\AppData\Local\Temp\update.ps1
-Author: CORP\jsmith
+Command: schtasks /Create /TN ChromeUpdate /TR "powershell.exe -WindowStyle Hidden -File C:\Users\jsmith\AppData\Local\Temp\update.ps1" /SC ONLOGON
+Parent: cmd.exe
+User: CORP\jsmith
 ```
 
 ### Task XML excerpt
@@ -78,16 +90,47 @@ Author: CORP\jsmith
 </Actions>
 ```
 
-### Enterprise scoping (Splunk)
+### Domain-scope check — DC Security 4698
+
+Queried the domain controller to determine whether `ChromeUpdate` propagated via GPO or appeared on other hosts:
 
 ```spl
-index=sysmon EventCode=1
-| search CommandLine="*schtasks*" OR CommandLine="*Register-ScheduledTask*"
-| search CommandLine="*ChromeUpdate*"
+index=wineventlog EventCode=4698 host=SRV-DC-01
+| search TaskName="*ChromeUpdate*"
+| stats count by dest, SubjectUserName, TaskName
+```
+
+**Result:** Zero matches on SRV-DC-01 — task was created locally on WKSTN-042 only, not pushed by Group Policy.
+
+```spl
+index=sysmon EventCode=1 CommandLine="*ChromeUpdate*"
 | stats count by host User Image CommandLine
 ```
 
-**Result:** Unique to WKSTN-042 — not widespread deployment.
+**Result:** Unique to WKSTN-042 — confirmed no lateral propagation across the endpoint fleet.
+
+### Sentinel KQL — Defender persistence correlation
+
+```kql
+DeviceEvents
+| where DeviceName == "WKSTN-042"
+| where Timestamp between (datetime(2026-06-15 16:00:00) .. datetime(2026-06-15 16:15:00))
+| where ActionType in ("ScheduledTaskCreated", "ScheduledTaskUpdated")
+| project Timestamp, ActionType, FileName, ProcessCommandLine, InitiatingProcessFileName, AccountName
+```
+
+**Result:** Single `ScheduledTaskCreated` event at 16:04:18 UTC — Defender confirmed task creation with `powershell.exe` as initiator.
+
+### Post-containment persistence checks
+
+| Check | Query / Source | Result |
+|-------|----------------|--------|
+| Other scheduled tasks by `jsmith` | `schtasks /Query /FO LIST /V` on WKSTN-042 | Only `\ChromeUpdate` — no additional rogue tasks |
+| Registry Run keys | `reg query HKCU\Software\Microsoft\Windows\CurrentVersion\Run` | Clean — no persistence in Run/RunOnce |
+| WMI subscriptions | `Get-WMIObject -Namespace root\Subscription -Class __EventFilter` | None — no WMI persistence |
+| Startup folder | `dir %APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup` | Empty — no startup shortcuts |
+
+**Post-containment verdict:** Single persistence mechanism (`\ChromeUpdate` scheduled task). No additional footholds found.
 
 ### IOCs
 
@@ -101,11 +144,11 @@ index=sysmon EventCode=1
 
 ## 4. Containment
 
-| Time (UTC) | Action |
-|------------|--------|
-| 16:10 | Disabled task `\ChromeUpdate` |
-| 16:12 | Isolated WKSTN-042 (Defender) |
-| 16:15 | Escalated to Tier 2 |
+| Time (UTC) | Action | Performed By |
+|------------|--------|--------------|
+| 16:10 | Disabled task `\ChromeUpdate` | Praisel Ekpenyong |
+| 16:12 | Isolated WKSTN-042 (Defender) | Praisel Ekpenyong |
+| 16:15 | Escalated to Tier 2 | Praisel Ekpenyong |
 
 ---
 
@@ -115,19 +158,25 @@ index=sysmon EventCode=1
 |------------|--------|
 | 16:25 | Deleted task via `schtasks /Delete /TN ChromeUpdate /F` |
 | 16:28 | Quarantined `update.ps1` |
-| 16:30 | Caldera operation stopped |
+| 16:30 | Caldera operation stopped; cleanup abilities confirmed |
 
 ---
 
 ## 6. Recovery
 
-Host de-isolated 17:15 UTC after clean scan. No task recurrence.
+| Time (UTC) | Action |
+|------------|--------|
+| 16:45 | Full AV scan — clean |
+| 17:00 | Verified no task recurrence (`schtasks /Query /TN ChromeUpdate` → "not found") |
+| 17:15 | Removed Defender isolation after T2 review; workstation returned to service |
 
 ---
 
 ## 7. Escalation
 
-Tier 2 at 16:15 — persistence on WKSTN-042. Scoped to single host.
+**Escalated to Tier 2 at 16:15 UTC** — Reason: confirmed persistence mechanism on finance VLAN workstation via masquerading scheduled task. T2 validated scope (single host, single persistence mechanism), approved recovery.
+
+**Not escalated to IR team** — No domain admin involvement, no lateral movement, single persistence vector cleaned.
 
 ---
 
@@ -136,10 +185,15 @@ Tier 2 at 16:15 — persistence on WKSTN-042. Scoped to single host.
 | Time | Event |
 |------|-------|
 | 16:02 | Caldera op started |
-| 16:04:16 | Scheduled task ability completed |
-| 16:04:18 | Wazuh 180002 alert |
+| 16:04:16 | `schtasks /Create /TN ChromeUpdate` executed (Sysmon EID 1) |
+| 16:04:17 | Task file written to `C:\Windows\System32\Tasks\` (Sysmon EID 11) |
+| 16:04:18 | Caldera T1053.005 ability completed; Wazuh 180002 alert fired |
 | 16:04:52 | Defender persistence alert |
+| 16:06 | Tier 1 acknowledged osTicket #48318 |
 | 16:10 | Task disabled |
+| 16:12 | Host isolated |
+| 16:15 | Escalated to Tier 2 |
+| 16:25 | Task deleted |
 | 16:30 | Eradication complete |
 | 17:15 | Closed |
 
@@ -147,16 +201,48 @@ Tier 2 at 16:15 — persistence on WKSTN-042. Scoped to single host.
 
 ## 9. Evidence
 
+### Skills Demonstrated
+
+- Scheduled task baseline comparison (SCCM benign vs. attacker masquerade)
+- Domain-scope query to rule out GPO propagation
+- Multi-persistence sweep (Run keys, WMI, startup folder) after primary vector found
+- Cross-SIEM correlation: Wazuh 180002 + Defender + Splunk on same event
+- Task XML inspection for hidden arguments
+
+### Artifacts
+
 | Artifact | Path |
 |----------|------|
 | Sysmon export | `artifacts/logs/sysmon-INC003-schtask.json` |
 | Splunk query | `detections/splunk/T1053_scheduled_task.spl` |
 | Wazuh rule | `detections/wazuh/local_rules.xml` (180002) |
+| Logtest validation | `artifacts/tuning/wazuh-logtest-results.txt` (Test 3 + 4) |
 
 ---
 
-## 10. Recommendations
+## 10. Evidence Screenshots
 
-1. Alert when task **name** resembles known software but **action path** is user-writable.
-2. Correlate task creation (4698) with initiating process ≠ SCCM/Intune.
-3. Quarterly Caldera replay of `T1-Scheduled-Task` profile.
+Screenshots are supplemental walkthrough visuals. The Sysmon export, SPL/KQL, Wazuh rule, and logtest validation are the primary evidence for this case.
+
+| Tool | Capture |
+|------|---------|
+| Wazuh | `artifacts/screenshots/wazuh-inc003.png` |
+| Microsoft Defender | `artifacts/screenshots/defender-inc003.png` |
+| osTicket | `tickets/sample-tickets.md` (Ticket #48318) |
+| Sysmon (Event Viewer) | `artifacts/screenshots/sysmon-inc003.png` |
+
+---
+
+## 11. Recommendations
+
+1. **Detection** — Alert when task **name** resembles known software (Chrome, Edge, Teams) but **action path** is user-writable (`%TEMP%`, `%APPDATA%`, `Downloads`).
+2. **Correlation** — Cross-check task creation (4698) with initiating process; flag when creator ≠ `svchost.exe`, `CcmExec.exe`, or `intune-agent`.
+3. **Hardening** — Restrict `schtasks.exe` and `Register-ScheduledTask` via AppLocker for standard users on finance VLAN.
+4. **Monitoring** — Forward Security 4698/4702 events from all endpoints to Splunk and Sentinel for centralized task audit.
+5. **Emulation** — Quarterly Caldera replay of `T1-Scheduled-Task` profile to validate detection regression.
+
+---
+
+## 12. Analyst Notes
+
+This incident was triggered by Caldera emulation to validate Wazuh rule 180002 and Defender persistence detection. The domain-scope query (DC 4698 + Splunk fleet-wide) confirmed the task did not propagate laterally. Production analysts would follow identical triage steps — baseline comparison, persistence sweep, scope check — minus the Caldera operation ID.

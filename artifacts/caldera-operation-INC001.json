@@ -1,9 +1,9 @@
 {
-  "operation": "2026-06-17-INC001-BITS-LAB",
+  "operation": "2026-06-13-INC001-BITS-LAB",
   "adversary": "T1-Windows-Download-Exec",
   "group": "blue-team-lab",
-  "start": "2026-06-17T14:20:00.000Z",
-  "end": "2026-06-17T15:10:00.000Z",
+  "start": "2026-06-13T14:20:00.000Z",
+  "end": "2026-06-13T15:10:00.000Z",
   "analyst": "Praisel Ekpenyong",
   "chain": [
     {
@@ -12,7 +12,7 @@
       "technique": "T1197",
       "host": "WKSTN-042",
       "paw": "wkstn042-paw",
-      "finish": "2026-06-17T14:22:06.000Z",
+      "finish": "2026-06-13T14:22:06.000Z",
       "status": "success",
       "output": "Job created. Transfer complete."
     },
@@ -21,7 +21,7 @@
       "ability_id": "save-payload-002",
       "technique": "T1105",
       "host": "WKSTN-042",
-      "finish": "2026-06-17T14:22:12.000Z",
+      "finish": "2026-06-13T14:22:12.000Z",
       "status": "success",
       "output": "File written to C:\\Users\\Public\\payload.exe"
     },
@@ -30,13 +30,13 @@
       "ability_id": "exec-payload-003",
       "technique": "T1059.003",
       "host": "WKSTN-042",
-      "finish": "2026-06-17T14:22:18.000Z",
+      "finish": "2026-06-13T14:22:18.000Z",
       "status": "success",
       "output": "Process started PID 4892"
     }
   ],
   "siem_alerts": [
-    { "source": "Wazuh", "rule_id": 180001, "time": "2026-06-17T14:22:08.000Z" },
-    { "source": "Microsoft Defender", "alert": "Suspicious process chain", "time": "2026-06-17T14:22:41.000Z" }
+    { "source": "Wazuh", "rule_id": 180001, "time": "2026-06-13T14:22:08.000Z" },
+    { "source": "Microsoft Defender", "alert": "Suspicious process chain", "time": "2026-06-13T14:22:41.000Z" }
   ]
 }

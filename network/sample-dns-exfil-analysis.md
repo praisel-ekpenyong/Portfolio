@@ -51,3 +51,12 @@ python scripts/ioc_enrichment.py -i network/sample_dns_iocs.txt -o dns_enrich.js
 ## Key Takeaway
 
 DNS tunneling often appears as **volume + length** anomalies before threat intel catches the domain. Tier 1 job is pattern recognition and fast containment, not full decode.
+
+## Production Transfer
+
+In a production SOC, this same workflow applies to any DNS anomaly alert:
+
+1. **Pattern match** — High query volume + long subdomain labels (>40 chars) + recently registered parent domain = probable tunneling.
+2. **Correlate** — Link the querying host to any open endpoint or identity incidents (DNS exfil is often a later-stage TTP).
+3. **Contain** — Block the parent domain at DNS firewall / sinkhole before escalating — this stops data loss while Tier 2 decodes the payload.
+4. **Document** — Record query sample, domain age, subdomain encoding pattern, and querying user/host in the ticket. Tier 2 needs this to assess data exposure.

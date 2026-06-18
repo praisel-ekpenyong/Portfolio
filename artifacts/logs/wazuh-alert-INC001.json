@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-06-17T14:22:08.000Z",
+  "timestamp": "2026-06-13T14:22:08.000Z",
   "rule": {
     "id": 180001,
     "level": 8,
@@ -27,5 +27,5 @@
   "ticket": "48291",
   "ticket_system": "osTicket",
   "analyst": "Praisel Ekpenyong",
-  "caldera_operation": "2026-06-17-INC001-BITS-LAB"
+  "caldera_operation": "2026-06-13-INC001-BITS-LAB"
 }

@@ -4,27 +4,19 @@
   "events": [
     {
       "EventID": 1,
-      "UtcTime": "2026-06-19T16:04:14.221Z",
-      "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
-      "CommandLine": "powershell.exe -NoProfile -Command Register-ScheduledTask -TaskName ChromeUpdate -Action (New-ScheduledTaskAction -Execute powershell.exe -Argument '-WindowStyle Hidden -File C:\\Users\\jsmith\\AppData\\Local\\Temp\\update.ps1')",
+      "UtcTime": "2026-06-15T16:04:16.842Z",
+      "Image": "C:\\Windows\\System32\\schtasks.exe",
+      "CommandLine": "schtasks /Create /TN ChromeUpdate /TR \"powershell.exe -WindowStyle Hidden -File C:\\Users\\jsmith\\AppData\\Local\\Temp\\update.ps1\" /SC ONLOGON",
       "ParentImage": "C:\\Windows\\System32\\cmd.exe",
       "User": "CORP\\jsmith",
       "MITRE": "T1053.005"
     },
     {
       "EventID": 11,
-      "UtcTime": "2026-06-19T16:04:15.008Z",
+      "UtcTime": "2026-06-15T16:04:17.203Z",
       "TargetFilename": "C:\\Windows\\System32\\Tasks\\ChromeUpdate",
       "Image": "C:\\Windows\\System32\\schtasks.exe",
       "MITRE": "T1053.005"
-    },
-    {
-      "EventID": 1,
-      "UtcTime": "2026-06-19T16:04:18.102Z",
-      "Image": "C:\\Windows\\System32\\schtasks.exe",
-      "CommandLine": "schtasks /Create /TN ChromeUpdate /TR \"powershell.exe -WindowStyle Hidden -File C:\\Users\\jsmith\\AppData\\Local\\Temp\\update.ps1\" /SC ONLOGON",
-      "ParentImage": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
-      "User": "CORP\\jsmith"
     }
   ]
 }

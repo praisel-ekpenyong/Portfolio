@@ -9,7 +9,7 @@
 | Incident ID | INC-YYYY-### |
 | osTicket | ###### |
 | Analyst | Praisel Ekpenyong (SOC Analyst L1) |
-| Contact | Ekpenyongpraisel@gmail.com |
+| Contact | ekpenyongpraisel@gmail.com |
 | Severity | P1 / P2 / P3 / P4 / P5 |
 | Status | Open / Contained / Closed |
 | Detection Source | Wazuh / Splunk / Sentinel / MDE / User Report |

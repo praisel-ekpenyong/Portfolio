@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build SOC Tier 1 resume as .docx (guide layout, standard bullet style)."""
 
+import argparse
 from pathlib import Path
 
 from docx import Document
@@ -9,7 +10,7 @@ from docx.oxml.ns import qn
 from docx.shared import Inches, Pt, RGBColor
 
 ROOT = Path(__file__).resolve().parent.parent
-OUT = ROOT / "Praisel_Ekpenyong_Resume_SOC_Tier1_Analyst_v5.docx"
+DEFAULT_OUT = ROOT / "Praisel_Ekpenyong_Resume_SOC_Tier1_Analyst_v5.docx"
 
 FONT = "Arial"
 BLUE = RGBColor(0, 0, 255)
@@ -72,7 +73,7 @@ def add_job_header(doc, left: str, right: str):
     set_font(run_right, 10.5, italic=True)
 
 
-def build():
+def build(output_path: Path = DEFAULT_OUT):
     doc = Document()
     section = doc.sections[0]
     section.top_margin = Inches(0.75)
@@ -84,7 +85,7 @@ def build():
     add_center_line(doc, "Praisel Ekpenyong", 14, bold=True)
 
     contact = (
-        "[Your Phone Number] | Ekpenyongpraisel@gmail.com | "
+        "[Your Phone Number] | ekpenyongpraisel@gmail.com | "
         "linkedin.com/in/praiselekpenyong | github.com/praisel-ekpenyong"
     )
     add_center_line(doc, contact, 12)
@@ -119,13 +120,13 @@ def build():
     )
     add_bullet(
         doc,
-        "Isolated a compromised workstation through Microsoft Defender for Endpoint within 13 minutes "
-        "during a confirmed execution case, so malware could not spread to other hosts.",
+        "Followed a lab Microsoft Defender for Endpoint containment playbook for a confirmed execution "
+        "case, documenting host-isolation criteria and Tier 2 escalation notes.",
     )
     add_bullet(
         doc,
-        "Triaged Entra ID password spray alerts in Microsoft Sentinel and revoked sessions when a valid "
-        "user authenticated from a malicious IP, so account takeover was stopped before lateral movement.",
+        "Triaged Entra ID password spray alerts in Microsoft Sentinel and documented lab session-revocation "
+        "and password-reset steps after a valid-user success.",
     )
     add_bullet(
         doc,
@@ -165,9 +166,12 @@ def build():
         "so we knew our alerts would fire during a real attack.",
     )
 
-    doc.save(OUT)
-    print(f"Wrote {OUT}")
+    doc.save(output_path)
+    print(f"Wrote {output_path}")
 
 
 if __name__ == "__main__":
-    build()
+    parser = argparse.ArgumentParser(description="Build the SOC Tier 1 resume DOCX.")
+    parser.add_argument("--output", type=Path, default=DEFAULT_OUT, help="Output .docx path")
+    args = parser.parse_args()
+    build(args.output)

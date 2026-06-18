@@ -8,7 +8,7 @@ Step-by-step procedure to execute portfolio scenarios and produce SIEM-ready inc
 
 | Field | Example |
 |-------|---------|
-| Operation name | `2026-06-17-INC001-BITS-LAB` |
+| Operation name | `2026-06-13-INC001-BITS-LAB` |
 | Adversary | T1-Windows-Download-Exec |
 | Group | blue-team-lab |
 | Target | Single agent WKSTN-042 |

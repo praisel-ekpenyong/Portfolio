@@ -21,7 +21,7 @@ def parse_operation(report_path: str, output_path: str) -> None:
             "finished_utc": entry.get("finish", entry.get("finished_timestamp", "")),
             "ability_name": ability.get("name", entry.get("ability_name", "unknown")),
             "ability_id": ability.get("ability_id", entry.get("ability_id", "")),
-            "technique": _extract_technique(ability),
+            "technique": _extract_technique(ability, entry),
             "host": entry.get("host", entry.get("paw", "")),
             "status": entry.get("status", ""),
             "output_snippet": (entry.get("output", "") or "")[:200],
@@ -40,7 +40,14 @@ def parse_operation(report_path: str, output_path: str) -> None:
     print(f"Parsed {len(rows)} abilities -> {output_path}")
 
 
-def _extract_technique(ability: dict) -> str:
+def _extract_technique(ability: dict, entry: dict = None) -> str:
+    # Check entry-level technique_id first (flat JSON exports)
+    if entry and entry.get("technique_id"):
+        return entry["technique_id"]
+    # Check entry-level technique as bare string
+    if entry and isinstance(entry.get("technique"), str) and entry.get("technique"):
+        return entry["technique"]
+    # Nested ability dict formats
     technique = ability.get("technique", {})
     if isinstance(technique, dict):
         return technique.get("attack_id", "")

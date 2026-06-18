@@ -35,7 +35,7 @@
 14:30 UTC — Opened osTicket #48291 from Wazuh dashboard.
 Host WKSTN-042 is finance workstation. No change tickets.
 Sysmon shows bitsadmin /transfer to 10.10.30.10:8888.
-Correlates with Caldera op 2026-06-17-INC001-BITS-LAB (lab).
+Correlates with Caldera op 2026-06-13-INC001-BITS-LAB (lab).
 Proceeding with host isolation per P2 playbook.
 ```
 

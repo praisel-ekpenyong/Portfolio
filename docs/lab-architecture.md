@@ -1,7 +1,7 @@
 # SOC Lab Architecture
 
 **Analyst:** Praisel Ekpenyong · Tier 1 SOC  
-**Status:** Both environments operational. Attack traffic originates exclusively from **Apache Caldera** operations.
+**Status:** Documented lab design used for portfolio scenarios. Attack traffic originates from **Apache Caldera** operations or controlled lab scripts.
 
 The portfolio runs on **two connected labs** — the same way many MSSPs and enterprises do: on-prem endpoints and network gear feeding a Microsoft cloud security stack.
 

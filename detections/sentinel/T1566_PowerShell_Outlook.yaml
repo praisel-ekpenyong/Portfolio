@@ -1,0 +1,42 @@
+# Microsoft Sentinel Analytics Rule
+# Caldera profile: T1-Phish-to-Host
+
+id: 8d2c4b0e-1f9a-4b3c-d8e7-2c1b0a9f8e7d
+name: PowerShell Spawned by Outlook Parent
+description: Detects powershell.exe spawned by outlook.exe — matches initial execution phase of INC-2026-005
+severity: High
+status: Enabled
+requiredDataConnectors:
+  - connectorId: MicrosoftThreatProtection
+    dataTypes:
+      - DeviceProcessEvents
+query: |
+  DeviceProcessEvents
+  | where Timestamp > ago(1h)
+  | where InitiatingProcessFileName =~ "outlook.exe"
+  | where FileName =~ "powershell.exe"
+  | extend MITRE_Technique = "T1566.001"
+  | project Timestamp, DeviceName, AccountName, FileName,
+            ProcessCommandLine, InitiatingProcessFileName, MITRE_Technique
+entityMappings:
+  - entityType: Host
+    fieldMappings:
+      - identifier: HostName
+        columnName: DeviceName
+  - entityType: Account
+    fieldMappings:
+      - identifier: Name
+        columnName: AccountName
+tactics:
+  - InitialAccess
+  - Execution
+techniques:
+  - T1566
+  - T1059
+incidentConfiguration:
+  createIncident: true
+  groupingConfiguration:
+    enabled: true
+    matchingMethod: Selected
+    groupByEntities:
+      - Host

@@ -1,23 +1,45 @@
 Return-Path: <bounce+xyz@mail.vendor-secure.com>
+Received: from mx.corp.lab (10.10.20.50)
+	by internal-relay.corp.lab.local with ESMTP id xyz789
+	for <jsmith@corp.lab>; Wed, 17 Jun 2026 13:55:04 +0000 (UTC)
 Received: from mail-sender-unknown (203.0.113.88 [203.0.113.88])
 	by mx.corp.lab with ESMTPS id abc123
-	for <jsmith@corp.lab>; Mon, 17 Jun 2026 13:55:02 +0000 (UTC)
+	for <jsmith@corp.lab>; Wed, 17 Jun 2026 13:55:02 +0000 (UTC)
 Authentication-Results: mx.corp.lab;
 	spf=fail (sender IP 203.0.113.88) smtp.mailfrom=vendor-secure.com;
 	dkim=none;
 	dmarc=fail action=none header.from=vendor-secure.com
+X-Forefront-Antispam-Report: SFV:SKN;SFS:(lab-sanitized);
+X-MS-Exchange-Organization-SCL: 5
+X-MS-Exchange-Organization-AuthSource: mx.corp.lab
 From: Accounts Payable <payable@vendor-secure.com>
 To: jsmith@corp.lab
 Reply-To: attacker-drop@protonmail.com
-Subject: URGENT: Invoice Overdue #88421
-Date: Mon, 17 Jun 2026 13:54:58 +0000
+Subject: URGENT: Invoice #88421 — password inside email body
+Date: Wed, 17 Jun 2026 13:54:58 +0000
 Message-ID: <not-random@DESKTOP-EVIL>
 MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="----=_Part_LAB_SANITIZED"
+
+------=_Part_LAB_SANITIZED
 Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 <html><body>
 <p>Dear Customer,</p>
 <p>Your invoice #88421 is overdue. Please review immediately:</p>
-<p><a href="https://vendor-secure.com.login-update.tk/invoice?id=88421">View Invoice</a></p>
-<p>Accounts Payable</p>
+<p><b>Password to open attachment:</b> Invoice2026</p>
+<p><a href="https://vendor-secure.com.login-update.tk/invoice?id=88421">View Invoice Online</a></p>
+<p>Accounts Payable<br>Vendor Secure Inc.</p>
 </body></html>
+
+------=_Part_LAB_SANITIZED
+Content-Type: application/zip; name="Invoice_June2026.zip"
+Content-Disposition: attachment; filename="Invoice_June2026.zip"
+Content-Transfer-Encoding: base64
+
+[REDACTED — Lab artifact. Original ZIP contained Invoice.lnk shortcut
+ targeting: powershell.exe -enc <base64-encoded-download-cradle>
+ SHA256 of ZIP: 9c4e...a1f2 (lab sample, not production malware)]
+
+------=_Part_LAB_SANITIZED--

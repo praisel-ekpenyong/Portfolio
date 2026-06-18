@@ -24,7 +24,7 @@ Profiles used in this portfolio. Create each in Caldera UI: **Campaigns → Adve
 |-------|---------|----------|----------------|
 | 1 | Create scheduled task (ChromeUpdate name) | T1053.005 | Wazuh 180002 |
 | 2 | Execute action script from user Temp | T1059.001 | Sysmon EID 1, Defender |
-| 3 | (Cleanup) Delete scheduled task | T1070 | On operation stop |
+| 3 | (Cleanup) Delete scheduled task | — (operational cleanup) | On operation stop |
 
 **Target agent:** WKSTN-042 (Windows)
 
@@ -57,11 +57,10 @@ Profiles used in this portfolio. Create each in Caldera UI: **Campaigns → Adve
 |--------|---------------------|
 | Initial Access | T1566.001 (documented), T1190 |
 | Execution | T1059.001, T1059.003 |
-| Persistence | — (see INC-2026-002 Entra spray — non-Caldera) |
+| Persistence | T1053.005 (scheduled task), — (see INC-2026-002 Entra spray — non-Caldera) |
 | Privilege Escalation | — (lab uses elevated agents) |
 | Defense Evasion | T1197 (BITS) |
 | Credential Access | T1110.003 (INC-2026-002 — lab spray script, not Caldera) |
-| Persistence | T1053.005 |
 | Discovery | T1087.002 |
 | Lateral Movement | — (supplemental RDP module) |
 | C2 | T1071.001 |

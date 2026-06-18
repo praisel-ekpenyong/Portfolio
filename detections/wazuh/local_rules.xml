@@ -1,5 +1,6 @@
 <!--
-  Wazuh custom rules for Caldera-emulated TTPs
+  Lab validation rules for Caldera-emulated TTPs.
+  Production deployment requires environment-specific tuning and allowlists.
   Path on server: /var/ossec/etc/rules/local_rules.xml
   Incidents: INC-2026-001, INC-2026-003
 -->

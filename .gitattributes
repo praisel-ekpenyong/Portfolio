@@ -1,0 +1,9 @@
+# Enforce consistent line endings
+* text=auto eol=lf
+
+# Explicitly mark binary files
+*.png binary
+*.jpg binary
+*.zip binary
+*.docx binary
+*.eml text eol=lf
