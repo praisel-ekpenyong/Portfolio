@@ -1,12 +1,14 @@
 <#
 .SYNOPSIS
-    Tier 1 alert triage helper — gathers host and user context for osTicket internal notes.
+    Tier 1 alert triage helper — gathers host and user context for osTicket internal notes and performs optional network containment.
 .PARAMETER Hostname
     Target workstation or server name.
 .PARAMETER AlertId
     osTicket ticket number or SIEM alert ID for audit trail.
+.PARAMETER IsolateHost
+    Switch to trigger emergency network isolation on the remote host via firewall block rules.
 .EXAMPLE
-    .\triage_alert.ps1 -Hostname WKSTN-042 -AlertId ALT-88421
+    .\triage_alert.ps1 -Hostname WKSTN-042 -AlertId ALT-88421 -IsolateHost
 #>
 [CmdletBinding()]
 param(
@@ -14,7 +16,10 @@ param(
     [string]$Hostname,
 
     [Parameter(Mandatory = $false)]
-    [string]$AlertId = "MANUAL-TRIAGE"
+    [string]$AlertId = "MANUAL-TRIAGE",
+
+    [Parameter(Mandatory = $false)]
+    [switch]$IsolateHost
 )
 
 $ErrorActionPreference = "SilentlyContinue"
@@ -24,6 +29,17 @@ Write-Host "=== Tier 1 Triage Package ===" -ForegroundColor Cyan
 Write-Host "Alert ID: $AlertId"
 Write-Host "Host:     $Hostname"
 Write-Host "UTC:      $timestamp"
+Write-Host ""
+
+# --- Connectivity Pre-Check ---
+Write-Host "Checking connectivity to $Hostname..." -NoNewline
+if (-not (Test-Connection -ComputerName $Hostname -Count 1 -Quiet -ErrorAction SilentlyContinue)) {
+    Write-Host " FAILED!" -ForegroundColor Red
+    Write-Host "Error: Target host $Hostname is unreachable or offline. Triage script aborted." -ForegroundColor Red
+    Write-Host ""
+    return
+}
+Write-Host " OK" -ForegroundColor Green
 Write-Host ""
 
 # --- Host identity ---
@@ -75,3 +91,40 @@ Get-CimInstance Win32_Process -ComputerName $Hostname | Where-Object {
 
 Write-Host ""
 Write-Host "Triage complete. Paste output into osTicket #$AlertId internal note." -ForegroundColor Green
+Write-Host ""
+
+# --- Emergency Network Isolation ---
+if ($IsolateHost) {
+    Write-Host "=== Emergency Containment Action ===" -ForegroundColor Yellow
+    Write-Host "Triggering network isolation for remote host: $Hostname"
+    
+    $isolationScript = {
+        $ruleName = "SOC_L1_IR_ISOLATION_BLOCK"
+        $ruleExists = Get-NetFirewallRule -Name $ruleName -ErrorAction SilentlyContinue
+        
+        if ($ruleExists) {
+            return "Host is already isolated via firewall rule '$ruleName'."
+        } else {
+            # Block all inbound connections
+            New-NetFirewallRule -DisplayName $ruleName -Name $ruleName -Direction Inbound -Action Block -Enabled True -Description "Emergency Tier 1 SOC Network Isolation" -ErrorAction SilentlyContinue
+            # Block all outbound connections
+            New-NetFirewallRule -DisplayName $ruleName -Name $ruleName -Direction Outbound -Action Block -Enabled True -Description "Emergency Tier 1 SOC Network Isolation" -ErrorAction SilentlyContinue
+            
+            return "Emergency network isolation firewall rules successfully applied to block all inbound and outbound traffic."
+        }
+    }
+
+    $isolationResult = Invoke-Command -CimSession $Hostname -ScriptBlock $isolationScript -ErrorAction SilentlyContinue
+    if ($isolationResult) {
+        Write-Host "  Success: $isolationResult" -ForegroundColor Green
+    } else {
+        # Fallback to WinRM session if CimSession is not configured
+        $isolationResult = Invoke-Command -ComputerName $Hostname -ScriptBlock $isolationScript -ErrorAction SilentlyContinue
+        if ($isolationResult) {
+            Write-Host "  Success (WinRM): $isolationResult" -ForegroundColor Green
+        } else {
+            Write-Host "  Error: Failed to execute isolation command on remote host. Ensure WinRM/CimSession connectivity and administrator privileges." -ForegroundColor Red
+        }
+    }
+    Write-Host ""
+}

@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Incident ID** | INC-2026-001 |
-| **Portfolio order** | **3 — Endpoint / LOLBin** |
+| **Focus Area** | **Endpoint Auditing / LOLBins** |
 | **osTicket** | #48291 |
 | **Severity** | P2 — High |
 | **Status** | Closed — True Positive (Lab Emulation) |
@@ -89,7 +89,7 @@ Tier 1 does not treat every `bitsadmin` or PowerShell alert as malware. This cas
 | IOC | Type | Enrichment Result |
 |-----|------|-------------------|
 | `10.10.30.10:8888` | URL (Caldera C2 lab) | Internal lab host — tagged `caldera-c2-lab` |
-| `C:\Users\Public\payload.exe` | File path | Sysmon SHA256: `a3f2...8c1d` (lab sample) |
+| `C:\Users\Public\payload.exe` | File path | Sysmon SHA256: `a3f2...cd12` (lab sample) |
 | `bitsadmin.exe` | Process | Legitimate binary, abused (LOLBIN) |
 
 ```powershell
@@ -198,6 +198,7 @@ DeviceProcessEvents
 3. **Monitoring** — Enable PowerShell script block logging on finance VLAN.
 4. **Training** — Phishing follow-up for user `jsmith` (linked scenario in `phishing/`).
 5. **Lab** — Retain Caldera op ID in detection regression suite quarterly.
+6. **T2 Pivot Note (PowerShell BITS Bypass):** Attackers can bypass `bitsadmin.exe` command-line logging by invoking BITS transfers natively through PowerShell via the `Start-BitsTransfer` cmdlet. Detection rules must also monitor Sysmon Event ID 1 for PowerShell loaded with the BITS utility assembly (`Microsoft.PowerShell.Commands.Utility`) or Event ID 22 (DNS queries) initiated by PowerShell to suspicious external hosting IPs.
 
 ---
 

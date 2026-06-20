@@ -28,7 +28,20 @@ Profiles used in this portfolio. Create each in Caldera UI: **Campaigns → Adve
 
 **Target agent:** WKSTN-042 (Windows)
 
-> **Supplemental:** Former `T1-Windows-Lateral` (RDP/PCAP) documented in `network/supplemental-rdp-lateral-case.md`.
+## T1-Windows-Lateral
+
+**Description:** Remote Desktop Protocol lateral movement and packet capturing. Maps to INC-2026-006.
+
+| Order | Ability | MITRE ID | Expected Alert |
+|-------|---------|----------|----------------|
+| 1 | Lateral Movement via Remote Desktop Protocol | T1021.001 | Wazuh 180003 (registry port mod if changed) |
+| 2 | Modify RDP registry port to 8443 | T1112 | Wazuh 180003 |
+| 3 | Execute tcpdump.exe packet sniffer | T1040 | Wazuh 180004 |
+
+**Target agent:** WKSTN-099 (Windows)  
+**Group:** blue-team-lab  
+**Planner:** atomic
+
 
 ## T1-Phish-to-Host
 
@@ -59,9 +72,9 @@ Profiles used in this portfolio. Create each in Caldera UI: **Campaigns → Adve
 | Execution | T1059.001, T1059.003 |
 | Persistence | T1053.005 (scheduled task), — (see INC-2026-002 Entra spray — non-Caldera) |
 | Privilege Escalation | — (lab uses elevated agents) |
-| Defense Evasion | T1197 (BITS) |
-| Credential Access | T1110.003 (INC-2026-002 — lab spray script, not Caldera) |
+| Defense Evasion | T1197 (BITS), T1112 (Registry Modify - INC-2026-006) |
+| Credential Access | T1110.003 (INC-2026-002), T1040 (Network Sniffing - INC-2026-006) |
 | Discovery | T1087.002 |
-| Lateral Movement | — (supplemental RDP module) |
+| Lateral Movement | T1021.001 (RDP - INC-2026-006) |
 | C2 | T1071.001 |
 | Impact | T1531 (cleanup) |

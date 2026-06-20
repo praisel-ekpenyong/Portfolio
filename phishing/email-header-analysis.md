@@ -1,6 +1,6 @@
-# Phishing & Email Header Investigation (Tier 1)
+# Phishing & Email Header Triage (Tier 1)
 
-**Portfolio case #1** — supports [`INC-2026-005`](../incidents/INC-2026-005-phishing-chain.md) and **T1-Phish-to-Host** Caldera chain. User reports email; Caldera executes post-click TTPs on endpoint.
+This triage guide walks through parsing suspicious email files and headers, supporting the investigation for [`INC-2026-005`](../incidents/INC-2026-005-phishing-chain.md). In this lab scenario, a user reported a phishing email, and we analyze the delivery, header authenticity, and attachment execution.
 
 **Sample artifact:** [`artifacts/phishing-invoice.eml`](../artifacts/phishing-invoice.eml)
 

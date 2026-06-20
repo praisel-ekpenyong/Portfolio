@@ -1,6 +1,6 @@
-# Scenario Index
+# Lab Scenario Index
 
-Cases are ordered for **portfolio presentation** (interview order), not lab execution order.
+Scenarios are ordered by threat type and complexity to showcase a logical progression of security operations investigations, rather than the chronological order in which they were run in the lab.
 
 | # | Case | Scenario folder | Incident |
 |---|------|-----------------|----------|
@@ -9,6 +9,7 @@ Cases are ordered for **portfolio presentation** (interview order), not lab exec
 | 3 | LOLBin / BITS | [01 — Windows download](01-caldera-windows-download/README.md) | INC-2026-001 |
 | 4 | Scheduled task | [03 — Scheduled task](03-caldera-scheduled-task/README.md) | INC-2026-003 |
 | 5 | False positive | (organic — no Caldera) | INC-2026-004 |
+| 6 | RDP lateral movement | [06 — Lateral RDP](06-caldera-lateral-rdp/README.md) | INC-2026-006 |
 
 ## Non-Caldera
 
@@ -19,5 +20,4 @@ Cases are ordered for **portfolio presentation** (interview order), not lab exec
 
 ## Supplemental
 
-- [RDP / PCAP lateral](../network/supplemental-rdp-lateral-case.md) — former INC-003, stretch module
 - [DNS exfil drill](../network/sample-dns-exfil-analysis.md) — practice only

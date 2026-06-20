@@ -1,7 +1,7 @@
 # Sample SOC Tickets (osTicket)
 
-osTicket records from the Tier 1 queue — **Department: Security Operations**.  
-Tickets below are in **chronological order**; portfolio **interview order** is INC-005 → 002 → 001 → 003 → 004 (see [`README.md`](../README.md)).  
+osTicket records from the Tier 1 queue — **Department: Security Operations** (see [`high-volume-shift-example.md`](high-volume-shift-example.md) for the full shift timeline and triage metrics).  
+Tickets below are in **chronological order**; portfolio **walk-through sequence** is INC-005 → 002 → 001 → 003 → 004 → 006 (see [`README.md`](../README.md)).  
 **Analyst:** Praisel Ekpenyong · SOC Analyst L1  
 **Contact:** ekpenyongpraisel@gmail.com · [GitHub](https://github.com/praisel-ekpenyong) · [LinkedIn](https://www.linkedin.com/in/praiselekpenyong)  
 **Certs:** Google Cybersecurity Certificate · Security+ · SC-200
@@ -129,11 +129,36 @@ Tickets below are in **chronological order**; portfolio **interview order** is I
 
 ---
 
+## Ticket #48370 — RDP Lateral Movement (INC-2026-006)
+
+| Field | Value |
+|-------|-------|
+| **Subject** | [High] Wazuh 180003 — Suspicious RDP registry modification on WKSTN-099 |
+| **Department** | Security Operations |
+| **Help Topic** | Security Incident |
+| **Priority** | High |
+| **Status** | Closed |
+| **Source** | API (Wazuh webhook) |
+| **Created** | 2026-06-18 10:15 UTC |
+| **Closed** | 2026-06-18 14:00 UTC |
+| **Assigned To** | Praisel Ekpenyong |
+| **Linked Incident** | INC-2026-006 |
+
+**Internal note (10:18 UTC):** Wazuh 180003 and 180004 alerts fired on WKSTN-099. RDP registry port changed to 8443; tcpdump process spawned. Source of RDP is WKSTN-042 (compromised jsmith account). Initiating host isolation per playbooks.
+
+**Internal note (10:20 UTC):** Both WKSTN-099 and WKSTN-042 isolated. Revoked sessions for jsmith. Retargeting RDP registry port via GPO.
+
+**Resolution (closed):** True positive (lab emulation). PCAP capture parsed with tshark and validated to confirm zero exfiltration. Registry port reset to 3389. Account password reset.
+
+**Metrics:** Time to acknowledge — 3 min · Time to contain — 5 min
+
+---
+
 ## Ticket #48360 — Shift Handoff (Open)
 
 | Field | Value |
 |-------|-------|
-| **Subject** | [Normal] Shift handoff — 2026-06-17 19:00 UTC |
+| **Subject** | [Normal] Shift handoff — 2026-06-18 19:00 UTC |
 | **Department** | Security Operations |
 | **Help Topic** | Shift Handoff |
 | **Priority** | Normal |
@@ -151,8 +176,9 @@ OPEN ITEMS FOR NEXT SHIFT
    203.0.113.55 expired 2026-06-15 12:00 UTC. Confirmed auto-removal.
 2. Ticket #48355 (open) — VPN rule tuning for CHG-8821 window. No action tonight
    unless VPN High alerts fire again.
-3. Duplicate watch — WKSTN-042: INC-001 + INC-003 + INC-005 all closed; if new alerts on
-   same host, link parent tickets #48291 / #48318 / #48340 before re-isolating.
+3. Duplicate watch — WKSTN-042: INC-001 + INC-003 + INC-005 + INC-006 all closed; if new alerts on
+   same host, link parent tickets #48291 / #48318 / #48340 / #48370 before re-isolating.
+   Check WKSTN-099 (INC-006) for RDP recurrence.
 
 QUERIES IN PROGRESS
 ───────────────────

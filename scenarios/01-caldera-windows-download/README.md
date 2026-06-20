@@ -1,6 +1,6 @@
 # Scenario 01 — Windows BITS Download (Caldera)
 
-**Portfolio case #3** — [`INC-2026-001`](../../incidents/INC-2026-001-bits-job-download.md)
+**Incident Record:** [`INC-2026-001`](../../incidents/INC-2026-001-bits-job-download.md)
 
 ## Objective
 
@@ -28,7 +28,7 @@ Demonstrate Tier 1 triage of LOLBin abuse on Windows using Wazuh, Splunk, Sentin
 | Sysmon | Event ID 1, 11 |
 | Defender | Suspicious process chain |
 
-## Tier 1 Tasks
+## Lab Replay Checklist
 
 - [ ] Acknowledge ticket < 15 min
 - [ ] Run Splunk query in `detections/splunk/T1197_bits_download.spl`

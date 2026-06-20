@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Incident ID** | INC-2026-002 |
-| **Portfolio order** | **2 — Identity** |
+| **Focus Area** | **Identity Logs & Cloud Sign-ins** |
 | **osTicket** | #48305 |
 | **Severity** | P2 — High |
 | **Status** | Closed — True Positive (Lab-Controlled Spray) |
@@ -63,7 +63,7 @@ Praisel Ekpenyong (SOC Analyst L1) acknowledged osTicket #48305 within 2 minutes
 | Spray pattern (low-and-slow, one user)? | Yes — 18 failures then 1 success |
 | Source IP context | Sanitized lab IP representing attacker infrastructure |
 | User self-reported? | No — user did not open ServiceDesk ticket |
-| MFA satisfied on success? | Yes — attacker had valid password (lab spray succeeded) |
+| MFA satisfied on success? | No — bypassed via legacy authentication (e.g., ActiveSync) which allowed authentication to succeed without triggering an interactive MFA challenge. |
 | Correlated endpoint activity? | Defender: interactive session on WKSTN-042 within 3 min of sign-in |
 
 **Determination:** True positive — successful password spray against valid corporate account.
@@ -205,6 +205,16 @@ Tier 2 confirmed no mail forwarding rules, no inbox delegation, and no additiona
 2026-06-14T11:09:42Z  jsmith@corp.lab  0      Success                       203.0.113.55  Bucharest, RO  Risk: high
 ```
 
+### Entra ID ResultType Reference
+The following Microsoft Entra ID authentication event codes were utilized to parse the spray sequence:
+
+| ResultType | Description | SOC Relevance / Action |
+|------------|-------------|-------------------------|
+| **`0`** | Success | Indicates successful authentication; flags potential compromise if preceded by failures. |
+| **`50126`** | Invalid credentials | Represents a single failed authentication attempt (spray indicator). |
+| **`50053`** | Account locked | Indicates account lockout due to repeated failures (targeted brute-force indicator). |
+| **`50076`** / **`50079`** | MFA challenge required | Password was correct, but blocked/prompted by MFA. Critical for detecting partial bypasses. |
+
 ### Sentinel Analytics Rule
 
 See `detections/sentinel/password_spray_entra.kql`
@@ -219,13 +229,41 @@ index=wineventlog EventCode=4625 OR EventCode=4624
 
 ---
 
-## 10. Recommendations
+## 10. Recommendations & Conditional Access Hardening
 
-1. **Detection** — Alert when `>15` failures + `1` success for same UPN within 15 minutes (current rule).
-2. **Conditional Access** — Block legacy auth; require compliant device for finance group.
-3. **Identity** — Enable Entra smart lockout; review password policy for sprayed accounts.
-4. **Training** — Finance users: unique passwords, report unexpected MFA prompts.
-5. **Contrast doc** — Keep INC-2026-004 as paired false-positive example for onboarding.
+To mitigate password spray risks and secure the `pe-soc-lab` tenant, I recommend implementing the following Conditional Access (CA) and Identity Protection policies:
+
+### 1. Block Legacy Authentication (Zero Trust Policy)
+*   **Action**: Deploy a Conditional Access policy targeting all users, applying to all cloud apps.
+*   **Control**: Under **Conditions → Client apps**, select **Legacy authentication clients** (Exchange ActiveSync, Other clients - MAPI, SMTP, POP3, IMAP4, etc.).
+*   **Grant**: Set to **Block access**.
+*   **Why**: Legacy protocols do not support interactive multi-factor authentication (MFA) prompts, making them prime targets for password sprays attempting to bypass MFA.
+
+### 2. Risk-Based Sign-In Policies (Entra ID Protection)
+*   **Action**: Configure a Sign-In Risk policy.
+*   **Control**: Under **Conditions → Sign-in risk**, select **High** and **Medium** risk levels (triggered by anonymous IP addresses, atypical travel, or unfamiliar sign-in properties).
+*   **Grant**: Require **MFA** or **Block access** if the user is outside corporate networks.
+*   **Why**: This would have automatically blocked or challenged the Bucharest, RO login (detected as "High" risk by Entra ID Protection due to anonymous/unfamiliar features) before Exchange Online access was granted.
+
+### 3. Require Compliant/Hybrid Joined Devices for High-Value Roles
+*   **Action**: Deploy a policy targeting the **Finance** and **IT Admins** groups.
+*   **Control**: Target all cloud apps.
+*   **Grant**: Select **Grant access** → **Require device to be marked as compliant** (Intune) OR **Require Microsoft Entra hybrid joined device**.
+*   **Why**: Even if an attacker compromises a valid password, they cannot authenticate because their device is non-compliant/unmanaged (Linux x86_64 in this incident).
+
+### 4. Geographical Restrictions (Named Locations)
+*   **Action**: Create Named Locations for authorized corporate operating regions (e.g., Canada and US) and office IP ranges.
+*   **Control**: Apply a Conditional Access policy blocking sign-ins from all locations except the defined Named Locations, or requiring MFA + phishing-resistant credentials (FIDO2) for external regions.
+*   **Why**: Directly blocks spray and authentication attempts originating from non-business regions (e.g., Romania).
+
+### 5. Detection & Lockout Tuning
+*   **Smart Lockout**: Configure Entra ID Smart Lockout thresholds to lock accounts after 5 failed attempts from a single IP, preventing brute force while minimizing legitimate user lockouts.
+*   **Analytics Rule Tune**: Continue utilizing [password_spray_entra.kql](../detections/sentinel/password_spray_entra.kql) to identify any anomalous spray trends that bypass individual smart lockout thresholds.
+
+### 6. Training & Process Transfer
+*   **Training**: Educate high-privilege users (specifically finance) about credential reuse risks and to immediately report unexpected MFA prompts (MFA fatigue/push exhaustion attacks).
+*   **Process Transfer**: Keep [INC-2026-004](INC-2026-004-false-positive-vpn.md) as a paired false-positive contrast example for onboarding new analysts.
+
 
 ---
 

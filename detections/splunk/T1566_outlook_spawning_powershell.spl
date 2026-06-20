@@ -5,3 +5,7 @@ index=sysmon EventCode=1 ParentImage="*\\outlook.exe" Image="*\\powershell.exe"
 | eval mitre_technique="T1566.001"
 | eval severity="high"
 | table _time host User Image CommandLine ParentImage ParentCommandLine mitre_technique severity
+
+# Production Tuning Note: Avoid leading wildcards like ParentImage="*\\outlook.exe" in Splunk search strings.
+# Instead, parse or normalize paths at ingest-time to map to structured fields (e.g., parent_process_name=outlook.exe
+# and process_name=powershell.exe) in your data model, allowing fast, indexed-level searches.

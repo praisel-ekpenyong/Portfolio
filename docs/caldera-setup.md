@@ -64,7 +64,7 @@ Verify agents show **ALIVE** in Caldera UI before running operations.
 
 Enable in `conf/local.yml` or via UI **Configuration → Plugins**.
 
-## Pre-Operation Checklist (Tier 1 Analyst)
+## Pre-Operation Checklist (For Emulation Replay)
 
 - [ ] Note operation start time (UTC) for timeline correlation
 - [ ] Confirm SIEM ingestion lag < 2 minutes

@@ -2,7 +2,7 @@
   Lab validation rules for Caldera-emulated TTPs.
   Production deployment requires environment-specific tuning and allowlists.
   Path on server: /var/ossec/etc/rules/local_rules.xml
-  Incidents: INC-2026-001, INC-2026-003
+  Incidents: INC-2026-001, INC-2026-003, INC-2026-006
 -->
 <group name="caldera_lab,windows,linux">
 
@@ -18,7 +18,12 @@
     <group>attack_stage_execution,</group>
   </rule>
 
-  <!-- INC-2026-003: T1053.005 Scheduled Task persistence -->
+  <!-- 
+    INC-2026-003: T1053.005 Scheduled Task persistence
+    Production Tuning Note: This rule is calibrated for lab validation. In production, hardcoded strings 
+    like 'ChromeUpdate' should be omitted in favor of alerts firing when schtasks.exe or Register-ScheduledTask 
+    commands execute binaries/scripts from any user-writable paths (e.g., \Temp\, \AppData\, \Users\Public\, \Downloads\).
+  -->
   <rule id="180002" level="10">
     <if_group>windows</if_group>
     <match type="pcre2">(?i)(schtasks\s.*/Create|Register-ScheduledTask)</match>
@@ -28,6 +33,28 @@
       <id>T1053.005</id>
     </mitre>
     <group>attack_stage_persistence,</group>
+  </rule>
+
+  <!-- INC-2026-006: T1112 RDP Registry Port Modification -->
+  <rule id="180003" level="8">
+    <if_group>windows</if_group>
+    <field name="win.eventdata.targetObject">\\REGISTRY\\MACHINE\\SYSTEM\\ControlSet001\\Control\\Terminal Server\\WinStations\\RDP-Tcp\\PortNumber</field>
+    <description>Suspicious RDP registry port modification detected on $(win.system.computer)</description>
+    <mitre>
+      <id>T1112</id>
+    </mitre>
+    <group>registry_event,security_compliance</group>
+  </rule>
+
+  <!-- INC-2026-006: T1040 Network Sniffing -->
+  <rule id="180004" level="9">
+    <if_group>windows,linux</if_group>
+    <match type="pcre2">(?i)tcpdump|tshark</match>
+    <description>Unauthorized packet sniffer (tcpdump/tshark) executed on $(hostname)</description>
+    <mitre>
+      <id>T1040</id>
+    </mitre>
+    <group>process_creation,incident_response</group>
   </rule>
 
   <!-- Sandcat agent indicator (lab only) -->

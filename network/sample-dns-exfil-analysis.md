@@ -1,6 +1,6 @@
 # Practice Exercise: DNS Query Anomaly (Not a Closed Incident)
 
-> **Portfolio status:** Supplementary drill only — no `INC-####` record. Use after Caldera **T1-Phish-to-Host** if HTTP beacon abilities generate periodic DNS, or for Splunk/Sentinel tuning practice.
+> **Operational status:** Supplementary drill only — no `INC-####` record. Use after Caldera **T1-Phish-to-Host** if HTTP beacon abilities generate periodic DNS, or for Splunk/Sentinel tuning practice.
 
 ## Scenario
 

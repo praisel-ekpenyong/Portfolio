@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Incident ID** | INC-2026-005 |
-| **Portfolio order** | **1 — Anchor case** |
+| **Focus Area** | **Phishing & Host Correlation** |
 | **osTicket** | #48340 |
 | **Severity** | P2 — High |
 | **Status** | Closed — True Positive (Lab Emulation) |
@@ -18,7 +18,7 @@
 
 ## Executive Summary
 
-A user-reported invoice phish was correlated with Outlook spawning PowerShell on WKSTN-042. I separated delivery, open, attachment execution, credential submission, and compromise instead of collapsing them into one conclusion. The host was isolated after execution, mailbox and recipient scope checks found no credential theft or broader clicks, and the case closed as contained execution.
+A user-reported invoice phish was correlated with Outlook spawning PowerShell on WKSTN-042. During triage, I mapped out each stage of the attack chain separately—from initial delivery to execution—rather than assuming a full compromise at the outset. The host was isolated immediately post-execution, and follow-up recipient scoping confirmed no credential theft or additional mail clicks, allowing us to safely close the case as contained.
 
 ### MITRE Evidence Map
 
@@ -65,6 +65,9 @@ A user-reported invoice phish was correlated with Outlook spawning PowerShell on
 | DMARC | **fail** |
 | Display vs envelope | `payable@vendor-secure.com` vs `bounce+xyz@mail.vendor-secure.com` |
 | Reply-To | `attacker-drop@protonmail.com` (mismatch) |
+
+> [!NOTE]
+> **Email Gateway Bypass Analysis:** Password-protected ZIPs encrypt the internal payload (`Invoice.lnk` shortcut), preventing the secure email gateway (SEG) from performing static signature analysis. The gateway relied on the email body text containing the password to run heuristics, which it failed to correlate, allowing successful delivery to the user's inbox.
 
 ### Attachment analysis
 

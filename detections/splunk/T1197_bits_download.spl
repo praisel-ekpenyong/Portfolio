@@ -9,3 +9,6 @@ index=sysmon EventCode=1
 | table _time host User Image CommandLine ParentImage ParentCommandLine mitre_technique severity
 | where NOT match(ParentImage, "(?i)\\\\(ccmexec|msiexec|svchost)\\.exe")
 # Tune: add approved parent processes to exclusion lookup table
+# Production Tuning Note: In large enterprise environments, replace wildcard scans on the CommandLine field
+# with exact argument matching. Also, leverage lookup tables for process parent exclusions rather than
+# regex-based filters in where-clauses to optimize Search Processing Language (SPL) search times.

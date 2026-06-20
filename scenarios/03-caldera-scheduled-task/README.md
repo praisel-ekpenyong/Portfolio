@@ -1,6 +1,6 @@
 # Scenario 03 — Scheduled Task Persistence (Caldera)
 
-**Portfolio case #4** — [`INC-2026-003`](../../incidents/INC-2026-003-scheduled-task-persistence.md)
+**Incident Record:** [`INC-2026-003`](../../incidents/INC-2026-003-scheduled-task-persistence.md)
 
 ## Objective
 
@@ -14,7 +14,7 @@ Demonstrate persistence triage: plausible task name (`ChromeUpdate`) with suspic
 | Agent | WKSTN-042 |
 | MITRE | T1053.005 |
 
-## Tier 1 Checklist
+## Lab Replay Checklist
 
 - [ ] Who created the task? Which process?
 - [ ] Compare to legitimate SCCM/Chrome GPO tasks
@@ -25,4 +25,4 @@ Demonstrate persistence triage: plausible task name (`ChromeUpdate`) with suspic
 
 ## Supplemental
 
-RDP/PCAP lateral case moved to [`network/supplemental-rdp-lateral-case.md`](../../network/supplemental-rdp-lateral-case.md).
+RDP/PCAP lateral movement has been elevated to a core scenario: [Scenario 06 — RDP Lateral Movement & Network Sniffing](../06-caldera-lateral-rdp/README.md).

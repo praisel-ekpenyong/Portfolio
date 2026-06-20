@@ -1,8 +1,8 @@
 # PCAP Analysis Guide (Tier 1)
 
-Walkthrough for **supplemental RDP / lateral movement** practice — [`supplemental-rdp-lateral-case.md`](supplemental-rdp-lateral-case.md) (Caldera `T1-Windows-Lateral`, tshark capture on WKSTN-099).
+Walkthrough for **RDP / lateral movement** network forensics — [INC-2026-006](../incidents/INC-2026-006-rdp-lateral-movement.md) (Caldera `2026-06-18-LATERAL-RDP-LAB`, tcpdump capture on WKSTN-099).
 
-> **Core portfolio INC-2026-003** is scheduled-task persistence on WKSTN-042 — endpoint/Sysmon evidence, not PCAP. Use this guide for the stretch network module only.
+> **Core incident INC-2026-006** is the primary network forensics case, where RDP lateral movement is correlated with suspicious registry changes and a tcpdump process execution. Use this guide to understand how PCAP traffic was analyzed.
 
 ## When Tier 1 Reviews PCAPs
 
@@ -15,7 +15,7 @@ Walkthrough for **supplemental RDP / lateral movement** practice — [`supplemen
 
 ### 1. Capture Metadata
 
-| Field | Supplemental RDP Case Example |
+| Field | RDP Lateral Case (INC-2026-006) |
 |-------|-------------------------------|
 | File | `capture.pcapng` |
 | Size | 12 MB |
@@ -71,7 +71,7 @@ Use for:
 | Subdomain length | `dns.qry.name` filter > 50 chars |
 | Resolver | Should be internal DC DNS |
 
-**Supplemental RDP case result:** Normal AD DNS — no exfil.
+**RDP Lateral case result (INC-006):** Normal AD DNS — no exfil.
 
 ### 6. HTTP/HTTPS
 
@@ -111,10 +111,10 @@ PCAP not always available. Tier 1 relied on **firewall auth logs** + **change ti
 
 ## Lab Extension
 
-Re-run Caldera **T1040** ability, capture with tshark:
+Re-run Caldera **T1040** ability, capture with tcpdump:
 
 ```cmd
-tshark -i 1 -a duration:120 -w C:\Users\Public\capture.pcapng
+tcpdump -i 1 -w C:\Users\Public\capture.pcapng
 ```
 
 Practice filters above against known-good baseline.

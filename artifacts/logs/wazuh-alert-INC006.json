@@ -1,0 +1,30 @@
+{
+  "timestamp": "2026-06-18T10:15:02.000Z",
+  "rule": {
+    "id": 180003,
+    "level": 8,
+    "description": "Suspicious RDP registry port modification detected on WKSTN-099",
+    "mitre": ["T1112"],
+    "groups": ["caldera_lab", "windows", "registry_event", "security_compliance"]
+  },
+  "agent": {
+    "id": "099",
+    "name": "wazuh-agent-wkstn-099",
+    "ip": "10.10.10.99"
+  },
+  "data": {
+    "win": {
+      "system": { "computer": "WKSTN-099" },
+      "eventdata": {
+        "targetObject": "\\REGISTRY\\MACHINE\\SYSTEM\\ControlSet001\\Control\\Terminal Server\\WinStations\\RDP-Tcp\\PortNumber",
+        "parentImage": "C:\\Windows\\System32\\svchost.exe",
+        "user": "CORP\\jsmith"
+      }
+    }
+  },
+  "incident_id": "INC-2026-006",
+  "ticket": "48370",
+  "ticket_system": "osTicket",
+  "analyst": "Praisel Ekpenyong",
+  "caldera_operation": "2026-06-18-LATERAL-RDP-LAB"
+}

@@ -1,6 +1,6 @@
 # Scenario 02 — Entra Password Spray & Risky Sign-in
 
-**Portfolio case #2** — [`INC-2026-002`](../../incidents/INC-2026-002-entra-password-spray.md)
+**Incident Record:** [`INC-2026-002`](../../incidents/INC-2026-002-entra-password-spray.md)
 
 **Praisel Ekpenyong** · Lab 2 only · No Caldera
 
@@ -28,7 +28,7 @@ Demonstrate Tier 1 identity alert triage: password spray against a **valid** Ent
 3. Triage with `detections/sentinel/entra_risky_signin.kql`.
 4. Complete incident report and osTicket #48305.
 
-## Tier 1 Checklist
+## Lab Replay Checklist
 
 - [ ] Confirm user exists in Entra — not a scanner guessing random names
 - [ ] Count failures vs successes in `SigninLogs`

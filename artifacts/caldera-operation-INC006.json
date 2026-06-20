@@ -1,0 +1,44 @@
+{
+  "operation": "2026-06-18-LATERAL-RDP-LAB",
+  "adversary": "T1-Windows-Lateral",
+  "group": "blue-team-lab",
+  "start": "2026-06-18T10:10:00.000Z",
+  "end": "2026-06-18T14:00:00.000Z",
+  "analyst": "Praisel Ekpenyong",
+  "chain": [
+    {
+      "ability_name": "Lateral Movement via Remote Desktop Protocol",
+      "ability_id": "rdp-lateral-006",
+      "technique": "T1021.001",
+      "host": "WKSTN-099",
+      "paw": "wkstn099-paw",
+      "finish": "2026-06-18T10:12:30.000Z",
+      "status": "success",
+      "output": "RDP connection established from 10.10.10.42 to 10.10.10.99 under CORP\\jsmith"
+    },
+    {
+      "ability_name": "Modify RDP registry port to 8443",
+      "ability_id": "rdp-port-mod-006",
+      "technique": "T1112",
+      "host": "WKSTN-099",
+      "paw": "wkstn099-paw",
+      "finish": "2026-06-18T10:15:02.000Z",
+      "status": "success",
+      "output": "Registry key HKLM\\System\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp\\PortNumber set to 8443."
+    },
+    {
+      "ability_name": "Unauthorized packet sniffer tcpdump.exe execution",
+      "ability_id": "tcpdump-sniff-006",
+      "technique": "T1040",
+      "host": "WKSTN-099",
+      "paw": "wkstn099-paw",
+      "finish": "2026-06-18T10:15:15.000Z",
+      "status": "success",
+      "output": "tcpdump.exe -i 1 -w C:\\Users\\Public\\capture.pcapng started."
+    }
+  ],
+  "siem_alerts": [
+    { "source": "Wazuh", "rule_id": 180003, "time": "2026-06-18T10:15:02.000Z" },
+    { "source": "Wazuh", "rule_id": 180004, "time": "2026-06-18T10:15:15.000Z" }
+  ]
+}

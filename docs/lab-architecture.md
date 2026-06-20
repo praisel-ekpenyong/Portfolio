@@ -90,6 +90,7 @@ Internet (simulated) ──► pfSense Firewall ──► 10.10.0.0/24 (DMZ)
 | INC-2026-001 | Wazuh rule 180001, Sysmon on WKSTN-042 |
 | INC-2026-003 | Wazuh rule 180002, Sysmon EID 1/11 on WKSTN-042 |
 | INC-2026-004 | pfSense VPN logs (forwarded to Sentinel) |
+| INC-2026-006 | Wazuh rules 180003/180004, Sysmon, tshark on WKSTN-099 |
 
 ---
 
@@ -155,7 +156,6 @@ Some cases are intentionally run across both environments to mirror real MSSP wo
 
 | Module | Location | Purpose |
 |--------|----------|---------|
-| RDP / PCAP lateral (stretch) | `network/supplemental-rdp-lateral-case.md` | Network + endpoint correlation drill |
 | DNS exfil drill | `network/sample-dns-exfil-analysis.md` | Splunk/Wireshark tuning exercise |
 
 ---

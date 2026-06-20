@@ -39,6 +39,16 @@ class EnrichmentResult:
     error: Optional[str] = None
 
 
+def clean_ioc(value: str) -> str:
+    """Normalize defanged URLs, domains, and IPs to their standard format."""
+    value = value.strip().lower()
+    value = value.replace("[.]", ".").replace("(.)", ".").replace("[-]", "-")
+    value = value.replace("[d]", ".").replace("[D]", ".")
+    value = value.replace("hxxps://", "https://").replace("hxxp://", "http://")
+    value = value.replace("hxxp[s]://", "https://").replace("hxxp(s)://", "https://")
+    return value
+
+
 def classify_ioc(value: str) -> str:
     value = value.strip()
     if value.startswith("http://") or value.startswith("https://"):
@@ -80,7 +90,7 @@ def enrich_ip(ip: str, session: requests.Session) -> EnrichmentResult:
     details: dict = {}
     verdict = "unknown"
     try:
-        r = session.get(f"http://ip-api.com/json/{ip}?fields=status,message,country,isp,org,as,query", timeout=10)
+        r = session.get(f"https://ip-api.com/json/{ip}?fields=status,message,country,isp,org,as,query", timeout=10)
         data = r.json()
         if data.get("status") == "success":
             details = {
@@ -178,21 +188,22 @@ def enrich_hash(file_hash: str, session: requests.Session, vt_key: Optional[str]
 
 
 def enrich_one(ioc: str, session: requests.Session, vt_key: Optional[str]) -> EnrichmentResult:
-    ioc_type = classify_ioc(ioc)
+    cleaned = clean_ioc(ioc)
+    ioc_type = classify_ioc(cleaned)
     if ioc_type == "ip":
-        return enrich_ip(ioc, session)
+        return enrich_ip(cleaned, session)
     if ioc_type == "domain":
-        return enrich_domain(ioc, session, vt_key)
+        return enrich_domain(cleaned, session, vt_key)
     if ioc_type == "url":
-        return enrich_url(ioc, session)
+        return enrich_url(cleaned, session)
     if ioc_type == "hash":
-        return enrich_hash(ioc, session, vt_key)
-    return EnrichmentResult(ioc, "unknown", "skipped", "none", {})
+        return enrich_hash(cleaned, session, vt_key)
+    return EnrichmentResult(cleaned, "unknown", "skipped", "none", {})
 
 
 def load_iocs(path: str) -> list[str]:
     with open(path, encoding="utf-8") as f:
-        return [line.strip() for line in f if line.strip() and not line.startswith("#")]
+        return [line.strip() for line in f if line.strip() and not line.strip().startswith("#")]
 
 
 def main() -> None:

@@ -10,3 +10,7 @@ index=dns OR index=sysmon EventCode=22
 | where count > 5
 | sort - avg_len
 | eval mitre_technique="T1071.004"
+
+# Production Tuning Note: Running len() and mvcount(split()) calculations over high-volume DNS logs in Splunk
+# can be extremely expensive. To optimize performance, run this search on a summary index, or filter out
+# known benign top-level domains (e.g., .microsoft.com, .local) using a lookup table before performing string operations.

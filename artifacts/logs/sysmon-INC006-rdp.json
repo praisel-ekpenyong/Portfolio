@@ -1,0 +1,14 @@
+{
+  "EventID": 1,
+  "UtcTime": "2026-06-18T10:15:15.000Z",
+  "Hostname": "WKSTN-099",
+  "Image": "C:\\Users\\Public\\tcpdump.exe",
+  "CommandLine": "tcpdump.exe -i 1 -w C:\\Users\\Public\\capture.pcapng",
+  "ParentImage": "C:\\Windows\\System32\\cmd.exe",
+  "ParentCommandLine": "cmd.exe",
+  "User": "CORP\\jsmith",
+  "IntegrityLevel": "Medium",
+  "Hashes": "SHA256=9C4E3D8B7A6F5E4D3C2B1A0F9E8D7C6B5A493827160A5D4E3C2B1A0F9E8D7C6B",
+  "mitre_technique": "T1040",
+  "incident_id": "INC-2026-006"
+}

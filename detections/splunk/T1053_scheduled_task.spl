@@ -6,3 +6,7 @@ index=sysmon (EventCode=1 OR EventCode=11)
 | search CommandLine="*ChromeUpdate*" OR TargetFilename="*ChromeUpdate*"
 | eval mitre_technique="T1053.005"
 | table _time host User Image CommandLine TargetFilename ParentImage mitre_technique
+
+# Production Tuning Note: Avoid leading wildcards (e.g., CommandLine="*schtasks*") in index-level searches
+# in large production environments, as they bypass index optimization and cause expensive full-text scans.
+# Instead, search on structured fields such as Image="*\\schtasks.exe" or use specific command argument lookups.

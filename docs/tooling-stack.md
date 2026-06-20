@@ -21,7 +21,7 @@ Tools used across **Lab 1 (on-prem)** and **Lab 2 (cloud)**. Tier 1 tasks listed
 |------|------------------|--------------|
 | **Sysmon** | INC-2026-001, 003 | Process lineage, command-line arguments |
 | **Active Directory** | INC-2026-001, 003 | Logon events, account context on `corp.lab.local` |
-| **Wireshark** | `network/pcap-analysis-guide.md`, supplemental RDP case | Follow TCP streams, filter DNS, export objects |
+| **Wireshark** | `network/pcap-analysis-guide.md`, INC-2026-006 | Follow TCP streams, filter DNS, export objects |
 | **pfSense** | INC-2026-004 source logs | Verify blocked C2, VPN auth failures |
 | **Suricata/Zeek** (optional) | DNS exfil scenario | Review IDS sid and flow logs |
 
@@ -35,7 +35,7 @@ Tools used across **Lab 1 (on-prem)** and **Lab 2 (cloud)**. Tier 1 tasks listed
 |------|------------------|--------------|
 | **Microsoft Sentinel** | `detections/sentinel/` | Execute KQL, triage incident queue, link alerts |
 | **Microsoft Defender for Endpoint** | INC-2026-001, 003, 005 | View alert story, isolate machine, file quarantine |
-| **Entra ID** | INC-2026-005, cross-incident | Risky sign-in review, user context |
+| **Entra ID** | INC-2026-002, cross-incident | Risky sign-in review, user context |
 
 ### Connectors
 
@@ -89,3 +89,4 @@ Tools used across **Lab 1 (on-prem)** and **Lab 2 (cloud)**. Tier 1 tasks listed
 | INC-2026-003 | Wazuh, Sysmon, Splunk | Defender |
 | INC-2026-004 | pfSense (log source) | Sentinel |
 | INC-2026-005 | Email headers | Sentinel, Defender, Entra |
+| INC-2026-006 | Wazuh, Sysmon, Splunk, Wireshark | — |

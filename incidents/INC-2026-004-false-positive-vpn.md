@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Incident ID** | INC-2026-004 |
-| **Portfolio order** | **5 — FP discipline** |
+| **Focus Area** | **Alert Tuning & Noise Reduction** |
 | **osTicket** | #48322 |
 | **Severity** | Initial P3 (Normal) → Downgraded to P5 (Low) |
 | **Status** | Closed — False Positive |
@@ -99,14 +99,14 @@ openvpn: 203.0.113.45:52144 Connection reset
 
 ---
 
-## 5. Why This Matters for Tier 1
+## 5. Operational Takeaway
 
-Demonstrates:
+This case highlights key operational practices for alert triage:
 
-- Not every alert is an incident
-- Correlation with **change management** before escalation
-- Distinguishing internet background noise from credential stuffing against real accounts
-- Proper severity downgrade and ticket closure notes
+- Not every alert is an incident.
+- Always correlate with **change management** before escalating.
+- Distinguish external internet noise/scanning from real credential stuffing campaigns.
+- Downgrade severities properly and write descriptive ticket closure notes.
 
 ---
 
@@ -126,6 +126,7 @@ Detection tuning request filed: exclude first 24h post geo-block change window.
 1. Add Sentinel suppression window linked to change tickets tagged `vpn-policy`.
 2. Alert only when **valid username** + **>10 failures** + **same /24 as prior successful user login**.
 3. Weekly report of blocked VPN countries for leadership — not individual tickets.
+4. **Dynamic Change Management Integration:** In a production environment, rather than hardcoding change windows inline using static `datatable` variables in KQL, the analytics rule should perform an inner join or lookup on a Sentinel table populated by change-management API logs (e.g. from ServiceNow or Jira Service Desk). This automates suppression based on approved change windows dynamically.
 
 ---
 

@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Incident ID** | INC-2026-003 |
-| **Portfolio order** | **4 — Persistence** |
+| **Focus Area** | **Scheduled Tasks & Persistence** |
 | **osTicket** | #48318 |
 | **Severity** | P2 — High |
 | **Status** | Closed — True Positive (Lab Emulation) |
@@ -240,6 +240,7 @@ Screenshots are supplemental walkthrough visuals. The Sysmon export, SPL/KQL, Wa
 3. **Hardening** — Restrict `schtasks.exe` and `Register-ScheduledTask` via AppLocker for standard users on finance VLAN.
 4. **Monitoring** — Forward Security 4698/4702 events from all endpoints to Splunk and Sentinel for centralized task audit.
 5. **Emulation** — Quarterly Caldera replay of `T1-Scheduled-Task` profile to validate detection regression.
+6. **Registry Monitoring:** Deploy detections monitoring Registry Event ID 12/13 under `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree` to detect scheduled tasks created via direct registry write. Evasive malware frequently bypasses XML task file creation (Sysmon Event ID 11) by writing properties directly to the registry cache.
 
 ---
 

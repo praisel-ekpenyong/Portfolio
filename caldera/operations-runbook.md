@@ -61,7 +61,7 @@ SIEM alerts generated: [IDs]
 Analyst: Praisel Ekpenyong
 ```
 
-## Scenario Execution Order (Portfolio Interview Order)
+## Scenario Execution & Walk-Through Sequence
 
 | Day | Operation | Incident Doc | Skill Highlight |
 |-----|-----------|--------------|-----------------|
@@ -70,8 +70,9 @@ Analyst: Praisel Ekpenyong
 | 3 | T1-Windows-Download-Exec | INC-2026-001 | LOLBin, benign vs malicious comparator |
 | 4 | T1-Scheduled-Task | INC-2026-003 | Persistence baseline, task XML |
 | 5 | VPN FP exercise | INC-2026-004 | False positive discipline, rule tuning |
+| 6 | T1-Windows-Lateral | INC-2026-006 | Wireshark/tshark PCAP forensics, RDP port baselines |
 
-**Supplemental (stretch):** `T1-Windows-Lateral` — see [`network/supplemental-rdp-lateral-case.md`](../network/supplemental-rdp-lateral-case.md).
+**Supplemental (stretch):** `T1-Windows-Lateral` — see [`incidents/INC-2026-006-rdp-lateral-movement.md`](../incidents/INC-2026-006-rdp-lateral-movement.md).
 
 ## Troubleshooting
 

@@ -1,6 +1,6 @@
 # Master Resume Bullets: SOC Analyst L1
 
-These bullets follow the requested format: **2-3 keywords** + **how they were used** + **where (system/product/team/client/industry)** + **non-technical why (simple, 8-year-old readable impact)**, rewritten to flow smoothly and sound highly natural.
+These bullets follow the requested format: **2-3 keywords** + **how they were used** + **where (system/product/team/client/industry)** + **non-technical why (simple, plain impact)**, rewritten to be completely free of metrics, numbers, percentages, or quantifiable claims.
 
 ---
 
@@ -50,20 +50,20 @@ These bullets follow the requested format: **2-3 keywords** + **how they were us
 ### Detection Tuning & Noise Reduction
 
 * **False positive** + **change management** + **Sentinel**  
-  Solved a loud login alert by matching it to a **change management** ticket in the **firewall log queue**, identifying the event as a harmless **false positive** so the security team didn't waste time chasing fake alarms.
+  Solved a loud login alert by matching it to a **change management** ticket in the **firewall log queue**, identifying the event as a harmless **false positive** so that we could reduce alert noise on VPN logins.
 
 * **KQL queries** + **Sentinel** + **rule validation**  
-  Rewrote search rules using **KQL queries** in **Microsoft Sentinel** and performed **rule validation** on the **VPN log source**, narrowing the trigger window after network updates so we could cut down on annoying alert noise.
+  Rewrote search rules using **KQL queries** in **Microsoft Sentinel** and performed **rule validation** on the **VPN log source**, narrowing the trigger window after network updates to cut down on alert noise.
 
 ---
 
 ### SOC Automation, Scripting & Ticketing
 
 * **Python script** + **IOC enrichment** + **threat intelligence**  
-  Built an automated **Python script** to perform **IOC enrichment** by classifying lab indicators locally and supporting optional public **threat intelligence** lookups for real IOCs.
+  Built an automated **Python script** to perform **IOC enrichment** by classifying lab indicators locally and supporting public **threat intelligence** lookups so that we could reduce manual lookup times during busy shifts.
 
 * **PowerShell script** + **automated triage** + **ticketing**  
-  Wrote an automated **PowerShell script** to gather system memory logs and network connections for **automated triage** on the **internal network segment**, formatting the results for the **ticketing** queue so the next analyst on shift had everything they needed to start working.
+  Wrote an automated **PowerShell script** to gather system memory logs and network connections for **automated triage** on the **internal network segment**, formatting the results for the **ticketing** queue so that the team could acknowledge alerts faster.
 
 * **Post-incident documentation** + **ticketing** + **incident response lifecycle**  
   Logged incident logs and timelines using **post-incident documentation** on our **ticketing** platform, tracking cases through the whole **incident response lifecycle** so the team had a clean paper trail for security audits.

@@ -48,7 +48,7 @@ def _extract_technique(ability: dict, entry: dict = None) -> str:
     if entry and isinstance(entry.get("technique"), str) and entry.get("technique"):
         return entry["technique"]
     # Nested ability dict formats
-    technique = ability.get("technique", {})
+    technique = ability.get("technique")
     if isinstance(technique, dict):
         return technique.get("attack_id", "")
     if isinstance(technique, list) and technique:

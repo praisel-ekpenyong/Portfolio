@@ -1,6 +1,6 @@
 # Scenario 04 — Phishing to Host (Caldera)
 
-**Portfolio case #1 (anchor)** — [`INC-2026-005`](../../incidents/INC-2026-005-phishing-chain.md)
+**Incident Record:** [`INC-2026-005`](../../incidents/INC-2026-005-phishing-chain.md)
 
 ## Objective
 
@@ -30,7 +30,7 @@ Tier 1 completes SPF/DKIM/DMARC analysis and extracts URLs.
 | Sysmon | EID 1, 4104 (if script logging on) |
 | Proxy | Blocked or allowed URL to malicious domain |
 
-## Tier 1 Tasks
+## Lab Replay Checklist
 
 - [ ] Document email headers in ticket
 - [ ] Mail trace for other recipients
