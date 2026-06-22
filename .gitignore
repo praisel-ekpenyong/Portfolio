@@ -39,3 +39,6 @@ operation_report.json
 # PCAP binaries
 *.pcap
 *.pcapng
+
+# Personal preparation / unnecessary files archive
+archive/
