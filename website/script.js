@@ -1,7 +1,6 @@
 // ── DATA ──────────────────────────────────────────────────
 const GITHUB_BASE = 'https://github.com/praisel-ekpenyong/Portfolio/blob/main';
 const CONTACT_EMAIL = 'ekpenyongpraisel@gmail.com';
-const FORMSPREE_FORM_ID = 'xbdvrpdp';
 
 const PROJECTS = [
   {
@@ -133,7 +132,7 @@ function triggerHeroAnim() {
   const heroPlayed = sessionStorage.getItem('heroPlayed');
   const delay = heroPlayed ? 0 : 800;
   setTimeout(() => {
-    document.querySelectorAll('#h0,#h3,#h4,#h5,#h6').forEach(el => el.classList.add('show'));
+    document.querySelectorAll('#h0,#h3,#h4,#h-btns,#h6').forEach(el => el.classList.add('show'));
     document.getElementById('h1').classList.add('show');
     document.getElementById('h2').classList.add('show');
     if (!heroPlayed) sessionStorage.setItem('heroPlayed', 'true');
@@ -212,24 +211,46 @@ document.getElementById('hamburger').addEventListener('click', () => {
   document.getElementById('mobile-menu').classList.toggle('open');
 });
 
-// ── NAVBAR SCROLL SPY ─────────────────────────────────────
+// ── NAVBAR SCROLL SPY & TINTS (IntersectionObserver) ─────
 const sections = ['home','about','portfolio','contact'];
-function updateNav() {
-  const scrolled = window.scrollY > 20;
-  navbar.classList.toggle('scrolled', scrolled);
-  for (const id of sections) {
-    const el = document.getElementById(id);
-    if (!el) continue;
-    const r = el.getBoundingClientRect();
-    if (r.top <= 140 && r.bottom >= 140) {
+
+// Scroll sentinel to toggle scrolled class on navbar
+const scrollSentinel = document.createElement('div');
+scrollSentinel.style.position = 'absolute';
+scrollSentinel.style.top = '0';
+scrollSentinel.style.height = '20px';
+scrollSentinel.style.width = '100%';
+scrollSentinel.style.pointerEvents = 'none';
+document.body.prepend(scrollSentinel);
+
+const sentinelObserver = new IntersectionObserver(entries => {
+  const isAtTop = entries[0].isIntersecting;
+  navbar.classList.toggle('scrolled', !isAtTop);
+}, { threshold: 0 });
+sentinelObserver.observe(scrollSentinel);
+
+// Active section spy
+const observerOptions = {
+  root: null,
+  rootMargin: '-50% 0px -50% 0px', // Trigger when section occupies viewport center
+  threshold: 0
+};
+
+const navObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
       document.querySelectorAll('[data-section]').forEach(a => {
         a.classList.toggle('active', a.dataset.section === id);
       });
-      break;
     }
-  }
-}
-window.addEventListener('scroll', updateNav, { passive: true });
+  });
+}, observerOptions);
+
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if (el) navObserver.observe(el);
+});
 
 // ── SCROLL REVEAL ─────────────────────────────────────────
 const io = new IntersectionObserver(entries => {
@@ -241,30 +262,6 @@ const io = new IntersectionObserver(entries => {
   });
 }, { threshold: 0.05, rootMargin: '0px 0px -10% 0px' });
 document.querySelectorAll('.reveal, .reveal-left').forEach(el => io.observe(el));
-
-const fallbackReveal = () => {
-  document.querySelectorAll('.reveal:not(.in), .reveal-left:not(.in)').forEach(el => {
-    const r = el.getBoundingClientRect();
-    if (r.bottom < window.innerHeight * 0.9 || r.top < window.innerHeight * 0.9) {
-      el.classList.add('in');
-    }
-  });
-};
-window.addEventListener('scroll', fallbackReveal, { passive: true });
-setTimeout(fallbackReveal, 100);
-setTimeout(fallbackReveal, 1000);
-
-// ── BLOB PARALLAX ─────────────────────────────────────────
-const blobs = [0,1,2,3].map(i => document.getElementById('blob'+i));
-window.addEventListener('scroll', () => {
-  const s = window.pageYOffset;
-  blobs.forEach((b, i) => {
-    if (!b) return;
-    const x = Math.sin(s/120 + i*.6) * 100;
-    const y = Math.cos(s/120 + i*.6) * 35;
-    b.style.transform = `translate(${x}px,${y}px)`;
-  });
-}, { passive: true });
 
 // ── TABS ──────────────────────────────────────────────────
 document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -282,18 +279,24 @@ function renderProjects() {
   const grid = document.getElementById('projects-grid');
   const list = showAll ? PROJECTS : PROJECTS.slice(0, 3);
   grid.innerHTML = list.map((p, i) => `
-    <div class="project-card" style="animation-delay:${i*.06}s">
-      <div class="project-mitre">
-        ${p.mitre.map(t => `<span class="mitre-tag">${t}</span>`).join('')}
-      </div>
-      <div class="project-title">${p.title}</div>
-      <div class="project-desc">${p.description}</div>
-      ${p.snippet ? `<pre class="project-snippet"><code>${p.snippet}</code></pre>` : ''}
-      <div class="project-footer">
-        ${p.live_url
-          ? `<a href="${p.live_url}" target="_blank" rel="noopener noreferrer" class="project-live">View Write-up <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></a>`
-          : `<span style="font-size:13px;color:var(--text-muted)">No Write-up</span>`}
-        <span class="project-id-badge">${p.incident_id}</span>
+    <div class="project-card-outer" style="animation-delay:${i*.06}s">
+      <div class="project-card-inner">
+        <div class="project-mitre">
+          ${p.mitre.map(t => `<span class="mitre-tag">${t}</span>`).join('')}
+        </div>
+        <div class="project-title">${p.title}</div>
+        <div class="project-desc">${p.description}</div>
+        <div class="project-footer">
+          ${p.live_url
+            ? `<a href="${p.live_url}" target="_blank" rel="noopener noreferrer" class="project-live">
+                View Write-up
+                <span class="arrow-circle">
+                  <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                </span>
+               </a>`
+            : `<span style="font-size:13px;color:var(--text-muted)">No Write-up</span>`}
+          <span class="project-id-badge">${p.incident_id}</span>
+        </div>
       </div>
     </div>
   `).join('');
@@ -384,68 +387,91 @@ function sendMessage() {
 
   if (!valid) return;
 
-  const btn = document.querySelector('.btn-send');
-  const statusDiv = document.getElementById('form-status');
-  
-  // Set loading state
-  btn.disabled = true;
-  const originalBtnHTML = btn.innerHTML;
-  btn.innerHTML = `<span class="spinner"></span> Sending...`;
-  
-  if (statusDiv) {
-    statusDiv.style.display = 'none';
-    statusDiv.className = 'form-status';
-    statusDiv.textContent = '';
-  }
+  const status = document.getElementById('cf-status');
+  const mailtoLink = document.getElementById('cf-mailto-link');
+  const submitBtn = document.getElementById('cf-submit');
+  const nameInput = document.getElementById('cf-name');
+  const emailInput = document.getElementById('cf-email');
+  const msgInput = document.getElementById('cf-message');
 
-  // Submit via fetch to Formspree
-  fetch(`https://formspree.io/f/${FORMSPREE_FORM_ID}`, {
+  // Set loading state
+  status.className = 'form-status loading';
+  status.innerHTML = '<span class="spinner"></span>Sending message...';
+  status.style.display = 'block';
+  mailtoLink.style.display = 'none';
+
+  // Disable fields
+  submitBtn.disabled = true;
+  nameInput.disabled = true;
+  emailInput.disabled = true;
+  msgInput.disabled = true;
+
+  fetch('https://formspree.io/f/xbdvrpdp', {
     method: 'POST',
+    body: JSON.stringify({ name, email, message: msg }),
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      name: name,
-      email: email,
-      message: msg
-    })
+    }
   })
   .then(response => {
     if (response.ok) {
-      if (statusDiv) {
-        statusDiv.textContent = 'Thank you! Your message has been sent successfully.';
-        statusDiv.className = 'form-status success';
-      }
-      document.getElementById('cf-name').value = '';
-      document.getElementById('cf-email').value = '';
-      document.getElementById('cf-message').value = '';
+      status.className = 'form-status success';
+      status.textContent = 'Thank you! Your message has been sent successfully.';
+      
+      // Clear values
+      nameInput.value = '';
+      emailInput.value = '';
+      msgInput.value = '';
+
+      // Re-enable fields
+      submitBtn.disabled = false;
+      nameInput.disabled = false;
+      emailInput.disabled = false;
+      msgInput.disabled = false;
+
+      // Auto-hide success status after 5 seconds
+      setTimeout(() => {
+        status.style.transition = 'opacity 0.5s ease';
+        status.style.opacity = '0';
+        setTimeout(() => {
+          status.style.display = 'none';
+          status.style.opacity = '1';
+        }, 500);
+      }, 5000);
     } else {
-      return response.json().then(data => {
-        if (data && data.errors) {
-          throw new Error(data.errors.map(err => err.message).join(', '));
-        } else {
-          throw new Error('Failed to send message. Please try again.');
-        }
-      });
+      throw new Error('Server responded with an error status.');
     }
   })
-  .catch(error => {
-    console.error('Formspree error:', error);
-    if (statusDiv) {
-      statusDiv.textContent = 'Submission failed. Falling back to email client...';
-      statusDiv.className = 'form-status error';
-    }
+  .catch(err => {
+    status.className = 'form-status error';
+    status.textContent = 'Sending failed. Copying message to clipboard...';
     
-    // Fallback to mailto
-    setTimeout(() => {
-      const subject = encodeURIComponent(`Portfolio message from ${name}`);
-      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${msg}`);
-      window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-    }, 1500);
-  })
-  .finally(() => {
-    btn.disabled = false;
-    btn.innerHTML = originalBtnHTML;
+    // Copy to clipboard fallback
+    const rawMessage = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${msg}`;
+    navigator.clipboard.writeText(rawMessage)
+      .then(() => {
+        status.textContent = 'Network error. Message copied to clipboard! Click below to send email directly.';
+      })
+      .catch(() => {
+        status.textContent = 'Network error. Please click below to send email directly.';
+      })
+      .finally(() => {
+        // Setup mailto fallback link
+        const subject = encodeURIComponent(`Portfolio inquiry from ${name}`);
+        const body = encodeURIComponent(rawMessage);
+        mailtoLink.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+        mailtoLink.innerHTML = `
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          Open Email Client Fallback
+        `;
+        mailtoLink.style.display = 'inline-flex';
+        
+        // Re-enable fields so they can retry
+        submitBtn.disabled = false;
+        nameInput.disabled = false;
+        emailInput.disabled = false;
+        msgInput.disabled = false;
+      });
   });
 }
