@@ -27,9 +27,9 @@ python3 -m http.server 8000
 ## File Structure
 
 ```
-portfolio-static/
+website/
 ├── index.html        — full page markup (all 4 sections)
-├── styles.css        — all styling (1016 lines, dark theme)
+├── styles.css        — all styling (1200 lines, dark theme)
 ├── script.js         — all logic (data, animations, interactions)
 └── assets/
     ├── card-photo.webp              — profile photo
@@ -69,7 +69,7 @@ Everything else is self-contained. No npm, no bundler, no build step.
 
 ## Deploy
 
-Upload the entire `portfolio-static/` folder to any static host:
+Upload the entire `website/` folder to any static host:
 - GitHub Pages
 - Netlify
 - Vercel

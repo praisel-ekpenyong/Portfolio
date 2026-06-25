@@ -204,11 +204,35 @@ document.querySelectorAll('a[data-section]').forEach(a => {
     e.preventDefault();
     smoothScrollTo('#' + a.dataset.section);
     document.getElementById('mobile-menu').classList.remove('open');
+    document.getElementById('hamburger').setAttribute('aria-expanded', 'false');
   });
 });
 
-document.getElementById('hamburger').addEventListener('click', () => {
-  document.getElementById('mobile-menu').classList.toggle('open');
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+
+hamburger.addEventListener('click', () => {
+  const isOpen = mobileMenu.classList.toggle('open');
+  hamburger.setAttribute('aria-expanded', isOpen);
+});
+
+// Close mobile menu when focus leaves it
+mobileMenu.addEventListener('focusout', () => {
+  setTimeout(() => {
+    if (!mobileMenu.contains(document.activeElement) && document.activeElement !== hamburger) {
+      mobileMenu.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    }
+  }, 50);
+});
+
+// Close mobile menu on Escape key
+mobileMenu.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    mobileMenu.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    hamburger.focus();
+  }
 });
 
 // ── NAVBAR SCROLL SPY & TINTS (IntersectionObserver) ─────
@@ -304,17 +328,20 @@ function renderProjects() {
   const wrap = document.getElementById('see-more-wrap');
   wrap.style.display = PROJECTS.length > 3 ? 'flex' : 'none';
   document.getElementById('see-more-label').textContent = showAll ? 'See Less' : 'See More';
-  const seeMoreIcon = document.querySelector('#see-more-icon polyline');
+  const seeMoreIcon = document.getElementById('see-more-icon');
   if (seeMoreIcon) {
-    seeMoreIcon.setAttribute('points', showAll ? '18 15 12 9 6 15' : '6 9 12 15 18 9');
+    seeMoreIcon.classList.toggle('rotated', showAll);
   }
 }
 function toggleProjects() { showAll = !showAll; renderProjects(); }
 renderProjects();
 
 // ── STATS ─────────────────────────────────────────────────
+const TOTAL_TRIAGE_SESSIONS = 22; // Corresponds to the shift triage queue in tickets/high-volume-shift-example.md
 document.getElementById('stat-projects').textContent = PROJECTS.length;
 document.getElementById('stat-certs').textContent = CERTIFICATES.length;
+document.getElementById('stat-total').textContent = TOTAL_TRIAGE_SESSIONS;
+document.getElementById('copyright-year').textContent = new Date().getFullYear();
 
 // ── RENDER CERTIFICATES ───────────────────────────────────
 document.getElementById('cert-grid').innerHTML = CERTIFICATES.map((c, i) => `
@@ -340,18 +367,7 @@ document.getElementById('tech-grid').innerHTML = TECH_STACKS.map((t, i) => `
   </div>
 `).join('');
 
-// ── IMAGE PREVIEW ─────────────────────────────────────────
-function openPreview(url) {
-  if (!url) return;
-  document.getElementById('preview-img').src = url;
-  document.getElementById('img-preview').classList.add('open');
-}
-document.getElementById('preview-close').addEventListener('click', () => {
-  document.getElementById('img-preview').classList.remove('open');
-});
-document.getElementById('img-preview').addEventListener('click', e => {
-  if (e.target === e.currentTarget) e.currentTarget.classList.remove('open');
-});
+// Image preview overlay function was removed since it is unused dead weight.
 
 // ── CONTACT FORM ──────────────────────────────────────────
 function clearFieldError(wrapId) {
