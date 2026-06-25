@@ -4,6 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Praisel Ekpenyong — SOC Analyst Portfolio</title>
+  <meta name="description" content="Praisel Ekpenyong SOC Analyst portfolio: alert triage, incident investigation, SPL/KQL detections, lab evidence, phishing analysis, Sentinel, Splunk, Wazuh, and Wireshark." />
+  <meta name="keywords" content="Praisel Ekpenyong, SOC Analyst, Junior SOC Analyst, Security Operations, Splunk, Microsoft Sentinel, Wazuh, KQL, SPL, Incident Response, Detection Engineering" />
+  <meta property="og:title" content="Praisel Ekpenyong — SOC Analyst Portfolio" />
+  <meta property="og:description" content="Entry-level SOC Analyst portfolio: alert triage, incident investigation, SPL/KQL detections, and lab evidence across Splunk, Sentinel, Wazuh, and Wireshark." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/card-photo.webp" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -82,7 +88,7 @@
 
   <!-- HERO -->
   <section id="home">
-    <div id="card-visual">
+    <div id="card-visual" aria-hidden="true">
       <div class="static-lanyard">
         <span>SOC LAB</span>
         <span>SOC LAB</span>
@@ -113,11 +119,15 @@
         Sentinel, Defender, Entra ID, Sysmon, and Wireshark in hybrid
         on-prem and cloud SOC lab scenarios.
       </div>
-      <div class="hero-skills h-anim" id="h5">
-        <span class="skill-tag">Alert Triage</span>
-        <span class="skill-tag">SPL / KQL</span>
-        <span class="skill-tag">Incident Investigation</span>
-        <span class="skill-tag">Detection Tuning</span>
+      <div class="hero-btns h-anim" id="h-btns">
+        <button class="btn-primary" onclick="smoothScrollTo('#portfolio')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+          View Investigations
+        </button>
+        <a href="assets/Praisel_Ekpenyong_CV.pdf" download class="btn-outline">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          Download Resume
+        </a>
       </div>
       <div class="hero-footer h-anim" id="h6">
         <span>↓ explore investigations below</span>
@@ -152,14 +162,14 @@
           <div class="about-btns reveal">
             <a href="assets/Praisel_Ekpenyong_CV.pdf" download class="btn-primary">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-              Download CV
+              Download Resume
             </a>
             <button class="btn-outline" onclick="smoothScrollTo('#portfolio')">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
               View Investigations
             </button>
-            <a href="https://github.com/praisel-ekpenyong" target="_blank" class="btn-github">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+            <a href="https://github.com/praisel-ekpenyong" target="_blank" rel="noopener noreferrer" class="btn-github">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
               View GitHub Portfolio
             </a>
           </div>
@@ -175,7 +185,6 @@
       <!-- DAY-ONE SOC CONTRIBUTION -->
       <div class="day-one-panel reveal">
         <div class="day-one-header">
-          <div class="section-label">DAY-ONE SOC CONTRIBUTION</div>
           <h2>What I can do on day one</h2>
           <p>Entry-level, lab-evidenced capabilities I can bring into junior SOC or security analyst work without overstating production experience.</p>
         </div>
@@ -295,32 +304,36 @@
       <div class="contact-form-card reveal">
         <h2>Send a Message</h2>
         <p>Use the form for role enquiries, project feedback, or collaboration around SOC analysis and detection work.</p>
-        <div class="form-fields">
+        <form id="contact-form" class="form-fields" action="https://formspree.io/f/xbdvrpdp" method="POST" onsubmit="event.preventDefault(); sendMessage();">
           <div class="input-wrap" id="wrap-name">
+            <label for="cf-name" class="sr-only">Your Name</label>
             <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-            <input type="text" placeholder="Your Name" id="cf-name" oninput="clearFieldError('wrap-name')" />
+            <input type="text" name="name" placeholder="Your Name" id="cf-name" oninput="clearFieldError('wrap-name')" required />
             <span class="field-error">Please enter your name.</span>
           </div>
           <div class="input-wrap" id="wrap-email">
+            <label for="cf-email" class="sr-only">Your Email</label>
             <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-            <input type="email" placeholder="Your Email" id="cf-email" oninput="clearFieldError('wrap-email')" />
+            <input type="email" name="email" placeholder="Your Email" id="cf-email" oninput="clearFieldError('wrap-email')" required />
             <span class="field-error" id="email-error">Please enter your email.</span>
           </div>
           <div class="input-wrap textarea-wrap" id="wrap-message">
+            <label for="cf-message" class="sr-only">Your Message</label>
             <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-            <textarea rows="5" placeholder="Your Message" id="cf-message" oninput="clearFieldError('wrap-message')"></textarea>
+            <textarea name="message" rows="5" placeholder="Your Message" id="cf-message" oninput="clearFieldError('wrap-message')" required></textarea>
             <span class="field-error">Please enter a message.</span>
           </div>
-          <button class="btn-send" onclick="sendMessage()">
+          <button type="submit" class="btn-send" id="cf-submit">
             <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
             Send Message
           </button>
-          <div id="form-status" class="form-status"></div>
-        </div>
+        </form>
+        <div id="cf-status" class="form-status"></div>
+        <a id="cf-mailto-link" href="#" class="cf-mailto-link"></a>
 
         <div class="social-divider">
           <p class="social-label">Connect With Me</p>
-          <a href="https://linkedin.com/in/praiselekpenyong" target="_blank" class="social-linkedin" style="display:flex">
+          <a href="https://linkedin.com/in/praiselekpenyong" target="_blank" class="social-linkedin" style="display:flex" rel="noopener noreferrer">
             <div class="social-row">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="#0a66c2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
               <div>
@@ -333,7 +346,7 @@
             </div>
           </a>
           <div class="social-grid-2 social-grid-single">
-            <a href="https://github.com/praisel-ekpenyong" target="_blank" class="social-card-sm">
+            <a href="https://github.com/praisel-ekpenyong" target="_blank" class="social-card-sm" rel="noopener noreferrer">
               <div class="social-row">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
                 <div>
