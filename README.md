@@ -18,9 +18,10 @@ python3 -m http.server 8000
 ## What's Included
 
 - **6 incident case studies** linking to real write-ups on GitHub
-- **14 tech-stack logos** (Splunk, Sentinel, Defender, Entra ID, Wazuh, Sysmon, Active Directory, PowerShell, Wireshark, pfSense, VirusTotal, Python, Caldera, osTicket)
+- **15 tech-stack logos** (Splunk, Sentinel, Defender, Azure, Entra ID, Wazuh, Sysmon, Active Directory, PowerShell, Wireshark, pfSense, VirusTotal, Python, Caldera, osTicket)
 - **3 certifications** (CompTIA Security+, Microsoft SC-200, Google Cybersecurity)
-- **Contact form** with validation (mailto-based)
+- **Beyond Incidents** tab (shift triage, scripts, detections, lab docs)
+- **Contact form** with validation (Formspree primary + clipboard/mailto fallback)
 - **Welcome screen** with hero animation (GSAP card-drop + typewriter)
 - **Responsive design** (mobile, tablet, desktop)
 
@@ -29,12 +30,12 @@ python3 -m http.server 8000
 ```
 website/
 ├── index.html        — full page markup (all 4 sections)
-├── styles.css        — all styling (1200 lines, dark theme)
+├── styles.css        — all styling (dark theme)
 ├── script.js         — all logic (data, animations, interactions)
 └── assets/
     ├── card-photo.webp              — profile photo
     ├── Praisel_Ekpenyong_CV.pdf     — downloadable CV
-    └── techstack/                   — 14 brand logos (PNG + SVG)
+    └── techstack/                   — 15 brand logos (PNG + SVG)
         ├── splunk-enterprise.png
         ├── microsoft-sentinel.png
         ├── defender-endpoint.svg
