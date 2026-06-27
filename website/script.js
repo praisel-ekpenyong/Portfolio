@@ -8,7 +8,7 @@ const PROJECTS = [
     incident_id: 'INC-2026-005',
     title: 'Phishing Email Triage with Endpoint Correlation',
     description:
-      'User-reported invoice phish correlated with Outlook spawning PowerShell on WKSTN-042, triggering a Suricata NIDS alert on outbound C2. SPF/DKIM/DMARC header analysis, phishing investigation across SIEM (Microsoft Sentinel), EDR (Microsoft Defender for Endpoint), and network layers, with proportionate containment before credential theft.',
+      'User-reported invoice phish correlated with Outlook spawning PowerShell on WKSTN-042 and a Suricata alert on outbound C2. Header authentication analysis across Sentinel, Defender, and network telemetry led to proportionate containment before credential theft.',
     live_url: `${GITHUB_BASE}/incidents/INC-2026-005-phishing-chain.md`,
     mitre: ['T1566.001', 'T1059.001'],
   },
@@ -17,7 +17,7 @@ const PROJECTS = [
     incident_id: 'INC-2026-002',
     title: 'Password Spray & Successful Azure/Entra Sign-in',
     description:
-      'Microsoft Sentinel (SIEM) detected 18 failed Entra sign-ins from a single Microsoft Azure IP followed by one success for a valid finance user. Validated account context via threat intelligence lookup, checked post-auth abuse (mailbox rules, OAuth consent, MFA changes), revoked sessions, and escalated as account-takeover risk.',
+      'Sentinel detected 18 failed Entra sign-ins from one Azure IP followed by one success for a finance user. Validated account context, checked post-auth abuse, revoked sessions, and escalated as account-takeover risk.',
     live_url: `${GITHUB_BASE}/incidents/INC-2026-002-entra-password-spray.md`,
     mitre: ['T1110.003', 'T1078'],
   },
@@ -26,7 +26,7 @@ const PROJECTS = [
     incident_id: 'INC-2026-001',
     title: 'LOLBin Execution: BITS Download',
     description:
-      'Wazuh HIDS, Suricata NIDS, and Microsoft Defender for Endpoint (EDR) flagged bitsadmin.exe downloading a payload to WKSTN-042 over HTTP. Validated by comparing Windows Event Logs, parent process, destination, user context, and change records against a benign SCCM baseline. Contained to one host, escalated to Tier 2.',
+      'Wazuh, Suricata, and Defender flagged bitsadmin.exe downloading a payload to WKSTN-042 over HTTP. Validated against a benign SCCM baseline using event logs, parent process, and change records. Contained to one host and escalated to Tier 2.',
     live_url: `${GITHUB_BASE}/incidents/INC-2026-001-bits-job-download.md`,
     mitre: ['T1197', 'T1105'],
   },
@@ -35,7 +35,7 @@ const PROJECTS = [
     incident_id: 'INC-2026-003',
     title: 'Suspicious Scheduled Task Persistence',
     description:
-      'Wazuh HIDS and Microsoft Defender for Endpoint (EDR) detected a scheduled task named ChromeUpdate executing PowerShell from a user-writable Temp path. Validated against SCCM baseline using Windows Event Logs (Event ID 4698), confirmed local to WKSTN-042 via DC scope check, and ran a multi-vector persistence sweep.',
+      'Wazuh and Defender detected a scheduled task named ChromeUpdate executing PowerShell from a user-writable Temp path. Validated against SCCM baseline, confirmed local to WKSTN-042, and ran a multi-vector persistence sweep.',
     live_url: `${GITHUB_BASE}/incidents/INC-2026-003-scheduled-task-persistence.md`,
     mitre: ['T1053.005', 'T1059.001'],
   },
@@ -44,7 +44,7 @@ const PROJECTS = [
     incident_id: 'INC-2026-004',
     title: 'False Positive & Detection Tuning — VPN',
     description:
-      'Microsoft Sentinel (SIEM) created a VPN brute-force alert after 47 failed OpenVPN attempts through the pfSense firewall from a scanner source. Validated zero valid users, zero successes, and a matching CHG-8821 geo-block change ticket. Closed as false positive and tuned the KQL rule to reduce alert noise.',
+      'Sentinel flagged 47 failed OpenVPN attempts through pfSense from a scanner source. Validated zero valid users, zero successes, and a matching geo-block change ticket. Closed as false positive and tuned the KQL rule.',
     live_url: `${GITHUB_BASE}/incidents/INC-2026-004-false-positive-vpn.md`,
     mitre: ['T1110.001'],
   },
@@ -53,7 +53,7 @@ const PROJECTS = [
     incident_id: 'INC-2026-006',
     title: 'RDP Lateral Movement & Network Sniffing',
     description:
-      'Wazuh HIDS and Suricata NIDS flagged an RDP port modification (3389→8443) and tcpdump.exe execution on WKSTN-099 (Linux probe host). Traced lateral movement via TCP/IP from WKSTN-042 using compromised jsmith credentials, ran Wireshark/tshark pcap (packet analysis) to confirm zero data exfiltration across the network, and isolated both hosts.',
+      'Wazuh and Suricata flagged an RDP port modification and tcpdump execution on WKSTN-099. Traced lateral movement from WKSTN-042 using compromised credentials, confirmed zero exfiltration via pcap analysis, and isolated both hosts.',
     live_url: `${GITHUB_BASE}/incidents/INC-2026-006-rdp-lateral-movement.md`,
     mitre: ['T1021.001', 'T1040', 'T1112'],
   },
@@ -81,6 +81,41 @@ const TECH_STACKS = [
   { id: 13, name: 'Python',                          logo_url: 'assets/techstack/python-automation.png' },
   { id: 14, name: 'Apache Caldera',                  logo_url: 'assets/techstack/caldera.png' },
   { id: 15, name: 'osTicket',                        logo_url: 'assets/techstack/osticket.png' },
+];
+
+const BEYOND_PROJECTS = [
+  {
+    tags: ['Triage & Queue', 'Operations'],
+    title: 'Shift Prioritization Exercise',
+    description: 'A realistic high-volume incident triage simulation (22 tickets) demonstrating alert prioritization, queue hygiene, and fatigue management under pressure.',
+    live_url: `${GITHUB_BASE}/tickets/high-volume-shift-example.md`,
+    link_label: 'View Exercise',
+    badge: 'QUEUE',
+  },
+  {
+    tags: ['Python', 'Automation'],
+    title: 'Python Security Automation Scripts',
+    description: 'Custom Python scripts for Tier 1 SOC workflows: phishing header parsing, IOC enrichment reports, and Caldera log timeline generation.',
+    live_url: 'https://github.com/praisel-ekpenyong/Portfolio/tree/main/scripts',
+    link_label: 'Browse Scripts',
+    badge: 'SCRIPTS',
+  },
+  {
+    tags: ['Splunk', 'Sentinel', 'Wazuh'],
+    title: 'SIEM & HIDS Detection Rules',
+    description: 'Custom detection rules for the lab: Wazuh XML decoders, Splunk SPL correlation searches, and Sentinel KQL analytics rules.',
+    live_url: 'https://github.com/praisel-ekpenyong/Portfolio/tree/main/detections',
+    link_label: 'Explore Detections',
+    badge: 'RULES',
+  },
+  {
+    tags: ['AD & Azure', 'Playbooks'],
+    title: 'Lab Architecture & Playbooks',
+    description: 'Documentation of the hybrid home lab (on-prem AD + Azure Sentinel) and repeatable SOC alert playbooks.',
+    live_url: 'https://github.com/praisel-ekpenyong/Portfolio/tree/main/docs',
+    link_label: 'View Docs',
+    badge: 'DOCS',
+  },
 ];
 
 const TYPEWRITER_PHRASES = [
@@ -288,30 +323,43 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 });
 
 // ── RENDER PROJECTS ───────────────────────────────────────
+const EXTERNAL_LINK_ICON = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>';
+
+function renderProjectCard({ tags, title, description, live_url, link_label, badge }, i) {
+  return `
+    <div class="project-card-outer" style="animation-delay:${i * .06}s">
+      <div class="project-card-inner">
+        <div class="project-mitre">
+          ${tags.map(t => `<span class="mitre-tag">${t}</span>`).join('')}
+        </div>
+        <div class="project-title">${title}</div>
+        <div class="project-desc">${description}</div>
+        <div class="project-footer">
+          ${live_url
+            ? `<a href="${live_url}" target="_blank" rel="noopener noreferrer" class="project-live">
+                ${link_label}
+                ${EXTERNAL_LINK_ICON}
+               </a>`
+            : `<span style="font-size:13px;color:var(--text-muted)">No link</span>`}
+          <span class="project-id-badge">${badge}</span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 let showAll = false;
 function renderProjects() {
   const grid = document.getElementById('projects-grid');
   const list = showAll ? PROJECTS : PROJECTS.slice(0, 3);
-  grid.innerHTML = list.map((p, i) => `
-    <div class="project-card-outer" style="animation-delay:${i*.06}s">
-      <div class="project-card-inner">
-        <div class="project-mitre">
-          ${p.mitre.map(t => `<span class="mitre-tag">${t}</span>`).join('')}
-        </div>
-        <div class="project-title">${p.title}</div>
-        <div class="project-desc">${p.description}</div>
-        <div class="project-footer">
-          ${p.live_url
-            ? `<a href="${p.live_url}" target="_blank" rel="noopener noreferrer" class="project-live">
-                View Write-up
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-               </a>`
-            : `<span style="font-size:13px;color:var(--text-muted)">No Write-up</span>`}
-          <span class="project-id-badge">${p.incident_id}</span>
-        </div>
-      </div>
-    </div>
-  `).join('');
+  grid.innerHTML = list.map((p, i) => renderProjectCard({
+    tags: p.mitre,
+    title: p.title,
+    description: p.description,
+    live_url: p.live_url,
+    link_label: 'View Write-up',
+    badge: p.incident_id,
+  }, i)).join('');
 
   const wrap = document.getElementById('see-more-wrap');
   wrap.style.display = PROJECTS.length > 3 ? 'flex' : 'none';
@@ -323,6 +371,15 @@ function renderProjects() {
 }
 function toggleProjects() { showAll = !showAll; renderProjects(); }
 renderProjects();
+
+document.getElementById('beyond-grid').innerHTML = BEYOND_PROJECTS.map((p, i) => renderProjectCard({
+  tags: p.tags,
+  title: p.title,
+  description: p.description,
+  live_url: p.live_url,
+  link_label: p.link_label,
+  badge: p.badge,
+}, i)).join('');
 
 // ── STATS ─────────────────────────────────────────────────
 const TOTAL_TRIAGE_SESSIONS = 22; // Corresponds to the shift triage queue in tickets/high-volume-shift-example.md

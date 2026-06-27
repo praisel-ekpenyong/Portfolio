@@ -42,3 +42,7 @@ operation_report.json
 
 # Personal preparation / unnecessary files archive
 archive/
+
+# Internal review artifacts and redundant lab indexes (not job-ready)
+docs/reviews/
+scenarios/

@@ -424,7 +424,7 @@ section { position: relative; }
 }
 
 
-/* STATIC ID CARD VISUAL — matched to the Next.js screenshot */
+/* STATIC ID CARD VISUAL */
 #card-visual {
   --badge-w: clamp(173px, 12vw, 219px);
   --badge-h: calc(var(--badge-w) * 1.385);
