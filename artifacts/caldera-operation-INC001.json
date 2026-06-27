@@ -37,6 +37,7 @@
   ],
   "siem_alerts": [
     { "source": "Wazuh", "rule_id": 180001, "time": "2026-06-13T14:22:08.000Z" },
+    { "source": "Suricata NIDS", "alert": "ET POLICY User-Agent (Microsoft BITS) Direct EXE/DLL Download over HTTP", "time": "2026-06-13T14:22:15.000Z" },
     { "source": "Microsoft Defender", "alert": "Suspicious process chain", "time": "2026-06-13T14:22:41.000Z" }
   ]
 }

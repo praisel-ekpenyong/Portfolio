@@ -28,7 +28,7 @@ Demonstrate Tier 1 identity alert triage: password spray against a **valid** Ent
 3. Triage with `detections/sentinel/entra_risky_signin.kql`.
 4. Complete incident report and osTicket #48305.
 
-## Lab Replay Checklist
+## Live Run Checklist
 
 - [ ] Confirm user exists in Entra — not a scanner guessing random names
 - [ ] Count failures vs successes in `SigninLogs`

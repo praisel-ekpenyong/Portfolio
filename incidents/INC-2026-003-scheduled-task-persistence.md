@@ -50,15 +50,16 @@ User: CORP\jsmith
 | Change ticket for software deployment? | None |
 | Task name `ChromeUpdate` | Matches attacker mimicry pattern (plausible name, wrong path) |
 | Action executes from user profile? | `C:\Users\jsmith\AppData\Local\Temp\update.ps1` |
-| Creator process | `powershell.exe` (not `svchost.exe` or SCCM `CcmExec.exe`) |
+| Initiating process chain (Sysmon EID 1) | `cmd.exe` → `schtasks.exe` (not `svchost.exe` or SCCM `CcmExec.exe`) |
+| Task action (`\ChromeUpdate`) | `powershell.exe -WindowStyle Hidden -File ...\update.ps1` (unsigned script from Temp) |
 | Caldera correlation | T1053.005 ability finished 16:04:16 UTC |
 
 ### Baseline comparison — legitimate vs suspicious
 
 | Attribute | Legitimate SCCM task (WKSTN-099) | Suspicious task (WKSTN-042) |
 |-----------|----------------------------------|----------------------------|
-| Creator | `CcmExec.exe` | `powershell.exe` |
-| Action path | `C:\Windows\CCM\...` | `%LocalAppData%\Temp\update.ps1` |
+| Registration chain | `CcmExec.exe` (SCCM) | `cmd.exe` → `schtasks.exe` (user session) |
+| Task action | Signed binary under `C:\Windows\CCM\...` | `powershell.exe` → `%LocalAppData%\Temp\update.ps1` |
 | Change ticket | CHG-8810 | None |
 | Signature | Signed Microsoft binary chain | Unsigned `.ps1` |
 | **Verdict** | **Benign — do not escalate** | **Malicious — escalate** |
@@ -75,7 +76,8 @@ User: CORP\jsmith
 Event ID 4698 (Security) / Sysmon EID 1
 Task: \ChromeUpdate
 Command: schtasks /Create /TN ChromeUpdate /TR "powershell.exe -WindowStyle Hidden -File C:\Users\jsmith\AppData\Local\Temp\update.ps1" /SC ONLOGON
-Parent: cmd.exe
+Initiating chain: cmd.exe → schtasks.exe
+Task action: powershell.exe -WindowStyle Hidden -File C:\Users\jsmith\AppData\Local\Temp\update.ps1
 User: CORP\jsmith
 ```
 
@@ -137,7 +139,7 @@ DeviceEvents
 | IOC | Type |
 |-----|------|
 | `\ChromeUpdate` task name | Persistence |
-| `update.ps1` SHA256 `b7e2...4f91` | Script |
+| `update.ps1` (SHA256: `b7e2c9f53e25d4871b695e2d19f8e404b9012a64c8d35f492b49c719ef164f91`) | Script |
 | `10.10.30.10:8888` | C2 (lab) |
 
 ---
@@ -236,7 +238,7 @@ Screenshots are supplemental walkthrough visuals. The Sysmon export, SPL/KQL, Wa
 ## 11. Recommendations
 
 1. **Detection** — Alert when task **name** resembles known software (Chrome, Edge, Teams) but **action path** is user-writable (`%TEMP%`, `%APPDATA%`, `Downloads`).
-2. **Correlation** — Cross-check task creation (4698) with initiating process; flag when creator ≠ `svchost.exe`, `CcmExec.exe`, or `intune-agent`.
+2. **Correlation** — Cross-check task creation (4698) with the initiating process chain (`schtasks.exe` parent); flag when parent ≠ `svchost.exe`, `CcmExec.exe`, or `intune-agent`, or when the task action runs from user-writable paths.
 3. **Hardening** — Restrict `schtasks.exe` and `Register-ScheduledTask` via AppLocker for standard users on finance VLAN.
 4. **Monitoring** — Forward Security 4698/4702 events from all endpoints to Splunk and Sentinel for centralized task audit.
 5. **Emulation** — Quarterly Caldera replay of `T1-Scheduled-Task` profile to validate detection regression.
@@ -246,4 +248,4 @@ Screenshots are supplemental walkthrough visuals. The Sysmon export, SPL/KQL, Wa
 
 ## 12. Analyst Notes
 
-This incident was triggered by Caldera emulation to validate Wazuh rule 180002 and Defender persistence detection. The domain-scope query (DC 4698 + Splunk fleet-wide) confirmed the task did not propagate laterally. Production analysts would follow identical triage steps — baseline comparison, persistence sweep, scope check — minus the Caldera operation ID.
+This incident was triggered by a **live** Caldera operation (`2026-06-15-SCHTASK-LAB`) to validate Wazuh rule 180002 and Defender persistence detection. Evidence: [`docs/live-evidence-ledger.md`](../docs/live-evidence-ledger.md). The domain-scope query (DC 4698 + Splunk fleet-wide) confirmed the task did not propagate laterally. Production analysts would follow identical triage steps — baseline comparison, persistence sweep, scope check.

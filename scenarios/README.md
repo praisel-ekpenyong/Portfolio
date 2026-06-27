@@ -1,5 +1,7 @@
 # Lab Scenario Index
 
+**Full runbook:** [`docs/attack-simulations/`](../docs/attack-simulations/) — per-case step-by-step live execution ([index](../docs/attack-simulations/README.md)).
+
 Scenarios are ordered by threat type and complexity to showcase a logical progression of security operations investigations, rather than the chronological order in which they were run in the lab.
 
 | # | Case | Scenario folder | Incident |
@@ -15,8 +17,8 @@ Scenarios are ordered by threat type and complexity to showcase a logical progre
 
 | Incident | Trigger |
 |----------|---------|
-| INC-2026-002 | Lab spray script — `02-entra-password-spray/spray-simulation.md` |
-| INC-2026-004 | pfSense VPN logs + change ticket CHG-8821 |
+| INC-2026-002 | Live Entra spray — `scripts/emulate_o365spray.py` (see `02-entra-password-spray/spray-simulation.md`) |
+| INC-2026-004 | Live pfSense OpenVPN failures → Sentinel + CHG-8821 |
 
 ## Supplemental
 

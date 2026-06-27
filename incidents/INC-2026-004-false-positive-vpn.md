@@ -8,16 +8,16 @@
 | **Severity** | Initial P3 (Normal) → Downgraded to P5 (Low) |
 | **Status** | Closed — False Positive |
 | **Detection Source** | Sentinel Analytics `Multiple failed VPN logins` |
-| **Caldera Operation** | N/A — organic noise (not emulation) |
+| **Caldera Operation** | N/A — live OpenVPN auth failures (pfSense → Sentinel); not log replay |
 | **MITRE (ruled out)** | T1110.001 Brute Force |
 | **Analyst** | Praisel Ekpenyong |
-| **Lab Environment** | Lab 2 — Cloud SOC (`pe-soc-lab` / Sentinel) |
+| **Lab Environment** | Lab 2 — Azure Cloud SOC (`pe-soc-lab` / Sentinel) |
 
 ---
 
 ## Executive Summary
 
-Sentinel created a VPN brute-force alert after 47 failed OpenVPN attempts from a sanitized scanner source. I validated there were no valid users, no successful authentication, no related EDR/DC alerts, and a matching VPN geo-block change ticket. The case was downgraded, closed as a false positive, and used to tune the VPN rule.
+Sentinel created a VPN brute-force alert after **47 live failed OpenVPN attempts** recorded on pfSense and forwarded to Sentinel `VPNLogs` from a sanitized scanner source (`203.0.113.45`). I validated there were no valid AD users, no successful authentication, no related EDR/DC alerts, and a matching VPN geo-block change ticket (CHG-8821). The case was downgraded, closed as a false positive, and used to tune the VPN rule. Evidence: [`docs/live-evidence-ledger.md`](../docs/live-evidence-ledger.md).
 
 ### MITRE Evidence Map
 
@@ -169,6 +169,10 @@ Tuning reduces geo-block cutover noise. Risk accepted: spray against valid users
 ### Linked tuning ticket
 
 osTicket **#48355** — acceptance: no High/Normal VPN tickets during tagged change windows.
+
+### Live evidence
+
+All VPN failure events were **live** `AUTH_FAILED` records on pfSense during the CHG-8821 window, forwarded to Sentinel — not replayed or injected logs. See [`docs/live-evidence-ledger.md`](../docs/live-evidence-ledger.md).
 
 ---
 

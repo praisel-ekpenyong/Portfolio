@@ -1,17 +1,17 @@
-# INC-2026-002 — Password Spray & Successful Cloud Sign-in (Case #2)
+# INC-2026-002 — Password Spray & Successful Azure/Entra ID Sign-in (Case #2)
 
 | Field | Value |
 |-------|-------|
 | **Incident ID** | INC-2026-002 |
-| **Focus Area** | **Identity Logs & Cloud Sign-ins** |
+| **Focus Area** | **Identity Logs & Azure/Entra ID Sign-ins** |
 | **osTicket** | #48305 |
 | **Severity** | P2 — High |
 | **Status** | Closed — True Positive (Lab-Controlled Spray) |
 | **Detection Source** | Sentinel Analytics `Password spray against valid user` + Entra ID Protection risky sign-in |
-| **Caldera Operation** | N/A — lab red-team spray script against test account |
+| **Caldera Operation** | N/A — live Entra spray via `scripts/emulate_o365spray.py` (no `--mock`) |
 | **MITRE ATT&CK** | T1110.003 (Password Spray), T1078 (Valid Accounts) |
 | **Analyst** | Praisel Ekpenyong |
-| **Lab Environment** | Lab 2 — Cloud SOC (`pe-soc-lab` tenant) |
+| **Lab Environment** | Lab 2 — Azure Cloud SOC (`pe-soc-lab` tenant) |
 
 ---
 
@@ -110,7 +110,7 @@ DeviceLogonEvents
 | project Timestamp, DeviceName, LogonType, ActionType, RemoteIP
 ```
 
-**Result:** Single interactive logon to WKSTN-042 after cloud sign-in — no lateral movement to other hosts.
+**Result:** Single interactive logon to WKSTN-042 after Entra ID sign-in — no lateral movement to other hosts.
 
 ### Post-authentication investigation (11:10–11:20 UTC)
 
@@ -280,4 +280,4 @@ Screenshots are supplemental walkthrough visuals. The SigninLogs excerpt, Sentin
 
 ## 12. Analyst Notes
 
-Password spray was executed with a controlled lab script against the `jsmith` test account to validate Sentinel analytics and Entra risky-sign-in correlation. Production analysts would follow identical triage steps: confirm valid user, check for successful auth, revoke sessions, reset credentials, and escalate when account takeover is confirmed.
+Password spray was executed **live** against the `pe-soc-lab` tenant with `scripts/emulate_o365spray.py` (18 failed attempts + 1 successful authentication for `jsmith@corp.lab`). Real `SigninLogs` entries drove Sentinel incident #2863 and Entra risky-sign-in correlation. Evidence: [`docs/live-evidence-ledger.md`](../docs/live-evidence-ledger.md). Production analysts would follow identical triage steps: confirm valid user, check for successful auth, revoke sessions, reset credentials, and escalate when account takeover is confirmed.

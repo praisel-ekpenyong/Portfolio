@@ -1,6 +1,6 @@
 # Apache Caldera Lab Setup
 
-Caldera drives endpoint scenarios (INC-2026-001, 003, 005). Identity and noise cases (INC-2026-002, 004) use lab scripts or organic telemetry — this guide covers Caldera install and agent deployment.
+Caldera drives live endpoint scenarios (INC-2026-001, 003, 005, 006). Identity (INC-2026-002) and VPN noise (INC-2026-004) use separate live tooling — see [`live-evidence-ledger.md`](live-evidence-ledger.md). This guide covers Caldera install and agent deployment.
 
 ## Requirements
 
@@ -64,7 +64,7 @@ Verify agents show **ALIVE** in Caldera UI before running operations.
 
 Enable in `conf/local.yml` or via UI **Configuration → Plugins**.
 
-## Pre-Operation Checklist (For Emulation Replay)
+## Pre-Operation Checklist (Live Run)
 
 - [ ] Note operation start time (UTC) for timeline correlation
 - [ ] Confirm SIEM ingestion lag < 2 minutes

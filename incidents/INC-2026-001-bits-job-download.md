@@ -7,17 +7,17 @@
 | **osTicket** | #48291 |
 | **Severity** | P2 — High |
 | **Status** | Closed — True Positive (Lab Emulation) |
-| **Detection Source** | Wazuh Rule 180001 + Microsoft Defender for Endpoint |
+| **Detection Source** | Wazuh Host IDS Rule 180001 + Suricata NIDS + Microsoft Defender for Endpoint (EDR) |
 | **Caldera Operation** | `2026-06-13-INC001-BITS-LAB` |
 | **MITRE ATT&CK** | T1197 (BITS Jobs), T1105 (Ingress Tool Transfer), T1059.003 (Windows Command Shell) |
 | **Analyst** | Praisel Ekpenyong |
-| **Lab Environment** | Hybrid — Lab 1 (Wazuh/Sysmon) + Lab 2 (Defender/Sentinel) |
+| **Lab Environment** | Hybrid — Lab 1 (Wazuh/Sysmon/Suricata) + Lab 2 (Defender/Sentinel) |
 
 ---
 
 ## Executive Summary
 
-Wazuh and Defender flagged `bitsadmin.exe` downloading a payload to WKSTN-042 under a standard user context. I validated the alert by comparing parent process, destination, user context, and change records against a benign SCCM baseline. The case was contained to one host, escalated to Tier 2, cleaned, and closed as a Caldera-validated true positive.
+The Wazuh Host Intrusion Detection System (HIDS), Suricata NIDS, and Defender EDR flagged `bitsadmin.exe` downloading a payload to WKSTN-042 under a standard user context. I validated the alert by comparing parent process, destination, user context, and change records against a benign SCCM baseline. The case was contained to one host, escalated to Tier 2, cleaned, and closed as a Caldera-validated true positive.
 
 ### MITRE Evidence Map
 
@@ -39,7 +39,15 @@ Agent: wazuh-agent-wkstn-042
 MITRE: T1197
 ```
 
-**14:22:41 UTC** — Microsoft Defender alert: *Suspicious process chain: bitsadmin.exe → cmd.exe*
+**14:22:15 UTC** — Suricata NIDS alert on pfSense (syslog-forwarded to Splunk):
+
+```
+[1:2018244:2] ET POLICY User-Agent (Microsoft BITS) Direct EXE/DLL Download over HTTP
+Source: 10.10.10.42:49811 -> Destination: 10.10.30.10:8888
+Classification: Potential Corporate Privacy Violation (Executable download via BITS)
+```
+
+**14:22:41 UTC** — Microsoft Defender alert: *Suspicious process chain: cmd.exe → bitsadmin.exe*
 
 Praisel Ekpenyong (SOC Analyst L1) acknowledged osTicket #48291 within 8 minutes.
 
@@ -89,7 +97,7 @@ Tier 1 does not treat every `bitsadmin` or PowerShell alert as malware. This cas
 | IOC | Type | Enrichment Result |
 |-----|------|-------------------|
 | `10.10.30.10:8888` | URL (Caldera C2 lab) | Internal lab host — tagged `caldera-c2-lab` |
-| `C:\Users\Public\payload.exe` | File path | Sysmon SHA256: `a3f2...cd12` (lab sample) |
+| `C:\Users\Public\payload.exe` | File path | Sysmon SHA256: `a3f2b8c1d4e5f678901234567890abcd1234567890abcdef1234567890abcd12` (lab sample) |
 | `bitsadmin.exe` | Process | Legitimate binary, abused (LOLBIN) |
 
 ```powershell
@@ -148,9 +156,10 @@ Get-WinEvent -FilterHashtable @{LogName='Microsoft-Windows-Sysmon/Operational'; 
 | Time | Event |
 |------|-------|
 | 14:20:00 | Caldera operation started (T1-Windows-Download-Exec) |
+| 14:22:05 | Sysmon EID 1 — `bitsadmin.exe /transfer` |
 | 14:22:06 | BITS download ability completed |
 | 14:22:08 | Wazuh alert 180001 fired |
-| 14:22:15 | Sysmon EID 1 — `bitsadmin.exe /transfer` |
+| 14:22:15 | Suricata NIDS alert fired |
 | 14:22:41 | Defender alert correlated |
 | 14:30:00 | Tier 1 began investigation |
 | 14:35:00 | Host isolated |
@@ -202,7 +211,17 @@ DeviceProcessEvents
 
 ---
 
-## 11. Evidence Screenshots
+## 11. Evidence & Artifacts
+
+### Raw Log Files & Artifacts
+
+| Source | File Path |
+|---|---|
+| Sysmon Event Log Export | [`artifacts/logs/sysmon-INC001.json`](../artifacts/logs/sysmon-INC001.json) |
+| Wazuh Alert Log Export | [`artifacts/logs/wazuh-alert-INC001.json`](../artifacts/logs/wazuh-alert-INC001.json) |
+| Caldera Operation JSON | [`artifacts/caldera-operation-INC001.json`](../artifacts/caldera-operation-INC001.json) |
+
+### Evidence Screenshots
 
 Screenshots are supplemental walkthrough visuals. The Sysmon excerpt, SPL/KQL, Wazuh rule, and Defender/Sentinel event data are the primary evidence for this case.
 
@@ -219,4 +238,4 @@ Screenshots are supplemental walkthrough visuals. The Sysmon excerpt, SPL/KQL, W
 
 ## 12. Analyst Notes
 
-This incident was triggered by controlled Caldera emulation to validate Wazuh rule 180001 and Defender correlation. Production analysts would follow identical triage steps; the Caldera operation ID row in the header serves as a lab provenance marker and would not appear in a production write-up.
+This incident was triggered by a **live** Caldera operation (`2026-06-13-INC001-BITS-LAB`) to validate Wazuh rule 180001 and Defender correlation. Exported artifacts and alert times are recorded in [`docs/live-evidence-ledger.md`](../docs/live-evidence-ledger.md). Production analysts would follow identical triage steps; the Caldera operation ID in the header is a lab provenance marker only.

@@ -14,7 +14,7 @@ Demonstrate persistence triage: plausible task name (`ChromeUpdate`) with suspic
 | Agent | WKSTN-042 |
 | MITRE | T1053.005 |
 
-## Lab Replay Checklist
+## Live Run Checklist
 
 - [ ] Who created the task? Which process?
 - [ ] Compare to legitimate SCCM/Chrome GPO tasks

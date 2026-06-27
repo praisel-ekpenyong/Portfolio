@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Praisel Ekpenyong — SOC Analyst Portfolio</title>
-  <meta name="description" content="Praisel Ekpenyong SOC Analyst portfolio: alert triage, incident investigation, SPL/KQL detections, lab evidence, phishing analysis, Sentinel, Splunk, Wazuh, and Wireshark." />
-  <meta name="keywords" content="Praisel Ekpenyong, SOC Analyst, Junior SOC Analyst, Security Operations, Splunk, Microsoft Sentinel, Wazuh, KQL, SPL, Incident Response, Detection Engineering" />
+  <meta name="description" content="Praisel Ekpenyong SOC Analyst portfolio: alert triage, security monitoring, incident investigation, SPL/KQL detections, SIEM (Splunk, Microsoft Sentinel), EDR (Microsoft Defender for Endpoint), Wireshark pcap analysis, and threat intelligence across Microsoft Azure and on-prem SOC lab environments." />
+  <meta name="keywords" content="Praisel Ekpenyong, SOC Analyst, Junior SOC Analyst, Security Operations, SIEM, Splunk, Microsoft Sentinel, Microsoft Azure, EDR, Microsoft Defender for Endpoint, Wazuh HIDS, Suricata NIDS, IDS/IPS, KQL, SPL, PowerShell, Python, Incident Response, Detection Engineering, Alert Triage, Security Monitoring, Threat Intelligence, IOC, MITRE ATT&CK, Wireshark, pcap, packet analysis, Active Directory, Windows Event Logs, Linux, TCP/IP, HTTP/S, Firewall, Phishing Investigation, Log Analysis, False Positive Reduction, VirusTotal, CompTIA Security+" />
   <meta name="theme-color" content="#0d0d0d" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://praisel-ekpenyong.github.io/Portfolio/" />
   
   <meta property="og:title" content="Praisel Ekpenyong — SOC Analyst Portfolio" />
-  <meta property="og:description" content="Entry-level SOC Analyst portfolio: alert triage, incident investigation, SPL/KQL detections, and lab evidence across Splunk, Sentinel, Wazuh, and Wireshark." />
+  <meta property="og:description" content="Entry-level SOC Analyst portfolio: alert triage, incident investigation, SPL/KQL detections, and lab evidence across Splunk, Sentinel, Wazuh, Suricata, and Wireshark." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://praisel-ekpenyong.github.io/Portfolio/assets/card-photo.webp" />
   
@@ -131,9 +131,11 @@
       </div>
       <div class="hero-desc h-anim" id="h4">
         I investigate alerts, reconstruct timelines, tune detections, and
-        document escalation decisions across Splunk, Wazuh, Microsoft
-        Sentinel, Defender, Entra ID, Sysmon, and Wireshark in hybrid
-        on-prem and cloud SOC lab scenarios.
+        document escalation decisions across SIEM platforms (Splunk,
+        Microsoft Sentinel), EDR (Microsoft Defender for Endpoint),
+        IDS/IPS (Wazuh HIDS, Suricata NIDS), network forensics (Wireshark, pcap, TCP/IP),
+        and KQL/SPL query development in hybrid on-prem and
+        Microsoft Azure SOC lab scenarios.
       </div>
       <div class="hero-btns h-anim" id="h-btns">
         <button class="btn-primary" onclick="smoothScrollTo('#portfolio')">
@@ -168,12 +170,16 @@
             <div>Ekpenyong</div>
           </div>
           <p class="about-bio reveal">
-            Entry-level SOC Analyst focused on alert triage, incident
+            Bachelor of Science in Cybersecurity. Entry-level SOC Analyst
+            focused on alert triage, security monitoring, incident
             investigation, log analysis, and detection engineering. My
             portfolio is built from authorized Apache Caldera lab
-            simulations across hybrid on-prem and Microsoft cloud SOC
-            environments, documenting analyst-style decisions, timelines,
-            evidence, false-positive validation, and escalation logic.
+            simulations across hybrid on-prem and Microsoft Azure SOC
+            environments — covering SIEM (Splunk, Microsoft Sentinel),
+             EDR (Microsoft Defender for Endpoint), IDS/IPS (Wazuh HIDS, Suricata NIDS), and
+            threat intelligence workflows — documenting analyst-style
+            decisions, evidence, false-positive validation, and
+            escalation logic.
           </p>
           <div class="about-btns reveal">
             <a href="assets/Praisel_Ekpenyong_CV.pdf" download class="btn-primary">
@@ -218,12 +224,12 @@
           <div class="day-one-card">
             <span>03</span>
             <h3>SPL / KQL querying</h3>
-            <p>Write and adapt basic detection queries for failed logons, suspicious PowerShell, outbound traffic, and host activity review.</p>
+            <p>Write and adapt detection queries for failed logons, suspicious PowerShell, HTTP/S anomalies, Windows Event Logs, and outbound traffic — using KQL for Microsoft Azure Sentinel and SPL for Splunk.</p>
           </div>
           <div class="day-one-card">
             <span>04</span>
-            <h3>IOC enrichment</h3>
-            <p>Check IPs, domains, URLs, and hashes against reputation sources while documenting confidence and evidence limits.</p>
+            <h3>IOC enrichment &amp; threat intelligence</h3>
+            <p>Check IPs, domains, URLs, and hashes against threat intelligence feeds and reputation sources (VirusTotal) while documenting IOC confidence and evidence limits.</p>
           </div>
           <div class="day-one-card">
             <span>05</span>
@@ -253,8 +259,8 @@
             <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"></circle><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"></path></svg>
           </div>
           <div class="stat-value" id="stat-certs"></div>
-          <div class="stat-title">CERTIFICATIONS</div>
-          <div class="stat-sub">Security+ · SC-200 · Google</div>
+          <div class="stat-title">CERTS &amp; EDUCATION</div>
+          <div class="stat-sub">Security+ · SC-200 · B.S. Cybersecurity</div>
           <div class="stat-arrow"><svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></div>
         </div>
         <div class="stat-card reveal" onclick="smoothScrollTo('#portfolio')">
@@ -280,6 +286,7 @@
     <div class="tab-bar">
       <div class="tab-inner">
         <button class="tab-btn active" data-tab="projects">Investigations</button>
+        <button class="tab-btn" data-tab="beyond">Beyond Incidents</button>
         <button class="tab-btn" data-tab="certificates">Certificates</button>
         <button class="tab-btn" data-tab="techstack">Security Stack</button>
       </div>
@@ -305,6 +312,90 @@
     <div class="tab-panel" id="tab-techstack">
       <div class="tech-grid">
         <div class="tech-inner" id="tech-grid"></div>
+      </div>
+    </div>
+
+    <!-- BEYOND INCIDENTS TAB -->
+    <div class="tab-panel" id="tab-beyond">
+      <div class="projects-grid">
+        
+        <!-- CARD 1 -->
+        <div class="project-card-outer">
+          <div class="project-card-inner">
+            <div class="project-mitre">
+              <span class="mitre-tag">Triage &amp; Queue</span>
+              <span class="mitre-tag">Operations</span>
+            </div>
+            <div class="project-title">Shift Prioritization Exercise</div>
+            <div class="project-desc">A realistic high-volume incident triage simulation (22 tickets) demonstrating how alert prioritization, queue hygiene, and fatigue management are handled under pressure.</div>
+            <div class="project-footer">
+              <a href="https://github.com/praisel-ekpenyong/Portfolio/blob/main/tickets/high-volume-shift-example.md" target="_blank" rel="noopener noreferrer" class="project-live">
+                View Exercise
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+              </a>
+              <span class="project-id-badge">QUEUE</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="project-card-outer">
+          <div class="project-card-inner">
+            <div class="project-mitre">
+              <span class="mitre-tag">Python</span>
+              <span class="mitre-tag">Automation</span>
+            </div>
+            <div class="project-title">Python Security Automation Scripts</div>
+            <div class="project-desc">Custom Python automation scripts developed for Tier 1 SOC workflows, including automated phishing header parsing, IOC lookup/enrichment reports, and Caldera log timeline generation.</div>
+            <div class="project-footer">
+              <a href="https://github.com/praisel-ekpenyong/Portfolio/tree/main/scripts" target="_blank" rel="noopener noreferrer" class="project-live">
+                Browse Scripts
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+              </a>
+              <span class="project-id-badge">SCRIPTS</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="project-card-outer">
+          <div class="project-card-inner">
+            <div class="project-mitre">
+              <span class="mitre-tag">Splunk</span>
+              <span class="mitre-tag">Sentinel</span>
+              <span class="mitre-tag">Wazuh</span>
+            </div>
+            <div class="project-title">SIEM &amp; HIDS Detection Rules</div>
+            <div class="project-desc">Collection of custom-developed detection rules deployed in the lab: Wazuh XML decoder rules, Splunk SPL correlation searches, and Microsoft Sentinel KQL analytics rules.</div>
+            <div class="project-footer">
+              <a href="https://github.com/praisel-ekpenyong/Portfolio/tree/main/detections" target="_blank" rel="noopener noreferrer" class="project-live">
+                Explore Detections
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+              </a>
+              <span class="project-id-badge">RULES</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="project-card-outer">
+          <div class="project-card-inner">
+            <div class="project-mitre">
+              <span class="mitre-tag">AD &amp; Azure</span>
+              <span class="mitre-tag">Playbooks</span>
+            </div>
+            <div class="project-title">Lab Architecture &amp; Playbooks</div>
+            <div class="project-desc">Architectural documentation of the hybrid home lab (on-prem Active Directory segment + Azure Sentinel cloud segment) and repeatable SOC alert playbooks.</div>
+            <div class="project-footer">
+              <a href="https://github.com/praisel-ekpenyong/Portfolio/tree/main/docs" target="_blank" rel="noopener noreferrer" class="project-live">
+                View Docs
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+              </a>
+              <span class="project-id-badge">DOCS</span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>

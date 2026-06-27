@@ -14,7 +14,7 @@ Demonstrate lateral movement and network sniffing triage: RDP port modification 
 | Agent | WKSTN-099 |
 | MITRE | T1021.001, T1040, T1112 |
 
-## Lab Replay Checklist
+## Live Run Checklist
 
 - [ ] Identify the source host and compromised credentials (`jsmith` on `WKSTN-042`)
 - [ ] Confirm RDP port modification in the registry

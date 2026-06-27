@@ -3,7 +3,7 @@
 **Analyst:** Praisel Ekpenyong · Tier 1 SOC  
 **Status:** Documented lab design used for portfolio scenarios. Attack traffic originates from **Apache Caldera** operations or controlled lab scripts.
 
-The portfolio runs on **two connected labs** — the same way many MSSPs and enterprises do: on-prem endpoints and network gear feeding a Microsoft cloud security stack.
+The portfolio runs on **two connected labs** — the same way many MSSPs and enterprises do: on-prem endpoints and network gear feeding a Microsoft Azure security stack.
 
 ---
 
@@ -12,7 +12,7 @@ The portfolio runs on **two connected labs** — the same way many MSSPs and ent
 | Lab | Name | Purpose | Primary tools |
 |-----|------|---------|---------------|
 | **Lab 1** | On-Premises SOC | Endpoint, AD, and network alert triage | Wazuh, Splunk, Sysmon, pfSense, AD DS |
-| **Lab 2** | Cloud Security Operations | Microsoft XDR/SIEM triage and identity correlation | Sentinel, Defender for Endpoint, Entra ID, Log Analytics |
+| **Lab 2** | Azure Cloud Security Operations | Microsoft XDR/SIEM triage and identity correlation | Sentinel, Defender for Endpoint, Entra ID, Log Analytics |
 
 **Hybrid link:** Lab 1 hosts forward logs and alerts into Lab 2 via AMA, Defender, and Entra connectors. The same Caldera-driven attacks are visible in both layers.
 
@@ -22,7 +22,7 @@ The portfolio runs on **two connected labs** — the same way many MSSPs and ent
                     │           10.10.30.10                 │
                     └──────────────┬──────────────────────┘
                                    │ sandcat agents
-     LAB 1 — ON-PREM              │              LAB 2 — CLOUD
+     LAB 1 — ON-PREM              │              LAB 2 — AZURE
      ─────────────────             │              ─────────────────
      Win10 / Linux / AD            │              Microsoft Sentinel
      Wazuh + Splunk                ├────────────► Log Analytics workspace
@@ -65,7 +65,7 @@ Internet (simulated) ──► pfSense Firewall ──► 10.10.0.0/24 (DMZ)
 | SRV-DC-01 | 10.10.20.10 | Windows Server 2019 | Domain Controller | Windows Events → Wazuh / Splunk |
 | WAZUH-SRV | 10.10.30.20 | Ubuntu 22.04 | SIEM (Wazuh manager) | Alert queue, custom rules |
 | SPLUNK-SRV | 10.10.30.30 | Ubuntu 22.04 | SIEM (Splunk) | HF + indexer |
-| PFSENSE-01 | 10.10.0.1 | pfSense | Perimeter / VPN | Firewall + OpenVPN logs |
+| PFSENSE-01 | 10.10.0.1 | pfSense | Perimeter / VPN / NIDS | Firewall, OpenVPN, and Suricata NIDS alerts |
 
 ### Log Sources (Lab 1)
 
@@ -76,12 +76,13 @@ Internet (simulated) ──► pfSense Firewall ──► 10.10.0.0/24 (DMZ)
 | /var/log/auth.log | Linux | SSH auth, sudo |
 | auditd | Linux | execve, useradd, crontab |
 | pfSense | Firewall | Blocked/allowed flows, VPN auth failures |
-| Zeek / Suricata (optional) | IDS | DNS anomalies, ET rules |
+| Suricata (NIDS) | IDS/IPS | Network signature alerts (ET rules, malware UA, cleartext payloads) |
 
 ### SIEM Routing (Lab 1)
 
 - **Wazuh** — Agents on all endpoints → Wazuh manager → Dashboard alert queue. Custom rules in `detections/wazuh/local_rules.xml`.
-- **Splunk** — Universal Forwarders → HF → Indexer. Indexes: `wineventlog`, `sysmon`, `linux`, `network`, `caldera_ops`.
+- **Suricata NIDS** — Enabled inline on pfSense interfaces → JSON log outputs (`eve.json`) syslog-forwarded to Splunk (`index=suricata`) and Sentinel.
+- **Splunk** — Universal Forwarders / Syslog inputs → HF → Indexer. Indexes: `wineventlog`, `sysmon`, `linux`, `network`, `suricata`, `caldera_ops`.
 
 ### Incidents Validated in Lab 1
 
@@ -94,13 +95,13 @@ Internet (simulated) ──► pfSense Firewall ──► 10.10.0.0/24 (DMZ)
 
 ---
 
-## Lab 2 — Cloud Security Operations
+## Lab 2 — Azure Cloud Security Operations
 
 **Tenant:** `pe-soc-lab.onmicrosoft.com`  
 **Resource group:** `rg-pe-soc-lab` (Canada Central)  
 **Function:** Tier 1 triage in the Microsoft stack — same shift workflow as an MSSP client on Sentinel + Defender.
 
-### Cloud Inventory
+### Azure Cloud Inventory
 
 | Resource | Name | Role |
 |----------|------|------|
@@ -150,7 +151,7 @@ Some cases are intentionally run across both environments to mirror real MSSP wo
 |----------|--------------|--------------|----------|
 | INC-2026-001 | Wazuh 180001 fires first | Defender + Sentinel confirm | Prove cross-SIEM correlation on one attack |
 | INC-2026-003 | Wazuh 180002 + Sysmon task creation | Defender persistence alert | Endpoint + SIEM correlation |
-| INC-2026-005 | User report + email headers | Sentinel PowerShell rule | Email layer + cloud EDR |
+| INC-2026-005 | User report + email headers | Sentinel PowerShell rule | Email layer + Azure EDR |
 
 ### Practice Modules (No INC Record)
 
@@ -176,7 +177,7 @@ Some cases are intentionally run across both environments to mirror real MSSP wo
 | LAN → CALDERA:8888 | Allow | Agent beaconing (lab only) |
 | CALDERA → Internet | Deny | Prevent accidental egress |
 | DMZ → DC (LDAP/Kerberos) | Allow | AD auth simulation |
-| Lab → Azure (HTTPS 443) | Allow | AMA and Defender cloud connectivity |
+| Lab → Azure (HTTPS 443) | Allow | AMA and Defender Azure connectivity |
 | Any → Splunk 514/9997 | Allow | Log forwarding |
 
 ---

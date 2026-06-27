@@ -1,6 +1,6 @@
 # Tooling Stack
 
-Tools used across **Lab 1 (on-prem)** and **Lab 2 (cloud)**. Tier 1 tasks listed as performed on shift.
+Tools used across **Lab 1 (on-prem)** and **Lab 2 (Azure)**. Tier 1 tasks listed as performed on shift.
 
 **Analyst:** Praisel Ekpenyong · Security+ · SC-200 · Google Cybersecurity Certificate
 
@@ -23,11 +23,12 @@ Tools used across **Lab 1 (on-prem)** and **Lab 2 (cloud)**. Tier 1 tasks listed
 | **Active Directory** | INC-2026-001, 003 | Logon events, account context on `corp.lab.local` |
 | **Wireshark** | `network/pcap-analysis-guide.md`, INC-2026-006 | Follow TCP streams, filter DNS, export objects |
 | **pfSense** | INC-2026-004 source logs | Verify blocked C2, VPN auth failures |
-| **Suricata/Zeek** (optional) | DNS exfil scenario | Review IDS sid and flow logs |
+| **Suricata** | INC-2026-001, 005, 006 | Network intrusion signatures (ET rules, malware UA) |
+| **Zeek** (optional) | DNS exfil scenario | Connection state/protocol logging |
 
 ---
 
-## Lab 2 — Cloud Security Operations
+## Lab 2 — Azure Cloud Security Operations
 
 ### SIEM / XDR
 

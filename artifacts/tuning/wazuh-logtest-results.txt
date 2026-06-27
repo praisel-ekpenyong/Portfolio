@@ -1,4 +1,5 @@
-# Wazuh logtest — INC-2026-004 tuning validation
+# Detection tuning validation (Wazuh logtest + Sentinel rule behavior notes)
+# Describes expected MATCH/NO MATCH for live-run scenarios — not log replay.
 # Command: /var/ossec/bin/wazuh-logtest
 
 ## Test 1 — Malicious (should MATCH) — INC-2026-002 spray pattern

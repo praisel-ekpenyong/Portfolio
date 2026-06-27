@@ -1,7 +1,8 @@
 # Sample SOC Tickets (osTicket)
 
-osTicket records from the Tier 1 queue — **Department: Security Operations** (see [`high-volume-shift-example.md`](high-volume-shift-example.md) for the full shift timeline and triage metrics).  
+osTicket records from the Tier 1 queue — **Department: Security Operations** (see [`high-volume-shift-example.md`](high-volume-shift-example.md) for the prioritization exercise).  
 Tickets below are in **chronological order**; portfolio **walk-through sequence** is INC-005 → 002 → 001 → 003 → 004 → 006 (see [`README.md`](../README.md)).  
+Each linked incident is backed by **live lab activity** — see [`docs/live-evidence-ledger.md`](../docs/live-evidence-ledger.md).  
 **Analyst:** Praisel Ekpenyong · SOC Analyst L1  
 **Contact:** ekpenyongpraisel@gmail.com · [GitHub](https://github.com/praisel-ekpenyong) · [LinkedIn](https://www.linkedin.com/in/praiselekpenyong)  
 **Certs:** Google Cybersecurity Certificate · Security+ · SC-200
@@ -73,7 +74,7 @@ Tickets below are in **chronological order**; portfolio **walk-through sequence*
 | **Assigned To** | Praisel Ekpenyong |
 | **Linked Incident** | INC-2026-003 |
 
-**Internal note (16:08 UTC):** Wazuh 180002 — task `\ChromeUpdate` runs `update.ps1` from `%LocalAppData%\Temp`. Creator `powershell.exe`, not SCCM. Compared to benign SCCM task on WKSTN-099 (CHG-8810). No matching change ticket.
+**Internal note (16:08 UTC):** Wazuh 180002 — task `\ChromeUpdate` runs `update.ps1` from `%LocalAppData%\Temp`. Sysmon parent chain `cmd.exe` → `schtasks.exe`; task action `powershell.exe` (not SCCM `CcmExec.exe`). Compared to benign SCCM task on WKSTN-099 (CHG-8810). No matching change ticket.
 
 **Internal note (16:15 UTC):** Task disabled. WKSTN-042 isolated via Defender. Escalated to Tier 2.
 

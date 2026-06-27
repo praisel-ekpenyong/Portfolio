@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """
 o365spray Emulator / Simulator.
-Simulates or performs password spraying against Microsoft 365 / Entra ID.
-Includes a `--mock` mode to safely test the Blue Team alert rules offline.
+Performs live password spraying against Microsoft 365 / Entra ID for lab validation.
+
+`--mock` is for unit tests only (tests/test_emulate_o365spray.py) — it does not
+create SigninLogs or Sentinel incidents. Use live mode for INC-2026-002 evidence.
 """
 
 from __future__ import annotations
@@ -119,8 +121,8 @@ def main() -> None:
     parser.add_argument("--password", "-p", required=True, help="Password to spray against accounts")
     parser.add_argument("--delay", "-d", type=float, default=1.0, help="Delay between requests in seconds")
     parser.add_argument("--validate", action="store_true", help="Perform username validation (userrealm check) before spray")
-    parser.add_argument("--mock", action="store_true", help="Run in mock mode (local simulation, no real API traffic)")
-    parser.add_argument("--success-user", default=None, help="In mock mode, trigger a SUCCESS on this specific username")
+    parser.add_argument("--mock", action="store_true", help="TEST ONLY: mock mode (no Entra API calls; not incident evidence)")
+    parser.add_argument("--success-user", default=None, help="TEST ONLY (mock): force SUCCESS for this username")
     parser.add_argument("--output", "-o", help="Write results JSON report to file")
     args = parser.parse_args()
 

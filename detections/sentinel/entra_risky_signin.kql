@@ -6,7 +6,7 @@ SigninLogs
 | where RiskLevelDuringSignIn in ("medium", "high")
     or RiskState == "atRisk"
 | extend MITRE_Technique = case(
-    ResultType == "50126", "T1110.001",
+    ResultType == "50126", "T1110.003",
     RiskDetail has "unlikelyTravel", "T1078",
     "T1078")
 | project TimeGenerated, UserPrincipalName, IPAddress, Location,

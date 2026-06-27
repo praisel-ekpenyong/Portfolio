@@ -30,7 +30,7 @@ Tier 1 completes SPF/DKIM/DMARC analysis and extracts URLs.
 | Sysmon | EID 1, 4104 (if script logging on) |
 | Proxy | Blocked or allowed URL to malicious domain |
 
-## Lab Replay Checklist
+## Live Run Checklist
 
 - [ ] Document email headers in ticket
 - [ ] Mail trace for other recipients

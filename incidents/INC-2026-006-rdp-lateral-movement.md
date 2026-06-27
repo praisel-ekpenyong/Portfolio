@@ -7,17 +7,17 @@
 | **osTicket** | #48370 |
 | **Severity** | P2 — High |
 | **Status** | Closed — True Positive (Lab Emulation) |
-| **Detection Source** | Wazuh Rules 180003/180004 + Splunk correlation |
+| **Detection Source** | Wazuh Host IDS + Suricata NIDS + Splunk correlation |
 | **Caldera Operation** | `2026-06-18-LATERAL-RDP-LAB` |
 | **MITRE ATT&CK** | T1021.001 (RDP), T1040 (Network Sniffing), T1112 (Modify Registry) |
 | **Analyst** | Praisel Ekpenyong (SOC Analyst L1) |
-| **Lab Environment** | Lab 1 — On-Premises SOC (`corp.lab.local` / Splunk / Wazuh) |
+| **Lab Environment** | Lab 1 — On-Premises SOC (`corp.lab.local` / Splunk / Wazuh / Suricata) |
 
 ---
 
 ## Executive Summary
 
-An alert was triggered on `WKSTN-099` (finance VLAN) indicating an RDP port modification and the execution of `tcpdump.exe` (packet sniffer). Investigation revealed that the threat actor leveraged compromised credentials of `jsmith` to move laterally via RDP from `WKSTN-042` to `WKSTN-099`. Once inside, the actor altered the default RDP port to `8443` for evasion and attempted network traffic sniffing.
+An alert was triggered on `WKSTN-099` (finance VLAN) indicating an RDP port modification, followed by a Suricata network IDS alert on non-standard RDP traffic and execution of `tcpdump.exe` (packet sniffer). Investigation revealed that the threat actor leveraged compromised credentials of `jsmith` to move laterally via RDP from `WKSTN-042` to `WKSTN-099`. Once inside, the actor altered the default RDP port to `8443` for evasion and attempted network traffic sniffing.
 
 I validated the alert against administrative baselines, isolated both workstations, and performed command-line `tshark` PCAP analysis to prove that the sniffer process did not capture or exfiltrate any sensitive data before containment. The hosts were de-isolated after registry remediation and verification of zero lateral propagation.
 
@@ -39,6 +39,13 @@ Rule: 180003 (level 8) — Suspicious RDP registry port modification detected
 Agent: wazuh-agent-wkstn-099
 Registry Path: HKLM\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp\PortNumber
 Value: 8443 (default: 3389)
+```
+
+**10:15:08 UTC** — Suricata NIDS alert on pfSense (syslog-forwarded to Splunk):
+```
+[1:2018789:2] ET POLICY RDP Traffic on Non-Standard Port (8443)
+Source: 10.10.10.42:51224 -> Destination: 10.10.10.99:8443
+Classification: Attempted Information Leak / Evasion (RDP traffic on non-standard port)
 ```
 
 **10:15:15 UTC** — Wazuh Alert on `WKSTN-099`:
@@ -76,8 +83,8 @@ To confirm if this represents legitimate administrative activity (such as networ
 * **Destination Asset:** `WKSTN-099` (`10.10.10.99` — Critical finance VLAN server/workstation)
 * **Logon Verification (Splunk):**
 ```spl
-index=sysmon EventCode=3 host=WKSTN-099 DestinationPort=3389
-| stats count by SourceIp, DestinationIp, User
+index=sysmon EventCode=3 host=WKSTN-099 (DestinationPort=3389 OR DestinationPort=8443)
+| stats count by SourceIp, DestinationIp, DestinationPort, User
 ```
 * **Result:** Confirmed inbound RDP flow from `10.10.10.42` to `10.10.10.99` under `CORP\jsmith` immediately preceding the registry port modification.
 
@@ -239,5 +246,5 @@ Screenshots are supplemental walkthrough visuals. The Sysmon excerpt, SPL/KQL, W
 
 ## 12. Analyst Notes
 
-This incident was triggered by controlled Caldera emulation to validate Wazuh rules 180003 and 180004. Production analysts would follow identical triage steps; the Caldera operation ID row in the header serves as a lab provenance marker and would not appear in a production write-up.
+This incident was triggered by a **live** Caldera operation (`2026-06-18-LATERAL-RDP-LAB`) to validate Wazuh rules 180003 and 180004. PCAP and alert exports are listed in [`docs/live-evidence-ledger.md`](../docs/live-evidence-ledger.md). Production analysts would follow identical triage steps; the Caldera operation ID in the header is a lab provenance marker only.
 
